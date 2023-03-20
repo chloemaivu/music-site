@@ -11,6 +11,8 @@ router.post("/auth/register", mongo.register)
 
 router.post("/auth/login", mongo.login)
 
+router.get("/user/:user", mongo.getUserData)
+
 ////////////////// SPOTIFY REQUESTS \\\\\\\\\\\\\\
 
 router.get("/spotify/:search&:type&:limit", spotify.search)
@@ -18,6 +20,5 @@ router.get("/spotify/:search&:type&:limit", spotify.search)
 ////////////////// BANDCAMP REQUESTS \\\\\\\\\\\\\\
 
 ////////////////// SOUNDCLOUD REQUESTS \\\\\\\\\\\\\\
-
 
 module.exports = router;

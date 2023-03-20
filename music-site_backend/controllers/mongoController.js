@@ -1,6 +1,7 @@
 const userModel = require("../models/userModel");
 const createError = require("http-errors");
 const { v4: uuidv4 } = require("uuid");
+const security = require("./securityController")
 
 exports.register = async function (req, res) {
   const user = req.body;
@@ -10,25 +11,28 @@ exports.register = async function (req, res) {
       message: "Password and repeat password must match!",
     });
   }
+  const hashedPass = await security.hashPass(user.password)
   const newUser = new userModel({
     username: user.username,
     email: user.email,
-    password: user.password,
-    // todo add profile picture
+    password: hashedPass,
+    picture: user.picture
   });
+  console.log(newUser)
   newUser.save().then((user) => {
     res.status(200).send(user);
   });
 };
 
-exports.login = async function (req, res) {
+exports.login = async function (req, res) { 
   if (req.body.username) {
     user = await userModel.findOne({ username: req.body.username });
   }
   if (req.body.email) {
     user = await userModel.findOne({ email: req.body.email });
   }
-  console.log(user);
+  const hashedPass = await security.comparePass(req.body.password, user.password)
+  console.log(user, hashedPass);
   const stringToken = uuidv4();
   user.token = stringToken;
   user.save();
@@ -37,7 +41,7 @@ exports.login = async function (req, res) {
       .status(401)
       .send({ message: "Username or email address is incorrect" });
   }
-  if (req.body.password !== user.password) {
+  if (hashedPass !== true) {
     return res.status(401).send({ message: "Password is incorrect" });
   }
   res.send({
@@ -45,3 +49,11 @@ exports.login = async function (req, res) {
   });
   console.log(stringToken);
 };
+
+exports.getUserData = async function (req, res, next) {
+  user = await userModel.findOne({ username: req.params.user });
+  if (!user) {
+    return (next(createError(404, "User not found")))
+  }
+  res.send(user)  
+}

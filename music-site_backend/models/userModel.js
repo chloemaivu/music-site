@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, "email address is required"],
+    required: [true, "Email address is required"],
     unique: true,
   },
   password: {
@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema({
     required: [true, "Password is required"],
     maxLength: [100, "Password must not exceed more than 100 characters"],
     minLength: [8, "Password must be more than 8 characters"],
+  },
+  picture: {
+    type: String,
+    maxLength: [600, "Image URL must not exceed more than 600 characters"],
   },
   isAdmin: {
     type: Boolean,

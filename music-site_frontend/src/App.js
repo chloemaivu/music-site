@@ -10,9 +10,12 @@ import VantaFooter from "./components/footer";
 import NavbarLoggedIn from "./components/navbar2";
 import NavbarPreLogin from "./components/navbar";
 import Login from "./components/login";
-import SpotifyPlayer from "./components/spotifyPlayer";
+import SidebarPlayer from "./components/playerCard";
+import SpotifyWidget from "./components/spotifyPlayer";
+import UserProfile from "./components/profile";
 
 import { ApiClient } from "./ApiClient";
+
 
 function App() {
   const client = new ApiClient(
@@ -21,6 +24,7 @@ function App() {
   );
   const [token, setToken] = useState(window.localStorage.getItem("token"));
   const [authenticated, setAuthenticated] = useState(false);
+  const [userData, setUserData] = useState({});
 
   const login = (token) => {
     window.localStorage.setItem("token", token);
@@ -39,23 +43,33 @@ function App() {
     window.location.reload(true);
   };
 
+  const getUserData = async (username) => {
+    const user = await client.getUserData(username).then((response) => setUserData(response.data))
+  }
+
   useEffect(() => {
     if (token) {
       setAuthenticated(true);
     }
   }, []);
 
+  useEffect(() => {
+    // TO DO: change based on logged in user
+    getUserData("chloe")
+  }, [])
   return token && authenticated ? (
     <>
       <NavbarLoggedIn
         token={(token) => setToken(token)}
         authenticated={(authenticated) => setAuthenticated(authenticated)}
         refresh={() => refreshPage()}
+        user={userData}
       />
       <div className="page">
       <Routes>
         <Route path="/" element={<Homepage client={client}/>} />
-        <Route path="/player" element={<SpotifyPlayer />} />
+        <Route path="/player" element={<SpotifyWidget />} />
+        <Route path="/profile" element={<UserProfile user={userData} />} />
       </Routes>
       </div>
       <VantaFooter />
@@ -78,7 +92,6 @@ function App() {
     </>
   );
 }
-
 export default App;
 
 // Example from last week

@@ -19,6 +19,7 @@ function RegisterView(props) {
         i.email.value,
         i.password.value,
         i.repeatpassword.value,
+        i.picture.value
       )
       .then((response) => {
         setDisabled(true)
@@ -80,7 +81,11 @@ function RegisterView(props) {
         </div>
         <div controlId="picture">
           <Label className="white-text mb-3" value="Profile picture:" />
-          <TextInput type="text" className="white-text" name="pfp"disabled={disabled} />
+          <TextInput type="text"
+          className="white-text"
+          name="picture"
+          placeholder="Enter your picture URL here"
+          disabled={disabled} />
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Button
