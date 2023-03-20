@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Changa+One:ital@0;1&family=Monoton&family=Nanum+Gothic+Coding:wght@700&display=swap');
+
+/* Dark mode palette
+000000,1a1a1a,cccccc,ffffff,a2c4bd,88ebd2
+#000000,#1a1a1a,#cccccc,#ffffff,#a2c4bd,#88ebd2 */
+
+:root {
+  --bg: #000;
+  --bg-highlight: #222;
+  --edges: #cccccc;
+  --text: #fff;
+  --high-nofocus: #a2c4bd;
+  --high: #88edb2;
+  --curve: 0.5em;
+  --border: 2px solid var(--edges);
+}
+
+body {
+  background: var(--bg);
+}
+
+.page {
+  min-height: 80vh;
+}
+
+.center {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+/* //////////// TEXT \\\\\\\\\\\\\\\\\ */
+
+.brand-title {
+  font-family: Monoton;
+  color: var(--bg);
+  background-color: var(--text);
+}
+
+.brand-title {
+  font-size: 256pt;
+  padding: 1%;
+  margin-top: 10%;
+  margin-bottom: 2%;
+}
+
+a,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text);
+}
+
+span {
+  background-color: var(--bg-highlight);
+}
+
+/* //////// INDIVIDUAL INLINE ELEMENTS \\\\\\\ */
+.white-text {
+  color: var(--text) !important;
+}
+
+.background-grey {
+  background-color: var(--bg-highlight) !important;
+}
+
+.background-black {
+  background-color: var(--bg) !important;
+}
+
+.border {
+  border: var(--border);
+  border-radius: var(--curve);
+}
+
+/* /////////////////////////////////////////// */
+
+input, select {
+  background: none !important;
+  border: none !important;
+  border-radius: 0.5em !important;
+  color: var(--text) !important;
+}
+
+select {
+  border-right: var(--border) !important;
+  background: var(--bg-highlight) !important;
+}
+
+input:active {
+  border: var(--border);
+  border-radius: var(--curve);
+  margin-top: 5px;
+}
+
+/* Navigation bar styling */
+.navigationBar {
+  background-color: var(--bg-highlight) !important;
+  color: var(--high-nofocus) !important;
+  border-bottom: 1px solid var(--high);
+}
+
+.navigationLogo {
+  font-family: Monoton;
+  color: var(--high) !important;
+  background-color: var(--bg-highlight) !important;
+  font-size: 2.25em;
+}
+
+Footer {
+  background-color: var(--bg-highlight) !important;
+  border-top: 1px solid var(--high);
+  margin-top: 2em;
+}
+
+a.block {
+  color: var(--high-nofocus);
+  font-size: 1.5em !important;
+  padding: 5px;
+  border-radius: 0.25em;
+  transition: 0.25s ease;
+}
+
+li:hover,
+a.block:hover {
+  color: var(--high) !important;
+  background-color: rgba(162, 196, 189, .33) !important;
+  transform: scale(1.025) !important;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-in;
+}
+
+/* Dropdown item styling */
+.dropdownItem,
+.dropdownItem2 {
+  color: var(--high) !important;
+  font-size: 1.5em !important;
+}
+
+.dropdownItem2 {
+  background-color: var(--bg-highlight) !important;
+  color: var(--edges) !important;
+}
+
+div.z-10 {
+  background-color: var(--bg-highlight);
+}
+
+.userNameSurname,
+.userEmail {
+  color: var(--high-nofocus);
+  font-size: 1.5em;
+
+}
+
+
+span.flex {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-right: 0.75em;
+  padding-left: 0.75em;
+  background-color: var(--high-nofocus);
+  color: var(--bg);
+  transform: all 0.25s ease;
+}
+
+span.flex:hover {
+  background-color: var(--high);
+}
+
+#searchinput {
+  margin: 0;
+}
