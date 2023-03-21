@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Label, TextInput, Button } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 function RegisterView(props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [picture, setPicture] = useState("");
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [picture, setPicture] = useState("");
   const [disabled, setDisabled] = useState(false);
+  const navigate = useNavigate()
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -25,6 +27,7 @@ function RegisterView(props) {
         setDisabled(true)
         // reset form
         alert("Registration successful! You may now log in")
+        navigate("/login")        
       })
       .catch(() => {
         alert("Error. Please try again.");
@@ -104,77 +107,3 @@ function RegisterView(props) {
 }
 
 export default RegisterView;
-
-// import { useState } from "react";
-// import { Form, Button, Container, Alert } from "react-bootstrap";
-// import AuthAPICalls from "../../API/Event/AuthAPICalls";
-// import { Spinner } from "react-bootstrap";
-// import { useNavigate } from "react-router-dom";
-
-// function RegisterView({ setIsLoggedIn }) {
-//   const [username, setUsername] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [errorMessages, setErrorMessage] = useState("");
-//   const [isLoading, setIsLoading] = useState(false);
-//   const navigate = useNavigate();
-
-//   const authAPI = new AuthAPICalls();
-
-//   const handleRegister = async (event) => {
-//     event.preventDefault();
-//     try {
-//       setIsLoading(true);
-//       const registerData = { username, password };
-//       await authAPI.loginOrRegister(registerData, "register");
-
-//       setIsLoggedIn(true);
-//       navigate('/', { replace: true });
-//     } catch (error) {
-//       setErrorMessage(error.response.data.errors);
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-//   return (
-//     <Container className="mt-5 register-container">
-//       {isLoading ? (
-//         <div className="text-center">
-//           <Spinner animation="border" role="status">
-//             <span className="visually-hidden">Loading...</span>
-//           </Spinner>
-//         </div>
-//       ) : (
-//         <></>
-//       )}
-//       <h1>Register</h1>
-//       {errorMessages && <Alert variant="danger">{errorMessages}</Alert>}
-
-//       <Form onSubmit={handleRegister}>
-//         <Form.Group className="mb-3" controlId="username">
-//           <Form.Label>Choose your username:</Form.Label>
-//           <Form.Control
-//             type="text"
-//             value={username}
-//             onChange={(event) => setUsername(event.target.value)}
-//             required
-//           />
-//         </Form.Group>
-//         <Form.Group className="mb-3" controlId="password">
-//           <Form.Label>Choose your password:</Form.Label>
-//           <Form.Control
-//             type="password"
-//             value={password}
-//             onChange={(event) => setPassword(event.target.value)}
-//             required
-//           />
-//         </Form.Group>
-//         <Button variant="primary" type="submit">
-//           Register
-//         </Button>
-//       </Form>
-//     </Container>
-//   );
-// }
-
-// export default RegisterView;

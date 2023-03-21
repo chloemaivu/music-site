@@ -1,7 +1,9 @@
 import React from "react";
 import { Accordion } from "flowbite-react";
 
-function searchresult() {
+function SearchResult(props) {
+  const result = props.search.items
+  console.log(result)
   return (
     <>
       <Accordion alwaysOpen={true}>
@@ -21,4 +23,4 @@ function searchresult() {
   );
 }
 
-export default searchresult;
+export default SearchResult;

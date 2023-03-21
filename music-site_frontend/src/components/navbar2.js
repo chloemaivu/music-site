@@ -2,15 +2,7 @@ import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { Link } from "react-router-dom";
 
 function NavbarLoggedIn(props) {
-
   const user = props.user
-
-  const logout = () => {
-    window.localStorage.removeItem("token");
-    props.token(undefined);
-    props.authenticated(false);
-    props.refresh(true)
-  };
 
   return (
     <Navbar className="navigationBar" fluid={true} rounded={true}>
@@ -48,7 +40,7 @@ function NavbarLoggedIn(props) {
           <Dropdown.Item className="dropdownItem p-3 text-center">Settings</Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item className="dropdownItem2 p-3 text-center"
-            onClick={() => logout()}>Log out</Dropdown.Item>
+            onClick={() => props.logout()}>Log out</Dropdown.Item>
         </Dropdown>
         <Navbar.Toggle />
       </div>

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Label, TextInput } from "flowbite-react";
 
 function Login(props) {
+  const navigate = useNavigate()
   const [disabled, cDisabled] = useState(false);
   async function submit(e) {
     e.preventDefault();
@@ -13,7 +13,8 @@ function Login(props) {
       .login(e.target.username.value, e.target.password.value)
       .then((response) => {
         cDisabled(false);
-        props.loggedIn(response.data.token);
+        props.loggedIn(response.data.token, response.data.id);
+        navigate("/")
       })
       .catch((err) => {
         console.log(err);
@@ -75,47 +76,7 @@ function Login(props) {
         </form>
       </div>
     </>
-  );
+  )
 }
 
 export default Login;
-
-// REACT BOOTSTRAP LOGIN FORM - REDUNDANT
-// <>
-//   <h1>Login</h1>
-//   <div className="loginForm">
-//     <form onSubmit={(e) => submit(e)}>
-//       <Form.Group className="mb-3" controlId="formUsername">
-//         <Form.Label className="white-text">Username / Email: </Form.Label>
-//         <Form.Control
-//           placeholder="username"
-//           type="text"
-//           name="username"
-//           className="white-text"
-//           disabled={disabled}
-//         />
-//       </Form.Group>
-//       <Form.Group className="mb-3" controlId="formPassword">
-//         <Form.Label className="white-text">Password: </Form.Label>
-//         <Form.Control
-//           placeholder="password"
-//           type="password"
-//           name="password"
-//           className="white-text"
-//           disabled={disabled}
-//         />
-//       </Form.Group>
-
-//       <div className="loginButton">
-//         <Button
-//           color="gray"
-//           type="submit"
-//           className="flex flex-wrap gap-2"
-//           disabled={disabled}
-//         >
-//           Login
-//         </Button>
-//       </div>
-//     </form>
-//   </div>
-// </>

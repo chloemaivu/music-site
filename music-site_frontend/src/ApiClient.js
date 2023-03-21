@@ -33,9 +33,9 @@ export class ApiClient {
             } else { throw err; }
         });
     }
-    // MONGO
+    //////////////// MONGO \\\\\\\\\\\\\\\\\\\\\\\\\\\
     async login(username, password) {
-        const response = await axios.post(`${authURL}/login`, {username, password});        
+        const response = await axios.post(`${authURL}/login`, {username, password});  
         return response        
     }
 
@@ -44,15 +44,14 @@ export class ApiClient {
         return response
     }
 
-    async getUserData(user) {
-        const response = await axios.get(`${URL}/user/${user}`, {user});
+    async getUserData(id) {
+        const response = await axios.get(`${URL}/user/${id}`, {id});
         return response
     }
 
-    // SPOTIFY
+    /////////////// SPOTIFY \\\\\\\\\\\\\\\\\\\\\\\\\\\\
     async search(filter, search) {
-        console.log(`${spotifyURL}/${search}&${filter}&${limit}`)
-        const response = await axios.get(`${spotifyURL}/${search}&${filter}&${limit}`);        
-        console.log(response.data)
+        const response = await axios.get(`${spotifyURL}/${search}&${filter}&${limit}`);
+        return response
     }
 }

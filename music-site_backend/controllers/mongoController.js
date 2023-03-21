@@ -17,6 +17,7 @@ exports.register = async function (req, res) {
     email: user.email,
     password: hashedPass,
     picture: user.picture
+    // registerDate: Date()
   });
   console.log(newUser)
   newUser.save().then((user) => {
@@ -24,7 +25,7 @@ exports.register = async function (req, res) {
   });
 };
 
-exports.login = async function (req, res) { 
+exports.login = async function (req, res) {
   if (req.body.username) {
     user = await userModel.findOne({ username: req.body.username });
   }
@@ -46,14 +47,26 @@ exports.login = async function (req, res) {
   }
   res.send({
     token: stringToken,
+    id: user._id
   });
-  console.log(stringToken);
+  console.log(stringToken, user._id);
 };
 
 exports.getUserData = async function (req, res, next) {
-  user = await userModel.findOne({ username: req.params.user });
+  console.log(req.params.id)
+  if (!req.params.id) {
+    return(next(createError(502, "Bad request")))
+  }
+  user = await userModel.findById(req.params.id );
   if (!user) {
     return (next(createError(404, "User not found")))
   }
-  res.send(user)  
+  res.send(userData = ({
+    email: user.email,
+    isAdmin: user.isAdmin,
+    picture: user.picture,
+    username: user.username,
+    registrationDate: user._id.getTimestamp().toString().slice(4,15)
+  }))
+  console.log(userData)
 }

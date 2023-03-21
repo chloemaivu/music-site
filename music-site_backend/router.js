@@ -11,7 +11,7 @@ router.post("/auth/register", mongo.register)
 
 router.post("/auth/login", mongo.login)
 
-router.get("/user/:user", mongo.getUserData)
+router.get("/user/:id", mongo.getUserData)
 
 ////////////////// SPOTIFY REQUESTS \\\\\\\\\\\\\\
 

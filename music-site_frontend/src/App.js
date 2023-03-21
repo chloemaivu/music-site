@@ -1,6 +1,7 @@
 import "./App.css";
 import { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { Button } from "flowbite-react";
 
 // component imports
 import Homepage from "./components/homepage";
@@ -18,24 +19,31 @@ import { ApiClient } from "./ApiClient";
 
 
 function App() {
+  const navigate = useNavigate()
   const client = new ApiClient(
     () => token,
     () => logout
   );
   const [token, setToken] = useState(window.localStorage.getItem("token"));
+  const [currentUserID, setCurrentUserID] = useState(window.localStorage.getItem("currentUserID"));
+
   const [authenticated, setAuthenticated] = useState(false);
   const [userData, setUserData] = useState({});
 
-  const login = (token) => {
+  const login = (token, userID) => {
     window.localStorage.setItem("token", token);
+    window.localStorage.setItem("currentUserID", userID)
     setToken(token);
-    setAuthenticated(true);
+    setCurrentUserID(userID);
+    setAuthenticated(true)
   };
 
   const logout = () => {
     window.localStorage.removeItem("token");
+    window.localStorage.removeItem("currentUserID");
     setToken(undefined);
     setAuthenticated(false);
+    navigate("/");
   };
 
   const refreshPage = () => {
@@ -43,35 +51,46 @@ function App() {
     window.location.reload(true);
   };
 
-  const getUserData = async (username) => {
-    const user = await client.getUserData(username).then((response) => setUserData(response.data))
-  }
+  // request loggin in users data based on their id in local storage
+  const getUserData = async (userID) => {
+    await client.getUserData(userID)
+      .then((response) => setUserData(response.data))
+  };
 
+  // authenticate user with token
   useEffect(() => {
     if (token) {
       setAuthenticated(true);
     }
   }, []);
 
+  // get data of logged in user on login
   useEffect(() => {
-    // TO DO: change based on logged in user
-    getUserData("chloe")
-  }, [])
+    if (token) {
+      getUserData(currentUserID)
+    }
+  }, [token]);
+
   return token && authenticated ? (
     <>
       <NavbarLoggedIn
         token={(token) => setToken(token)}
         authenticated={(authenticated) => setAuthenticated(authenticated)}
-        refresh={() => refreshPage()}
+        logout={() => logout()}
         user={userData}
       />
-      <div className="page">
+      <Button outline={true}
+        gradientDuoTone="cyanToBlue"
+        type="submit"
+        size="xl"
+        onClick={() => getUserData(currentUserID)}> GIVE ME MY BUTTON!</Button>
+
       <Routes>
-        <Route path="/" element={<Homepage client={client}/>} />
+        <Route path="/" element={<div className="page"><Homepage client={client} getUserData={() => getUserData()} /> </div>} />
         <Route path="/player" element={<SpotifyWidget />} />
-        <Route path="/profile" element={<UserProfile user={userData} />} />
+        <Route path="/profile" element={<div className="page center"><UserProfile user={userData} /> </div>} />
       </Routes>
-      </div>
+
       <VantaFooter />
     </>
   ) : (
@@ -79,14 +98,14 @@ function App() {
       {" "}
       <NavbarPreLogin />
       <div className="page">
-      <Routes>
-        <Route path="/" element={<HomepagePreLogin />} />
-        <Route
-          path="/login"
-          element={<Login client={client} loggedIn={(token) => login(token)} />}
-        />
-        <Route path="/register" element={<RegisterView client={client} />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<HomepagePreLogin />} />
+          <Route
+            path="/login"
+            element={<Login client={client} loggedIn={(token, userID) => login(token, userID)} refresh={() => refreshPage()} />}
+          />
+          <Route path="/register" element={<RegisterView client={client} />} />
+        </Routes>
       </div>
       <VantaFooter />
     </>

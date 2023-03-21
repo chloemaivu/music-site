@@ -20,7 +20,7 @@ body {
 }
 
 .page {
-  min-height: 80vh;
+  min-height: 73vh;
 }
 
 .center {
@@ -49,13 +49,12 @@ h1,
 h2,
 h3,
 h4,
-h5,
-h6 {
+h5 {
   color: var(--text);
 }
 
 span {
-  background-color: var(--bg-highlight);
+  /* background-color: var(--bg-highlight); */
 }
 
 /* //////// INDIVIDUAL INLINE ELEMENTS \\\\\\\ */
@@ -133,7 +132,7 @@ a.block:hover {
   transition-timing-function: ease-in;
 }
 
-/* Dropdown item styling */
+/* Navigation bar Dropdown item styling */
 .dropdownItem,
 .dropdownItem2 {
   color: var(--high) !important;
@@ -153,9 +152,7 @@ div.z-10 {
 .userEmail {
   color: var(--high-nofocus);
   font-size: 1.5em;
-
 }
-
 
 span.flex {
   padding-top: 0.5em;
@@ -173,4 +170,14 @@ span.flex:hover {
 
 #searchinput {
   margin: 0;
+}
+
+.userImage {
+  height: 18vh;
+  min-width: 12vw;  
+  object-fit: cover;
+}
+.adminBadge {
+  background-color: var(--bg) !important;
+  color: var(--edges)!important;
 }
