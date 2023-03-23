@@ -54,4 +54,9 @@ export class ApiClient {
         const response = await axios.get(`${spotifyURL}/${search}&${filter}&${limit}`);
         return response
     }
+
+    async getArtist(uri) {
+        const response = await axios.get(`${spotifyURL}/${uri}`);
+        return response.data.data
+    }
 }

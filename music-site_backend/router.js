@@ -17,6 +17,8 @@ router.get("/user/:id", mongo.getUserData)
 
 router.get("/spotify/:search&:type&:limit", spotify.search)
 
+router.get("/spotify/:uri", spotify.artist)
+
 ////////////////// BANDCAMP REQUESTS \\\\\\\\\\\\\\
 
 ////////////////// SOUNDCLOUD REQUESTS \\\\\\\\\\\\\\

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Select, TextInput, Button } from "flowbite-react";
 
 function Searchbar(props) {
-  let fetched = ({})
+  let fetched = ({name: "hello"})
 
   async function submit(e) {
     e.preventDefault();
@@ -13,32 +13,16 @@ function Searchbar(props) {
       filtered = "multi";
     }
     const fetched = await props.client.search(filtered, search);
-    fetchFilter(fetched)
+    props.searchFetch(fetched.data)
   }
 
-  function fetchFilter(fetched) {
-    const f = fetched.data
-    if (f.topResults) {
-      props.searchFetch(f.topResults)
-    } else if (f.albums) {
-      props.searchFetch(f.albums)
-    } else if (f.artists) {
-      props.searchFetch(f.artists)
-    } else if (f.genres) {
-      props.searchFetch(f.genres)
-    } else if (f.playlists) {
-      props.searchFetch(f.playlists)
-    } else if (f.tracks) {
-      props.searchFetch(f.tracks)
-    }
-  }
   return (
     <>
       <form onSubmit={(e) => submit(e)}>
         <div className="flex justify-center">
           <div className="flex border w-6/12 background-grey white-text">
             <Select id="filters" name="filter" required={true}>
-              <option className="dropdownItem2">no filter</option>
+              {/* <option className="dropdownItem2">no filter</option> */}
               <option className="dropdownItem">albums</option>
               <option className="dropdownItem">artists</option>
               <option className="dropdownItem">genres</option>

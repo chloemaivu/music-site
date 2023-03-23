@@ -4,6 +4,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { Button } from "flowbite-react";
 
 // component imports
+import ArtistPage from "./components/artistPage";
 import Homepage from "./components/homepage";
 import HomepagePreLogin from "./components/hompagePreLogin";
 import RegisterView from "./components/registration";
@@ -30,6 +31,8 @@ function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [userData, setUserData] = useState({});
 
+  const [artistURI, setArtistURI] = useState("")
+
   const login = (token, userID) => {
     window.localStorage.setItem("token", token);
     window.localStorage.setItem("currentUserID", userID)
@@ -51,7 +54,7 @@ function App() {
     window.location.reload(true);
   };
 
-  // request loggin in users data based on their id in local storage
+  // request login in users data based on their id in local storage
   const getUserData = async (userID) => {
     await client.getUserData(userID)
       .then((response) => setUserData(response.data))
@@ -71,6 +74,8 @@ function App() {
     }
   }, [token]);
 
+  console.log("App.js reports a passed up artist URI of " + artistURI)
+
   return token && authenticated ? (
     <>
       <NavbarLoggedIn
@@ -79,16 +84,11 @@ function App() {
         logout={() => logout()}
         user={userData}
       />
-      <Button outline={true}
-        gradientDuoTone="cyanToBlue"
-        type="submit"
-        size="xl"
-        onClick={() => getUserData(currentUserID)}> GIVE ME MY BUTTON!</Button>
-
       <Routes>
-        <Route path="/" element={<div className="page"><Homepage client={client} getUserData={() => getUserData()} /> </div>} />
+        <Route path="/" element={<div className="page"><Homepage client={client} getUserData={() => getUserData()} artistURI={(artistURI) => setArtistURI(artistURI)}/> </div>} />
         <Route path="/player" element={<SpotifyWidget />} />
         <Route path="/profile" element={<div className="page center"><UserProfile user={userData} /> </div>} />
+        <Route path="/artist" element={<div className="page"> <ArtistPage client={client} artistURI={artistURI}/> </div>} />
       </Routes>
 
       <VantaFooter />

@@ -181,3 +181,12 @@ span.flex:hover {
   background-color: var(--bg) !important;
   color: var(--edges)!important;
 }
+
+button {
+  background-color: var(--high-nofocus) !important;
+}
+
+button:hover {
+  background-color: var(--high) !important;
+  color: var(--bg) !important;
+}
