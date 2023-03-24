@@ -19,7 +19,7 @@ function Searchbar(props) {
   return (
     <>
       <form onSubmit={(e) => submit(e)}>
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-10">
           <div className="flex border w-6/12 background-grey white-text">
             <Select id="filters" name="filter" required={true}>
               {/* <option className="dropdownItem2">no filter</option> */}

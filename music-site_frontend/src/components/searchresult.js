@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Accordion, Button } from "flowbite-react";
+import { Button } from "flowbite-react";
 
 function SearchResult(props) {
 
@@ -39,13 +39,15 @@ function SearchResult(props) {
         setFilteredResult(f.playlists.items);
         setFilter("playlists");
       } else {
-        setFilteredResult(f.tracks);
+        setFilteredResult(f.tracks.items);
         setFilter("tracks");
       }
     }
   }, [searchResult])
 
-  const imageSize = 400
+  const imageSize = 300
+
+  console.log(filteredResult)
 
   ////////////////// INTERACTION HANDLING \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -60,7 +62,7 @@ function SearchResult(props) {
   function artistHandler(uri) {
     const uriString = uri.slice(15, 37);
     props.artistURI(uriString);
-    setTimeout(() => navigate("/artist"), 500);    
+    setTimeout(() => navigate("/artist"), 500);
   }
 
   if (dataFilled === false) {
@@ -71,91 +73,108 @@ function SearchResult(props) {
         <br />
       </>
     )
-  } else if (dataFilled === true) {
+  } else if (dataFilled === true && isEmpty(filteredResult) === false) {
     return (
       <>
-        {
-          filter === "artists" && filteredResult.map(artist => {
-            return (
-              <Accordion alwaysOpen={true} key={artist?.data?.uri}>
-                <Accordion.Panel>
-                  <Accordion.Title>
-                    {artist?.data?.profile?.name}
-                  </Accordion.Title>
-                  <Accordion.Content className="white-text">
-                    <img src={artist?.data?.visuals?.avatarImage?.sources[0]?.url} width={imageSize} />
-                    <Button onClick={() => artistHandler(artist?.data?.uri)}> Go to {artist?.data?.profile?.name}'s profile</Button>
-                  </Accordion.Content>
-                </Accordion.Panel>
-              </Accordion>)
-          })
-        }
-        {
-          filter === "albums" && filteredResult.map(album => {
-            return (
-              <Accordion alwaysOpen={true} key={album?.data?.uri}>
-                <Accordion.Panel>
-                  <Accordion.Title>
-                    {album?.data?.name}
-                  </Accordion.Title>
-                  <Accordion.Content className="white-text">
-                    {album?.data?.artists?.items[0]?.profile?.name}
-                    <img src={album?.data?.coverArt?.sources[0]?.url} width={imageSize} />
-                  </Accordion.Content>
-                </Accordion.Panel>
-              </Accordion>)
-          })
-        }
-        {
-          filter === "genres" && filteredResult.map(genre => {
-            return (
-              <Accordion alwaysOpen={true} key={genre?.data?.uri}>
-                <Accordion.Panel>
-                  <Accordion.Title>
-                    {genre?.data?.name}
-                  </Accordion.Title>
-                  <Accordion.Content className="white-text">
-                    <img src={genre?.data?.image?.sources[0]?.url} width={imageSize} />
-                  </Accordion.Content>
-                </Accordion.Panel>
-              </Accordion>)
-          })
-        }
-        {
-          filter === "playlists" && filteredResult.map(playlist => {
-            return (
-              <Accordion alwaysOpen={true} key={playlist?.data?.uri}>
-                <Accordion.Panel>
-                  <Accordion.Title>
-                    {playlist?.data?.name}
-                  </Accordion.Title>
-                  <Accordion.Content className="white-text">
-                    <img src={playlist?.data?.images?.items[0]?.sources[0]?.url} width={imageSize} />
-                    {playlist?.data?.description}
-                  </Accordion.Content>
-                </Accordion.Panel>
-              </Accordion>)
-          })
-        }
-        {
-          filter === "tracks" && filteredResult.map(track => {
-            return (
-              <Accordion alwaysOpen={true} key={track?.data?.uri}>
-                <Accordion.Panel>
-                  <Accordion.Title>
-                    {track?.data?.name}
-                  </Accordion.Title>
-                  <Accordion.Content className="white-text">
-                    <h3>Artist name: {track?.data?.artists?.items[0]?.profile?.name}</h3>
-                    <h4>From album: {track?.data?.albumOfTrack?.name}</h4>
-                    <h5>Duration: {msConvert(track?.data?.duration?.totalMilliseconds)}</h5>
-                    <img src={track?.data?.albumOfTrack?.coverArt?.sources[0]?.url} width={imageSize} />
-                  </Accordion.Content>
-                </Accordion.Panel>
-              </Accordion>
-            )
-          })
-        }
+        <div className="grid grid-cols-5 gap-4">
+          {
+            filter === "artists" && filteredResult.map(artist => {
+              return (
+                <>
+                  <div className="border">
+                    <div key={artist?.data?.uri} >
+                      <img className="resultsCard" src={artist?.data?.visuals?.avatarImage?.sources[0]?.url} style={{ width: "100%" }} />
+                    </div>
+                    <div className="innerText">
+                      <p className="cardTitle text-3xl">{artist?.data?.profile?.name}</p>
+                      <Button onClick={() => artistHandler(artist?.data?.uri)}> Go to {artist?.data?.profile?.name}'s profile</Button>
+                    </div>
+                  </div>
+                </>
+              )
+            })
+          }
+          {
+            filter === "albums" && filteredResult.map(album => {
+              return (
+                <>
+                  <div className="border">
+                    <div key={album?.data?.uri}>
+                      <img className="resultsCard" src={album?.data?.coverArt?.sources[0]?.url} style={{ width: "100%", height: "100%" }} />
+                    </div>
+                    <div className="innerText">
+                      <p className="cardTitle text-2xl">{album?.data?.name}</p>
+                      <p className="text-1xl">{album?.data?.artists?.items[0]?.profile?.name} </p>
+
+                    </div>
+                  </div>
+                </>
+              )
+            })
+          }
+          {
+            filter === "genres" && filteredResult.map(genre => {
+              return (
+                <>
+                  <div className="border">
+                    <div key={genre?.data?.uri} className="resultsCard">
+                      <img className="resultsCard" src={genre?.data?.image?.sources[0]?.url} style={{ width: "100%" }} />
+                    </div>
+                    <div className="innerText">
+                      <p className="cardTitle text-3xl">{genre?.data?.name}</p>
+                    </div>
+                  </div>
+                </>
+              )
+            })
+          }
+          {
+            filter === "playlists" && filteredResult.map(playlist => {
+              return (
+                <>
+                  <div className="border">
+                    <div key={playlist?.data?.uri}>
+                      <img className="resultsCard" src={playlist?.data?.images?.items[0]?.sources[0]?.url} style={{ width: "100%", height: "100%" }} />
+                    </div>
+                    <div className="innerText">
+                      <p className="cardTitle text-3xl">{playlist?.data?.name}</p>
+                    </div>
+                  </div>
+                </>
+              )
+            })
+          }
+          {
+            filter === "tracks" && filteredResult.map(track => {
+              return (
+                <>
+                  <div className="border">
+                    <div key={track?.data?.uri}>
+                      <img className="resultsCard" src={track?.data?.albumOfTrack?.coverArt?.sources[0]?.url} style={{ width: "100%" }} />
+                    </div>
+                    <div className="innerText">
+                      <p className="cardTitle text-3xl">{track?.data?.name}</p>
+                      <p className="nameText text-xl">Artist:<strong> {track?.data?.artists?.items[0]?.profile?.name}</strong></p>
+                      <p className="nameText text-xl">from album: <strong>{track?.data?.albumOfTrack?.name}</strong></p>
+                      <p className="nameText text-xl">Duration: <strong>{msConvert(track?.data?.duration?.totalMilliseconds)}</strong></p>
+                    </div>
+                  </div>
+                </>
+              )
+            })
+          }          
+        </div>
+        
+      </>
+    )
+  } else if (dataFilled === true && isEmpty(filteredResult) === true) {
+    return (
+      <>
+        <br />
+        <h2 className="text-5xl text-center"> ╮ (. ❛ ᴗ ❛.) ╭  Sorry, nothing to show for that search ( ಥ _ಥ) </h2>
+        <br />
+        <p className="text-xl text-center"> please try again</p>
+        <br />
       </>
     )
   }

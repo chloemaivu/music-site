@@ -6,40 +6,6 @@ function SidebarPlayer() {
   return (
     <Sidebar>
       <React.Fragment key=".0">
-        <Sidebar.Items>
-          <Sidebar.ItemGroup>
-            <Sidebar.Item
-              href="#"
-              icon={function noRefCheck() { }}
-            >
-              Home
-            </Sidebar.Item>
-            <Sidebar.Item
-              href="#"
-              icon={function noRefCheck() { }}
-            >
-              Spotify Picks
-            </Sidebar.Item>
-            <Sidebar.Item
-              href="#"
-              icon={function noRefCheck() { }}
-            >
-              Alternative music
-            </Sidebar.Item>
-            <Sidebar.Item
-              href="#"
-              icon={function noRefCheck() { }}
-            >
-              Your playlists
-            </Sidebar.Item>
-            <Sidebar.Item
-              href="#"
-              icon={function noRefCheck() { }}
-            >
-              About Us
-            </Sidebar.Item>
-          </Sidebar.ItemGroup>
-        </Sidebar.Items>
         <Sidebar.CTA>
           <div className="mb-3 flex items-center">
             <Badge color="warning">
@@ -65,25 +31,26 @@ function SidebarPlayer() {
               </Button>
             </div>
           </div>
-          <iframe
-            style="border-radius:12px"
-            src="https://open.spotify.com/embed/playlist/37i9dQZF1DWY4lFlS4Pnso?utm_source=generator"
-            width="50%"
-            height="152"
-            frameBorder="0"
-            allowfullscreen=""
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"></iframe>
-          <a
-            className="text-sm text-blue-900 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-            href="#"
-          >
-            Turn new navigation off
-          </a>
-        </Sidebar.CTA>
-      </React.Fragment>
-    </Sidebar>
+          <>
+            <iframe
+              style={{ borderRadius: 12 }}
+              src="https://open.spotify.com/embed/playlist/37i9dQZF1DWY4lFlS4Pnso?utm_source=generator"
+              allowFullScreen=""
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              width="100%"
+              height={250}
+            />
+            <a
+              classname="text-sm text-blue-900 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+              href="#"
+            ></a>
+          </>
+          Turn new navigation off
+      </Sidebar.CTA>
+    </React.Fragment>
+    </Sidebar >
   )
 }
 
-export default SidebarPlayer
+export default SidebarPlayer;

@@ -49,10 +49,10 @@ function App() {
     navigate("/");
   };
 
-  const refreshPage = () => {
-    console.log("the page should now reload!");
-    window.location.reload(true);
-  };
+  // const refreshPage = () => {
+  //   console.log("the page should now reload!");
+  //   window.location.reload(true);
+  // };
 
   // request login in users data based on their id in local storage
   const getUserData = async (userID) => {
@@ -84,9 +84,10 @@ function App() {
         logout={() => logout()}
         user={userData}
       />
+      <SidebarPlayer />
       <Routes>
         <Route path="/" element={<div className="page"><Homepage client={client} getUserData={() => getUserData()} artistURI={(artistURI) => setArtistURI(artistURI)}/> </div>} />
-        <Route path="/player" element={<SpotifyWidget />} />
+        <Route path="/player" element={<div className=""><SpotifyWidget /> </div>} />
         <Route path="/profile" element={<div className="page center"><UserProfile user={userData} /> </div>} />
         <Route path="/artist" element={<div className="page"> <ArtistPage client={client} artistURI={artistURI}/> </div>} />
       </Routes>
@@ -102,7 +103,7 @@ function App() {
           <Route path="/" element={<HomepagePreLogin />} />
           <Route
             path="/login"
-            element={<Login client={client} loggedIn={(token, userID) => login(token, userID)} refresh={() => refreshPage()} />}
+            element={<Login client={client} loggedIn={(token, userID) => login(token, userID)} />}
           />
           <Route path="/register" element={<RegisterView client={client} />} />
         </Routes>
@@ -112,20 +113,3 @@ function App() {
   );
 }
 export default App;
-
-// Example from last week
-// function AppRoutes({ isLoggedIn, setIsLoggedIn, isAdmin }) {
-//   if (getToken()) {
-//       isLoggedIn = true;
-//   }
-
-//   return (
-//       <Routes>
-//           <Route path="/" element={isLoggedIn ? <HomepageView /> : <Navigate to="/login" />} />
-//           <Route path="/events" element={isLoggedIn ? <EventsView /> : <Navigate to="/login" />} />
-//           <Route path="/admin" element={isLoggedIn && isAdmin ? <AdminView /> : <Navigate to="/login" />} />
-//           <Route path="/login" element={<LoginView setIsLoggedIn={setIsLoggedIn} />} />
-//           <Route path="/register" element={<RegisterView setIsLoggedIn={setIsLoggedIn} />} />
-//       </Routes>
-//   )
-// }

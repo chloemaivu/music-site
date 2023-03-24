@@ -12,7 +12,7 @@
   --high-nofocus: #a2c4bd;
   --high: #88edb2;
   --curve: 0.5em;
-  --border: 2px solid var(--edges);
+  --border: 2px solid var(--high);
 }
 
 body {
@@ -20,7 +20,7 @@ body {
 }
 
 .page {
-  min-height: 73vh;
+  min-height: 77vh;
 }
 
 .center {
@@ -74,6 +74,7 @@ span {
   border: var(--border);
   border-radius: var(--curve);
 }
+
 
 /* /////////////////////////////////////////// */
 
@@ -189,4 +190,32 @@ button {
 button:hover {
   background-color: var(--high) !important;
   color: var(--bg) !important;
+}
+
+.resultsCard::after{
+  border-top-left-radius: var(--curve);
+  border-top-right-radius: var(--curve);
+  object-fit: cover;
+  aspect-ratio: 1;
+  box-sizing: unset !important;
+ 
+}
+
+.innerText{
+  background-color: var(--bg-highlight);
+  border-top: 1px solid var(--high);
+  padding: 10px;  
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 150px;
+}
+
+.cardTitle{
+  color: var(--text) !important;
+}
+
+div {
+  box-sizing: content-box !important;
 }

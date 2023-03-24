@@ -31,7 +31,7 @@ function UserProfile(props) {
               {user.email}
             </h5>
             <h5 className="mb-1 text-xl font-medium dark:text-white p-2">
-              Member since: {user.registrationDate}
+              Member since: <strong>{user.registrationDate}</strong>
             </h5>
             <div className="mt-4 flex space-x-3 lg:mt-6">
               <Button
