@@ -13,7 +13,6 @@ import NavbarLoggedIn from "./components/navbar2";
 import NavbarPreLogin from "./components/navbar";
 import Login from "./components/login";
 import SidebarPlayer from "./components/playerCard";
-import SpotifyWidget from "./components/spotifyPlayer";
 import UserProfile from "./components/profile";
 
 import { ApiClient } from "./ApiClient";
@@ -32,6 +31,8 @@ function App() {
   const [userData, setUserData] = useState({});
 
   const [artistURI, setArtistURI] = useState("")
+  const [songURI, setSongURI] = useState("")
+  const [type, setType] = useState("")
 
   const login = (token, userID) => {
     window.localStorage.setItem("token", token);
@@ -44,15 +45,12 @@ function App() {
   const logout = () => {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("currentUserID");
+    window.localStorage.removeItem("spotifyURI");
+    window.localStorage.removeItem("filter");
     setToken(undefined);
     setAuthenticated(false);
     navigate("/");
   };
-
-  // const refreshPage = () => {
-  //   console.log("the page should now reload!");
-  //   window.location.reload(true);
-  // };
 
   // request login in users data based on their id in local storage
   const getUserData = async (userID) => {
@@ -84,14 +82,12 @@ function App() {
         logout={() => logout()}
         user={userData}
       />
-      <SidebarPlayer />
       <Routes>
-        <Route path="/" element={<div className="page"><Homepage client={client} getUserData={() => getUserData()} artistURI={(artistURI) => setArtistURI(artistURI)}/> </div>} />
-        <Route path="/player" element={<div className=""><SpotifyWidget /> </div>} />
+        <Route path="/" element={<div className="page"><Homepage client={client} getUserData={() => getUserData()} artistURI={(artistURI) => setArtistURI(artistURI)} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)} /></div>} />
         <Route path="/profile" element={<div className="page center"><UserProfile user={userData} /> </div>} />
-        <Route path="/artist" element={<div className="page"> <ArtistPage client={client} artistURI={artistURI}/> </div>} />
+        <Route path="/artist" element={<div className="page"> <ArtistPage client={client} artistURI={artistURI} /> </div>} />
       </Routes>
-
+      <SidebarPlayer type={type} songURI={songURI} />
       <VantaFooter />
     </>
   ) : (

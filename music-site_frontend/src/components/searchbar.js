@@ -25,7 +25,7 @@ function Searchbar(props) {
               {/* <option className="dropdownItem2">no filter</option> */}
               <option className="dropdownItem">albums</option>
               <option className="dropdownItem">artists</option>
-              <option className="dropdownItem">genres</option>
+              {/* <option className="dropdownItem">genres</option> */}
               <option className="dropdownItem">playlists</option>
               <option className="dropdownItem">tracks</option>
             </Select>
