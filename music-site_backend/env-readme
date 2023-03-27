@@ -1,0 +1,9 @@
+.env file 
+
+SPOTIFY_API_KEY is my api key for the rapidAPI
+	feel free to use your own
+SPOTIFY_API_HOST is Glavier's spotfiy host url -- the preffered one
+SPOTIFY_API_HOST is other RapidAPI spotify api used as a backup
+
+SP_* values are all for the from my spotify account, for the official spotify web developer api
+

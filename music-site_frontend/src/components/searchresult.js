@@ -62,7 +62,8 @@ function SearchResult(props) {
   function artistHandler(uri) {
     const uriString = uri.slice(15, 37);
     props.artistURI(uriString);
-    setTimeout(() => navigate("/artist"), 500);
+
+    setTimeout(() => navigate(`/artist/${uriString}`), 500);
   }
 
   if (dataFilled === false) {

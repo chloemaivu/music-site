@@ -17,7 +17,6 @@ function Homepage(props) {
     <p className="brand-title object-position: center">VANTA</p>
     <Searchbar client={props.client} searchFetch={(searchData) => setSearchData(searchData)}/>    
     <SearchResult search={searchData} artistURI={(artistURI) => setArtistURI(artistURI)} /> 
-    {/* <Button className="" onClick={() => props.client.getArtist("5kDp9RPBnmQzBLwVnVyVvz")}> get artists overview</Button> */}
     </>
   );
 }

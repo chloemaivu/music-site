@@ -1,22 +1,38 @@
-import { React, useEffect, useState } from 'react';
+import { React, useEffect, useRef, useState } from 'react';
 // import { Table } from "flowbite-react";
 import LoadingSpinner from './spinner';
+import { useParams } from 'react-router-dom';
 
 function ArtistPage(props) {
     const [artistInfoFilled, setartistInfoFilled] = useState(false);
     const [artistInfo, setArtistInfo] = useState({})
+    const [artistSocials, setArtistSocials] = useState([])
+    const [bio, setBio] = useState("")
+
+    const { artistId } = useParams()
 
     const getArtistInfo = async (uri) => {
         console.log("getArtistInfo is called")
-        const data =  await props.client.getArtist(uri);
+        const data = await props.client.getArtist(uri);
         console.log(data)
         setArtistInfo(data)
+        setArtistSocials(data.artist.profile.externalLinks.items)       
+        setBio(data.artist.profile.biography.text)
     }
 
-    useEffect( async() => {
-        await getArtistInfo(props.artistURI)
-        setartistInfoFilled(true)
-    }, [props.artistURI])
+    useEffect(() => {
+        async function fetchData() {
+            await getArtistInfo(artistId)
+            setartistInfoFilled(true)
+        }
+        fetchData()
+    }, [artistId])    
+
+    function createMarkup(html) {
+        return {
+            __html:html
+        }
+    }
 
     ////////////////////////////////////////////////////////////////////
 
@@ -42,18 +58,19 @@ function ArtistPage(props) {
                     </div>
                     <div>
                         <div>
-                        <h2>Bio</h2>
-                        <p>{artistInfo?.artist?.profile?.biography?.text}</p>
+                            <h2>Bio</h2>
+                            {
+                                bio && <div dangerouslySetInnerHTML={createMarkup(bio)}/>
+                            }
                         </div>
                     </div>
                     <div>
                         <h2>Social</h2>
-                        <h5>{artistInfo?.artist?.profile?.externalLinks?.items?.[0]?.name}</h5>
-                        <a href={artistInfo?.artist?.profile?.externalLinks?.items?.[0]?.url}></a>
-                        <h5>{artistInfo?.artist?.profile?.externalLinks?.items?.[1]?.name}</h5>
-                        <a href={artistInfo?.artist?.profile?.externalLinks?.items?.[1]?.url}></a>
-                        <h5>{artistInfo?.artist?.profile?.externalLinks?.items?.[3]?.name}</h5>
-                        <a href={artistInfo?.artist?.profile?.externalLinks?.items?.[3]?.url}></a>
+                        {artistSocials.map(info => {
+                            return (
+                                <a href={info?.url}><p>{info?.name}</p></a>
+                            )
+                        })}
                     </div>
                     <div>
                         <h2>Following</h2>

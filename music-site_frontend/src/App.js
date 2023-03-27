@@ -84,12 +84,12 @@ function App() {
         logout={() => logout()}
         user={userData}
       />
-      <SidebarPlayer />
+      {/* <SidebarPlayer /> */}
       <Routes>
         <Route path="/" element={<div className="page"><Homepage client={client} getUserData={() => getUserData()} artistURI={(artistURI) => setArtistURI(artistURI)}/> </div>} />
         <Route path="/player" element={<div className=""><SpotifyWidget /> </div>} />
         <Route path="/profile" element={<div className="page center"><UserProfile user={userData} /> </div>} />
-        <Route path="/artist" element={<div className="page"> <ArtistPage client={client} artistURI={artistURI}/> </div>} />
+        <Route path="/artist/:artistId" element={<div className="page"> <ArtistPage client={client} artistURI={artistURI}/> </div>} />
       </Routes>
 
       <VantaFooter />
