@@ -80,12 +80,26 @@ exports.updateUserData = async function (req, res, next) {
   if (!user) {
     return(next(createError(404, "User not found")))
   }
-  console.log(user)
+  user.username = req.body.username;
+  user.email = req.body.email;
+  user.picture = req.body.picture;
+  await user.save()
 }
 
 exports.changeUserPassword = async function (req, res, next) {
   console.log(req.params)
+  console.log(req.body)
   if (!req.params.id) {
     return(next(createError(502, "Bad request: id not found in request header")))
   }
+  user = await userModel.findById(req.params.id);
+  if (!user) {
+    return(next(createError(404, "User not found")))
+  }
+  const hashedPass = await security.comparePass(req.body.current, user.password)
+  if (!hashedPass || hashedPass === false) {
+    return(next(createError(401, "Error validating current password")))
+  }
+  user.password = await security.hashPass(req.body.update);
+  await user.save();
 }

@@ -14,7 +14,7 @@ function Login(props) {
       .then((response) => {
         cDisabled(false);
         props.loggedIn(response.data.token, response.data.id);
-        navigate("/")
+        navigate("/home")
       })
       .catch((err) => {
         console.log(err);

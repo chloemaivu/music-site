@@ -61,6 +61,17 @@ function SearchResult(props) {
     setTimeout(() => navigate(`/artist/${uriString}`), 500);
   }
 
+  function songHandler(uri) {
+    console.log(uri)
+    const splitURI = uri.split(":")
+    // pass in type and songURI as props to homepage and then to player card
+    props.type(splitURI[1]);
+    props.songURI(splitURI[2]);
+
+    window.localStorage.setItem("filter", splitURI[1]);
+    window.localStorage.setItem("spotifyURI", splitURI[2])
+  }
+
   if (dataFilled === false) {
     return (
       <>
@@ -84,6 +95,7 @@ function SearchResult(props) {
                     <div className="innerText">
                       <p className="cardTitle text-3xl">{artist?.data?.profile?.name}</p>
                       <Button onClick={() => artistHandler(artist?.data?.uri)}> Go to {artist?.data?.profile?.name}'s profile</Button>
+                      <Button onClick={() => songHandler(artist?.data?.uri)}> Play {artist?.data?.profile?.name}'s top tracks</Button>
                     </div>
                   </div>
                 </>
@@ -101,6 +113,7 @@ function SearchResult(props) {
                     <div className="innerText">
                       <p className="cardTitle text-2xl">{album?.data?.name}</p>
                       <p className="text-1xl">{album?.data?.artists?.items[0]?.profile?.name} </p>
+                      <Button onClick={() => songHandler(album?.data?.uri)}> Play {album?.data?.name}</Button>
 
                     </div>
                   </div>
@@ -118,6 +131,7 @@ function SearchResult(props) {
                     </div>
                     <div className="innerText">
                       <p className="cardTitle text-3xl">{playlist?.data?.name}</p>
+                      <Button onClick={() => songHandler(playlist?.data?.uri)}> Play {playlist?.data?.name}</Button>
                     </div>
                   </div>
                 </>
@@ -137,6 +151,7 @@ function SearchResult(props) {
                       <p className="nameText text-xl">Artist:<strong> {track?.data?.artists?.items[0]?.profile?.name}</strong></p>
                       <p className="nameText text-xl">from album: <strong>{track?.data?.albumOfTrack?.name}</strong></p>
                       <p className="nameText text-xl">Duration: <strong>{msConvert(track?.data?.duration?.totalMilliseconds)}</strong></p>
+                      <Button onClick={() => songHandler(track?.data?.uri)}> Play {track?.data?.name}</Button>
                     </div>
                   </div>
                 </>

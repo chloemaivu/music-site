@@ -55,6 +55,7 @@ function UserProfile(props) {
                 gradientDuoTone="cyanToBlue"
                 type="button"
                 size="xl"
+                href="/user-settings"
               >
                 Settings
               </Button>

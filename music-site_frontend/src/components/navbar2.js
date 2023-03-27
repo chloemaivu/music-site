@@ -7,7 +7,7 @@ function NavbarLoggedIn(props) {
   return (
     <Navbar className="navigationBar" fluid={true} rounded={true}>
       <Navbar.Brand href="#homepage">
-        <Link to="/">
+        <Link to="/home">
           <span className="navigationLogo self-center whitespace-nowrap">
             VANTA
           </span>
@@ -47,13 +47,13 @@ function NavbarLoggedIn(props) {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link href="/" active={true}>
+        <Navbar.Link href="/home" active={true}>
           Home
         </Navbar.Link>
         <Navbar.Link href="/navbars">Spotify picks</Navbar.Link>
         <Navbar.Link href="/navbars">Alternative Music</Navbar.Link>
         <Navbar.Link href="/navbars">Your playlists</Navbar.Link>
-        <Navbar.Link href="/navbars">About Us</Navbar.Link>
+        <Navbar.Link href="/profile">Your Profile</Navbar.Link>
       </Navbar.Collapse>
     </Navbar >
   );

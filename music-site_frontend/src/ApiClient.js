@@ -54,6 +54,11 @@ export class ApiClient {
         console.log(response)
     } 
 
+    async updatePassword(id, current, update) {
+        const response = await axios.post(`${URL}/user/${id}/password`, {id, current, update})
+        console.log(response)
+    }
+
     /////////////// SPOTIFY \\\\\\\\\\\\\\\\\\\\\\\\\\\\
     async search(filter, search) {
         const response = await axios.get(`${spotifyURL}/${search}&${filter}&${limit}`);

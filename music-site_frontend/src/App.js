@@ -13,8 +13,8 @@ import NavbarLoggedIn from "./components/navbar2";
 import NavbarPreLogin from "./components/navbar";
 import Login from "./components/login";
 import SidebarPlayer from "./components/playerCard";
-import SpotifyWidget from "./components/spotifyPlayer";
 import UserProfile from "./components/profile";
+import PlayerIcon from "./resources/player_icon.svg"
 
 import { ApiClient } from "./ApiClient";
 import UserSettings from "./components/userSettings";
@@ -32,6 +32,9 @@ function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [userData, setUserData] = useState({});
 
+  const [songURI, setSongURI] = useState("")
+  const [type, setType] = useState("")
+
 
   const login = (token, userID) => {
     window.localStorage.setItem("token", token);
@@ -44,6 +47,8 @@ function App() {
   const logout = () => {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("currentUserID");
+    window.localStorage.removeItem("spotifyURI");
+    window.localStorage.removeItem("filter")
     setToken(undefined);
     setAuthenticated(false);
     navigate("/");
@@ -74,6 +79,15 @@ function App() {
     }
   }, [token]);
 
+  const sidebarToggle = (element) => {
+    let x = document.getElementById(element)
+    if (x.style.display === "block") {
+      x.style.display = "none"
+    } else {
+      x.style.display = "block"
+    }
+  }
+
   return token && authenticated ? (
     <>
       <NavbarLoggedIn
@@ -82,13 +96,23 @@ function App() {
         logout={() => logout()}
         user={userData}
       />
-      {/* <SidebarPlayer /> */}
+      <Button
+        className="mt-5 topleft"
+        outline={true}
+        gradientDuoTone="cyanToBlue"
+        type="submit"
+        size="xl"
+        onClick={() => sidebarToggle("sidebar")}
+      >
+        <img src={PlayerIcon} title="toggle player" width="50px"/>
+      </Button>
       <Routes>
-        <Route path="/" element={<div className="page"><Homepage client={client} getUserData={() => getUserData()}/> </div>} />
+        <Route path="/home" element={<div className="page"><Homepage client={client} getUserData={() => getUserData()} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)} /> </div>} />
         <Route path="/profile" element={<div className="page center"><UserProfile user={userData} /> </div>} />
-        <Route path="/user-settings" element={<div className="page center"><UserSettings user={userData}/> </div>} />
-        <Route path="/artist/:artistId" element={<div className="page"> <ArtistPage client={client}/> </div>} />
+        <Route path="/user-settings" element={<div className="page center"><UserSettings user={userData} client={client}/> </div>} />
+        <Route path="/artist/:artistId" element={<div className="page"> <ArtistPage client={client} /> </div>} />
       </Routes>
+      <SidebarPlayer type={type} songURI={songURI} />
       <VantaFooter />
     </>
   ) : (

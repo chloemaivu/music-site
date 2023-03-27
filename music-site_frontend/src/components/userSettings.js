@@ -3,48 +3,55 @@ import { Label, TextInput, Button } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 
 function UserSettings(props) {
-    const [disabled, setDisabled] = useState(false);
+    const [userDisabled, setUserDisabled] = useState(false);
+    const [passwordDisabled, setPasswordDisabled] = useState(false);
     const userData = props.user
 
-    console.log(userData)
 
     const updateHandler = async (e) => {
         e.preventDefault();
-        setDisabled(true);
-        const i = e.target
-        console.log(i)
+        const i = e.target;
+        props.client.updateUserData(
+            window.localStorage.currentUserID,
+            i.username.value,
+            i.email.value,
+            i.picture.value
+        );
+        setUserDisabled(true);
     }
 
     const passwordHandler = async (e) => {
         e.preventDefault();
-        setDisabled(true);
-        const i = e.target;
-        console.log(i)
-    }
+        const i = e.target
 
-    const stringify = (value) =>{
-        return JSON.stringify(value)
+        if (i.newPassword.value != i.repeatNewPassword.value) {
+            alert("Password and repeat password are not identical!")
+        } else if (i.newPassword.value.length < 8) {
+            alert("New password must be more 8 characters or more in length")
+        } else {
+            props.client.updatePassword(
+                window.localStorage.currentUserID,
+                i.currentPassword.value,
+                i.newPassword.value,
+            )
+        };
+        setPasswordDisabled(true)
     }
-
-    useEffect(() => {
-        stringify(userData?.username)
-        console.log(typeof userData?.username)
-    }, [userData])
 
     return (
         <>
-            <div className="border" style={{ display: "block" }}>
-                <h2>Update Password</h2>
+            <div className="border" style={{ display: "block", width: "60%", padding: "2%" }}>
+                <h2 className="text-3xl">Update User Data</h2>
                 <form onSubmit={(e) => updateHandler(e)}>
                     <div id="username">
                         <Label className="white-text mb-3" value="Username:" />
                         <TextInput
                             className="white-text"
-                            value={stringify(userData?.username)}
+                            defaultValue={userData?.username}
                             placeholder="username"
                             name="username"
                             type="text"
-                            disabled={disabled}
+                            disabled={userDisabled}
                             required
                         />
                     </div>
@@ -54,10 +61,10 @@ function UserSettings(props) {
                         <TextInput
                             type="email"
                             className="white-text"
-                            value={stringify(userData?.email)}
+                            defaultValue={userData?.email}
                             placeholder="user@email.com"
                             name="email"
-                            disabled={disabled}
+                            disabled={userDisabled}
                             required
                         />
                     </div>
@@ -67,9 +74,12 @@ function UserSettings(props) {
                         <TextInput type="text"
                             className="white-text"
                             name="picture"
-                            value={stringify(userData?.picture)}
+                            defaultValue={userData?.picture}
                             placeholder="Enter your picture URL here"
-                            disabled={disabled} />
+                            disabled={userDisabled}
+                            required
+                        />
+
                     </div>
 
                     <Button
@@ -83,41 +93,41 @@ function UserSettings(props) {
                     </Button>
                 </form>
 
-                <h2>Update Password</h2>
+                <h2 className="text-3xl">Update Password</h2>
                 <form onSubmit={(e) => passwordHandler(e)}>
 
-                    <div id="currentpassword">
+                    <div id="currentPassword">
                         <Label className="white-text mb-3" value="Current password:" />
                         <TextInput
                             type="password"
                             className="white-text"
                             placeholder="**********"
-                            name="password"
-                            disabled={disabled}
+                            name="currentPassword"
+                            disabled={passwordDisabled}
                             required
                         />
                     </div>
 
-                    <div id="password">
+                    <div id="newPassword">
                         <Label className="white-text mb-3" value="Password:" />
                         <TextInput
                             type="password"
                             className="white-text"
                             placeholder="**********"
-                            name="password"
-                            disabled={disabled}
+                            name="newPassword"
+                            disabled={passwordDisabled}
                             required
                         />
                     </div>
 
-                    <div id="repeatpassword">
+                    <div id="repeatNewPassword">
                         <Label className="white-text mb-3" value="Repeat password:" />
                         <TextInput
                             type="password"
                             className="white-text"
                             placeholder="**********"
-                            name="repeatpassword"
-                            disabled={disabled}
+                            name="repeatNewPassword"
+                            disabled={passwordDisabled}
                             required
                         />
                     </div>
@@ -139,7 +149,7 @@ function UserSettings(props) {
                     gradientDuoTone="cyanToBlue"
                     type="submit"
                     size="xl"
-                    to="/"
+                    href="/profile"
                 >
                     return to profile
                 </Button>

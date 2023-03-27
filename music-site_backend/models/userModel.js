@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-// const bcrypt = require('bcryptjs');
 
 /*unique is not validation, use Model.on for validation
         https://mongoosejs.com/docs/faq.html */ 
@@ -44,39 +43,6 @@ const userSchema = new mongoose.Schema({
     default: "new_user",
   },
 });
-
-///////////// BCRYPT STUFF - TODO LATER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-// userSchema.pre('save', async function (next) {
-//     try {
-//         if (!this.isModified('password')) {
-//             return next();
-//         }
-//         const salt = await bcrypt.genSalt(parseInt(process.env.PASSWORD_SALT_ROUNDS));
-//         const hashed = await bcrypt.hash(this.password, salt);
-//         this.password = hashed;
-//         return next();
-//     } catch (err) {
-//         return next(err);
-//     }
-// });
-// Hashing the password with bcrypt.js
-// userSchema.pre('findOneAndUpdate', async function (next) {
-//     try {
-//         if (this._update.password) {
-//             const salt = await bcrypt.genSalt(parseInt(process.env.PASSWORD_SALT_ROUNDS));
-//             const hashed = await bcrypt.hash(this._update.password, salt);
-//             this._update.password = hashed;
-//         }
-//         return next();
-//     } catch (err) {
-//         return next(err);
-//     }
-// });
-
-// userSchema.method("validatePassword", async function (pass) {
-//     return bcrypt.compare(pass, this.password);
-// });
 
 const userModel = mongoose.model("user", userSchema, "users");
 
