@@ -17,6 +17,7 @@ import SpotifyWidget from "./components/spotifyPlayer";
 import UserProfile from "./components/profile";
 
 import { ApiClient } from "./ApiClient";
+import UserSettings from "./components/userSettings";
 
 
 function App() {
@@ -31,7 +32,6 @@ function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [userData, setUserData] = useState({});
 
-  const [artistURI, setArtistURI] = useState("")
 
   const login = (token, userID) => {
     window.localStorage.setItem("token", token);
@@ -74,8 +74,6 @@ function App() {
     }
   }, [token]);
 
-  console.log("App.js reports a passed up artist URI of " + artistURI)
-
   return token && authenticated ? (
     <>
       <NavbarLoggedIn
@@ -86,12 +84,11 @@ function App() {
       />
       {/* <SidebarPlayer /> */}
       <Routes>
-        <Route path="/" element={<div className="page"><Homepage client={client} getUserData={() => getUserData()} artistURI={(artistURI) => setArtistURI(artistURI)}/> </div>} />
-        <Route path="/player" element={<div className=""><SpotifyWidget /> </div>} />
+        <Route path="/" element={<div className="page"><Homepage client={client} getUserData={() => getUserData()}/> </div>} />
         <Route path="/profile" element={<div className="page center"><UserProfile user={userData} /> </div>} />
-        <Route path="/artist/:artistId" element={<div className="page"> <ArtistPage client={client} artistURI={artistURI}/> </div>} />
+        <Route path="/user-settings" element={<div className="page center"><UserSettings user={userData}/> </div>} />
+        <Route path="/artist/:artistId" element={<div className="page"> <ArtistPage client={client}/> </div>} />
       </Routes>
-
       <VantaFooter />
     </>
   ) : (

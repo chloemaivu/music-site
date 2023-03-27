@@ -13,6 +13,8 @@ router.post("/auth/login", mongo.login)
 
 router.get("/user/:id", mongo.getUserData)
 
+router.post("/user/:id/update", mongo.updateUserData)
+
 ////////////////// SPOTIFY REQUESTS \\\\\\\\\\\\\\
 
 router.get("/spotify/:search&:type&:limit", spotify.search)

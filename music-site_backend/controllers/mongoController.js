@@ -55,9 +55,9 @@ exports.login = async function (req, res) {
 exports.getUserData = async function (req, res, next) {
   console.log(req.params.id)
   if (!req.params.id) {
-    return(next(createError(502, "Bad request")))
+    return(next(createError(502, "Bad request: id not found in request header")))
   }
-  user = await userModel.findById(req.params.id );
+  user = await userModel.findById(req.params.id);
   if (!user) {
     return (next(createError(404, "User not found")))
   }
@@ -69,4 +69,23 @@ exports.getUserData = async function (req, res, next) {
     registrationDate: user._id.getTimestamp().toString().slice(4,15)
   }))
   console.log(userData)
+}
+
+exports.updateUserData = async function (req, res, next) {
+  console.log(req.params)
+  if (!req.params.id) {
+    return(next(createError(502, "Bad request: id not found in request header")))
+  }
+  user = await userModel.findById(req.params.id);
+  if (!user) {
+    return(next(createError(404, "User not found")))
+  }
+  console.log(user)
+}
+
+exports.changeUserPassword = async function (req, res, next) {
+  console.log(req.params)
+  if (!req.params.id) {
+    return(next(createError(502, "Bad request: id not found in request header")))
+  }
 }

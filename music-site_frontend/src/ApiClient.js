@@ -49,6 +49,11 @@ export class ApiClient {
         return response
     }
 
+    async updateUserData(id, username, email, picture) {
+        const response = await axios.post(`${URL}/user/${id}/update`, {id, username, email, picture})
+        console.log(response)
+    } 
+
     /////////////// SPOTIFY \\\\\\\\\\\\\\\\\\\\\\\\\\\\
     async search(filter, search) {
         const response = await axios.get(`${spotifyURL}/${search}&${filter}&${limit}`);

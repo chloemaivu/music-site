@@ -60,7 +60,7 @@ function ArtistPage(props) {
                         <div>
                             <h2>Bio</h2>
                             {
-                                bio && <div dangerouslySetInnerHTML={createMarkup(bio)}/>
+                                bio && <div className='white-text' dangerouslySetInnerHTML={createMarkup(bio)}/>
                             }
                         </div>
                     </div>

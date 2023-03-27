@@ -2,16 +2,12 @@ import React, { useState } from "react";
 import { Select, TextInput, Button } from "flowbite-react";
 
 function Searchbar(props) {
-  let fetched = ({name: "hello"})
-
+  
   async function submit(e) {
     e.preventDefault();
 
     const search = e.target.searchinput.value;
     let filtered = e.target.filter.value;
-    if (filtered == "No filter") {
-      filtered = "multi";
-    }
     const fetched = await props.client.search(filtered, search);
     props.searchFetch(fetched.data)
   }
@@ -25,7 +21,6 @@ function Searchbar(props) {
               {/* <option className="dropdownItem2">no filter</option> */}
               <option className="dropdownItem">albums</option>
               <option className="dropdownItem">artists</option>
-              <option className="dropdownItem">genres</option>
               <option className="dropdownItem">playlists</option>
               <option className="dropdownItem">tracks</option>
             </Select>

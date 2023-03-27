@@ -32,9 +32,6 @@ function SearchResult(props) {
       } else if (f.albums) {
         setFilteredResult(f.albums.items);
         setFilter("albums");
-      } else if (f.genres) {
-        setFilteredResult(f.genres.items);
-        setFilter("genres");
       } else if (f.playlists) {
         setFilteredResult(f.playlists.items);
         setFilter("playlists");
@@ -61,8 +58,6 @@ function SearchResult(props) {
 
   function artistHandler(uri) {
     const uriString = uri.slice(15, 37);
-    props.artistURI(uriString);
-
     setTimeout(() => navigate(`/artist/${uriString}`), 500);
   }
 
@@ -84,7 +79,7 @@ function SearchResult(props) {
                 <>
                   <div className="border">
                     <div key={artist?.data?.uri} >
-                      <img className="resultsCard" src={artist?.data?.visuals?.avatarImage?.sources[0]?.url} style={{ width: "100%" }} />
+                      <img className="resultsCard" src={artist?.data?.visuals?.avatarImage?.sources[0]?.url} style={{ width: "100%" }} alt={artist?.data?.profile.name} />
                     </div>
                     <div className="innerText">
                       <p className="cardTitle text-3xl">{artist?.data?.profile?.name}</p>
@@ -101,7 +96,7 @@ function SearchResult(props) {
                 <>
                   <div className="border">
                     <div key={album?.data?.uri}>
-                      <img className="resultsCard" src={album?.data?.coverArt?.sources[0]?.url} style={{ width: "100%", height: "100%" }} />
+                      <img className="resultsCard" src={album?.data?.coverArt?.sources[0]?.url} style={{ width: "100%", height: "100%" }}  alt={album?.data?.name}/>
                     </div>
                     <div className="innerText">
                       <p className="cardTitle text-2xl">{album?.data?.name}</p>
@@ -114,28 +109,12 @@ function SearchResult(props) {
             })
           }
           {
-            filter === "genres" && filteredResult.map(genre => {
-              return (
-                <>
-                  <div className="border">
-                    <div key={genre?.data?.uri} className="resultsCard">
-                      <img className="resultsCard" src={genre?.data?.image?.sources[0]?.url} style={{ width: "100%" }} />
-                    </div>
-                    <div className="innerText">
-                      <p className="cardTitle text-3xl">{genre?.data?.name}</p>
-                    </div>
-                  </div>
-                </>
-              )
-            })
-          }
-          {
             filter === "playlists" && filteredResult.map(playlist => {
               return (
                 <>
                   <div className="border">
                     <div key={playlist?.data?.uri}>
-                      <img className="resultsCard" src={playlist?.data?.images?.items[0]?.sources[0]?.url} style={{ width: "100%", height: "100%" }} />
+                      <img className="resultsCard" src={playlist?.data?.images?.items[0]?.sources[0]?.url} style={{ width: "100%", height: "100%" }}  alt={playlist?.data?.name}/>
                     </div>
                     <div className="innerText">
                       <p className="cardTitle text-3xl">{playlist?.data?.name}</p>
@@ -151,7 +130,7 @@ function SearchResult(props) {
                 <>
                   <div className="border">
                     <div key={track?.data?.uri}>
-                      <img className="resultsCard" src={track?.data?.albumOfTrack?.coverArt?.sources[0]?.url} style={{ width: "100%" }} />
+                      <img className="resultsCard" src={track?.data?.albumOfTrack?.coverArt?.sources[0]?.url} style={{ width: "100%" }}  alt={track?.data?.name}/>
                     </div>
                     <div className="innerText">
                       <p className="cardTitle text-3xl">{track?.data?.name}</p>

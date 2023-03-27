@@ -37,7 +37,9 @@ function NavbarLoggedIn(props) {
           <Link to="/profile">
             <Dropdown.Item className="dropdownItem p-3 text-center">Profile</Dropdown.Item>
           </Link>
-          <Dropdown.Item className="dropdownItem p-3 text-center">Settings</Dropdown.Item>
+          <Link to="/user-settings">
+            <Dropdown.Item className="dropdownItem p-3 text-center">Settings</Dropdown.Item>
+          </Link>
           <Dropdown.Divider />
           <Dropdown.Item className="dropdownItem2 p-3 text-center"
             onClick={() => props.logout()}>Log out</Dropdown.Item>
