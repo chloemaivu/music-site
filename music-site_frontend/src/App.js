@@ -79,11 +79,6 @@ function App() {
     }
   }, [token]);
 
-  useEffect(() => {
-    client.getLyrics("2bNNsHc4EXkN0E7eWypyay")
-  }, []);
-
-
   const sidebarToggle = (element) => {
     let x = document.getElementById(element)
     if (x.style.display === "block") {
