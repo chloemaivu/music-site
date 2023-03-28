@@ -78,7 +78,7 @@ export class ApiClient {
 
     async getLyrics(uri) {
         const response = await axios.get(`${spotifyURL}/lyrics/${uri}`);
-        console.log(response.data)
+        // console.log(response.data)
         return response.data
     }
 }

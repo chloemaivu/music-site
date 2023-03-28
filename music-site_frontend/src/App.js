@@ -112,7 +112,7 @@ function App() {
         <Route path="/user-settings" element={<div className="page center"><UserSettings user={userData} client={client}/> </div>} />
         <Route path="/artist/:artistId" element={<div className="page"> <ArtistPage client={client} /> </div>} />
       </Routes>
-      <SidebarPlayer type={type} songURI={songURI} />
+      <SidebarPlayer type={type} songURI={songURI} client={client}/>
       <VantaFooter />
     </>
   ) : (
