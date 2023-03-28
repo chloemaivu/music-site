@@ -49,14 +49,23 @@ export class ApiClient {
         return response
     }
 
+    async createPlaylist(name, description) {
+        const id = window.localStorage.currentUserID
+        console.log(id, name, description)
+        const response = await axios.post(`${URL}/createplaylist`, {id, name, description})
+        return response.data
+    }
+
     async updateUserData(id, username, email, picture) {
         const response = await axios.post(`${URL}/user/${id}/update`, {id, username, email, picture})
         console.log(response)
+        return response
     } 
 
     async updatePassword(id, current, update) {
         const response = await axios.post(`${URL}/user/${id}/password`, {id, current, update})
         console.log(response)
+        return response
     }
 
     /////////////// SPOTIFY \\\\\\\\\\\\\\\\\\\\\\\\\\\\

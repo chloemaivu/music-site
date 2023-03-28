@@ -108,7 +108,7 @@ function App() {
       </Button>
       <Routes>
         <Route path="/home" element={<div className="page"><Homepage client={client} getUserData={() => getUserData()} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)} /> </div>} />
-        <Route path="/profile" element={<div className="page center"><UserProfile user={userData} /> </div>} />
+        <Route path="/profile" element={<div className="page center"><UserProfile client={client} user={userData} /> </div>} />
         <Route path="/user-settings" element={<div className="page center"><UserSettings user={userData} client={client}/> </div>} />
         <Route path="/artist/:artistId" element={<div className="page"> <ArtistPage client={client} /> </div>} />
       </Routes>
