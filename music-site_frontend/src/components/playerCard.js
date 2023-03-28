@@ -8,8 +8,10 @@ function SidebarPlayer(props) {
   const [trackLyrics, setTrackLyrics] = useState([])
 
   const getLyrics = async (uri) => {
-    const data = await props.client.getLyrics(uri);
-    setTrackLyrics(data.lyrics.lines)
+    if (songURI) {
+      const data = await props.client.getLyrics(uri);
+      setTrackLyrics(data.lyrics.lines)
+    }
   }
 
   useEffect(() => {
