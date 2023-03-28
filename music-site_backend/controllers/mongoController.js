@@ -1,7 +1,10 @@
 const userModel = require("../models/userModel");
 const createError = require("http-errors");
 const { v4: uuidv4 } = require("uuid");
-const security = require("./securityController")
+const security = require("./securityController");
+const playlistModel = require("../models/playlistModel");
+
+///////////////////// USER DATA POSTS \\\\\\\\\\\\\\\\\\\\
 
 exports.register = async function (req, res) {
   const user = req.body;
@@ -52,6 +55,8 @@ exports.login = async function (req, res) {
   console.log(stringToken, user._id);
 };
 
+/////////////////////// USER DATA GETS \\\\\\\\\\\\\\\\\\\\\\\\\
+
 exports.getUserData = async function (req, res, next) {
   console.log(req.params.id)
   if (!req.params.id) {
@@ -71,6 +76,29 @@ exports.getUserData = async function (req, res, next) {
   console.log(userData)
 }
 
+/////////////////////// CONTENT POSTS \\\\\\\\\\\\\\\\\\\\
+
+exports.createPlaylist = async function (req, res) {
+  const playlistData = req.body
+  console.log(playlistData)
+  const user = await userModel.findById(req.body.id)
+
+  const newPlaylist = new playlistModel({
+    userID: user.id,
+    username: user.username,
+    name: playlistData.name,
+    description: playlistData.description,
+    uri: []
+  })
+
+  console.log(newPlaylist)
+  newPlaylist.save().then((playlistData) => {
+    res.status(200).send("Playlist created successfully!")
+  })
+}
+
+//////////////////////// CHANGE USER DATA \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
 exports.updateUserData = async function (req, res, next) {
   console.log(req.params)
   if (!req.params.id) {
@@ -84,6 +112,7 @@ exports.updateUserData = async function (req, res, next) {
   user.email = req.body.email;
   user.picture = req.body.picture;
   await user.save()
+  res.send("User data updated successfully")
 }
 
 exports.changeUserPassword = async function (req, res, next) {
@@ -102,4 +131,5 @@ exports.changeUserPassword = async function (req, res, next) {
   }
   user.password = await security.hashPass(req.body.update);
   await user.save();
+  res.send("Password changed successfully")
 }

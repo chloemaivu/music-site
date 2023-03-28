@@ -71,7 +71,7 @@ function ArtistPage(props) {
                 </div>
                 <br />
                 <div className="grid grid-cols-2 gap-2">
-                    <div>
+                    <div className="ml-6">
                         <h2 className="artistHeading py-4">Albums</h2>
                         {/* Latest album */}
                         <img className="rounded-lg" src={artistInfo?.artist?.discography?.latest?.coverArt?.sources[0]?.url} width={imageSize} />
@@ -98,7 +98,7 @@ function ArtistPage(props) {
                         <div>
                             <h2 className="artistHeading py-4">Bio</h2>
                             {
-                                bio && <div className="artistText py-3" dangerouslySetInnerHTML={createMarkup(bio)} />
+                                bio && <div className="artistText py-3 text-justify" dangerouslySetInnerHTML={createMarkup(bio)} />
                             }
                         </div>
                         <div>
