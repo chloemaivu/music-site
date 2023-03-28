@@ -1,10 +1,20 @@
-import { Sidebar, Badge, Button } from "flowbite-react";
-import React from "react";
+import { React, useEffect, useState } from 'react';
 import SpotifyWidget from "./spotifyPlayer";
 
 function SidebarPlayer(props) {
   const songURI = props.songURI
   const type = props.type
+
+  const [trackLyrics, setTrackLyrics] = useState([])
+
+  const getLyrics = async (uri) => {
+    const data = await props.client.getLyrics(uri);
+    setTrackLyrics(data.lyrics.lines)
+  }
+
+  useEffect(() => {
+    getLyrics(songURI)
+  }, [songURI])
 
   return (
     <>
@@ -14,9 +24,22 @@ function SidebarPlayer(props) {
             <div className="p-4">
               <SpotifyWidget type={type} songURI={songURI} />
             </div>
-            <p className="white-text center">
-              Song Lyrics Here
-            </p>
+            <div className="p-4 white-text">
+              {type === "track" ? (
+                <>
+                  <u className="lyricsHeader">Lyrics:</u>
+                  {
+                    trackLyrics.map(line => {
+                      return (
+                        <div>
+                          {line.words}
+                        </div>
+                      )
+                    })
+                  }
+                </>) : (<>
+                </>)}
+            </div>
           </>
         ) : (
           <>
