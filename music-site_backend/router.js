@@ -21,7 +21,11 @@ router.post("/user/:id/password", mongo.changeUserPassword)
 
 router.get("/spotify/:search&:type&:limit", spotify.search)
 
-router.get("/spotify/:uri", spotify.artist)
+router.get("/spotify/artist/:uri", spotify.artist)
+
+router.get("/spotify/album/:uri", spotify.album)
+
+router.get("/spotify/lyrics/:uri", spotify.lyrics)
 
 ////////////////// BANDCAMP REQUESTS \\\\\\\\\\\\\\
 
