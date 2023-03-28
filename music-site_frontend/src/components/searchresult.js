@@ -44,8 +44,6 @@ function SearchResult(props) {
 
   const imageSize = 300
 
-  console.log(filteredResult)
-
   ////////////////// INTERACTION HANDLING \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   const navigate = useNavigate()
