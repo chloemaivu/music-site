@@ -97,6 +97,22 @@ exports.createPlaylist = async function (req, res) {
   })
 }
 
+exports.appendPlaylist = async function (req, res) {
+  const id = {
+    name: req.body.id
+  }
+  console.log(req.body.uri)
+  const playlist = await playlistModel.findOne(id)
+  if (!playlist) {
+    res.status(404).send("No matching playlist found")
+  }
+  console.log(playlist)
+  playlist.uri.push(req.body.uri)
+  playlist.save().then(() => {
+    res.status(200).send("Successfully added track / album to playlist!")
+  })
+}
+
 //////////////////////// CHANGE USER DATA \\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 exports.updateUserData = async function (req, res, next) {

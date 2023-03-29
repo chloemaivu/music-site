@@ -29,11 +29,11 @@ function SidebarPlayer(props) {
             <div className="p-4 white-text">
               {type === "track" ? (
                 <>
-                  <u className="lyricsHeader">Lyrics:</u>
+                  <u className="lyricsHeader center">Lyrics:</u>
                   {
                     trackLyrics.map(line => {
                       return (
-                        <div>
+                        <div className="center grey-text leading-loose">
                           {line.words}
                         </div>
                       )

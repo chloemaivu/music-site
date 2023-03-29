@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useState } from "react";
 
 // login and registration backend url
 const authURL = "http://localhost:3001/auth"
@@ -33,7 +32,7 @@ export class ApiClient {
             } else { throw err; }
         });
     }
-    //////////////// MONGO \\\\\\\\\\\\\\\\\\\\\\\\\\\
+    //////////////// MONGO \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     async login(username, password) {
         const response = await axios.post(`${authURL}/login`, {username, password});  
         return response        
@@ -51,9 +50,15 @@ export class ApiClient {
 
     async createPlaylist(name, description) {
         const id = window.localStorage.currentUserID
-        console.log(id, name, description)
         const response = await axios.post(`${URL}/createplaylist`, {id, name, description})
         return response.data
+    }
+
+    async appendPlaylist(id, uri) {
+        console.log(id, uri)
+        const response = await axios.post(`${URL}/appendPlaylist`, {id, uri})
+        alert(response.data)
+        return response.data    
     }
 
     async updateUserData(id, username, email, picture) {
@@ -68,7 +73,7 @@ export class ApiClient {
         return response
     }
 
-    /////////////// SPOTIFY \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    /////////////// SPOTIFY \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     async search(filter, search) {
         const response = await axios.get(`${spotifyURL}/${search}&${filter}&${limit}`);
         return response
@@ -87,7 +92,6 @@ export class ApiClient {
 
     async getLyrics(uri) {
         const response = await axios.get(`${spotifyURL}/lyrics/${uri}`);
-        // console.log(response.data)
         return response.data
     }
 }
