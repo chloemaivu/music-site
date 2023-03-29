@@ -1,10 +1,6 @@
 const mongoose = require("mongoose")
 
 const playlistSchema = new mongoose.Schema({
-    _id: {
-        type: mongoose.Types.ObjectId,
-        auto: true,
-      },
     userID: {
         type: String,
         unique: false,
@@ -42,7 +38,7 @@ const playlistSchema = new mongoose.Schema({
             type: String
         }
     }    
-})
+}, { timestamps: true })
 
 const playlistModel = mongoose.model("newPlaylist", playlistSchema, "userPlaylists");
 

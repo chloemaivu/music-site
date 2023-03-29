@@ -84,10 +84,24 @@ export class ApiClient {
         return response.data.data
     }
 
+    // redundant
     async getAlbum(uri) {
         const response = await axios.get(`${spotifyURL}/album/${uri}`);
         console.log(response.data.data)
         return response.data.data
+    }
+
+    async getAlbums(arr) {
+        console.log(arr)
+        const response = await axios.get(`${spotifyURL}/albums/${arr}`)
+        console.log(response.data)
+        return response.data
+    }
+
+    async getTracks(arr) {
+        console.log(arr)
+        const response = await axios.get(`${spotifyURL}/tracks/${arr}`)
+        console.log(response.data)
     }
 
     async getLyrics(uri) {
