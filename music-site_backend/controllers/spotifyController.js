@@ -34,7 +34,6 @@ exports.search = function (req, res) {
 };
 
 exports.artist = function (req, res) {
-  console.log("artist uri is " + req.params.uri);
   const searchParam = req.params.uri;
 
   const options = {
@@ -50,7 +49,6 @@ exports.artist = function (req, res) {
   axios
     .request(options)
     .then(function (response) {
-      console.log(response.data);
       res.send(response.data)
     }).catch(function (error) {
       console.log("an error has occurred :( ")
@@ -74,6 +72,51 @@ exports.album = function (req, res) {
 
   axios.request(options).then(function (response) {
     res.send(response.data);
+  }).catch(function (error) {
+    console.error(error);
+    res.send(error)
+  });
+}
+
+exports.albums = function (req, res) {
+  const searchParam = req.params.arr;
+  console.log(searchParam)
+
+  const options = {
+    method: 'GET',
+    url: `https://${process.env.SPOTIFY_API_HOST}/albums/`,
+    params: {ids: searchParam},
+    headers: {
+      'X-RapidAPI-Key': `${process.env.SPOTIFY_API_KEY}`,
+      'X-RapidAPI-Host': `${process.env.SPOTIFY_API_HOST}`
+    }
+  };
+  
+  axios.request(options).then(function (response) {
+    console.log(response.data)
+    res.send(response.data);
+  }).catch(function (error) {
+    console.error(error);
+    res.send(error)
+  });
+}
+
+exports.tracks = function (req, res) {
+  const searchParam = req.params.arr;
+  console.log(searchParam)
+
+  const options = {
+    method: 'GET',
+    url: `https://${process.env.SPOTIFY_API_HOST}/tracks/`,
+    params: {ids: searchParam},
+    headers: {
+      'X-RapidAPI-Key': `${process.env.SPOTIFY_API_KEY}`,
+      'X-RapidAPI-Host': `${process.env.SPOTIFY_API_HOST}`
+    }
+  };
+  
+  axios.request(options).then(function (response) {
+    res.send(response.data)
   }).catch(function (error) {
     console.error(error);
     res.send(error)

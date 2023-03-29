@@ -1,7 +1,12 @@
-const userModel = require("../models/userModel");
 const createError = require("http-errors");
 const { v4: uuidv4 } = require("uuid");
-const security = require("./securityController")
+const mongoose = require("mongoose")
+
+const security = require("./securityController");
+const playlistModel = require("../models/playlistModel");
+const userModel = require("../models/userModel");
+
+///////////////////// USER DATA POSTS \\\\\\\\\\\\\\\\\\\\
 
 exports.register = async function (req, res) {
   const user = req.body;
@@ -52,8 +57,9 @@ exports.login = async function (req, res) {
   console.log(stringToken, user._id);
 };
 
+/////////////////////// USER DATA GETS \\\\\\\\\\\\\\\\\\\\\\\\\
+
 exports.getUserData = async function (req, res, next) {
-  console.log(req.params.id)
   if (!req.params.id) {
     return(next(createError(502, "Bad request: id not found in request header")))
   }
@@ -68,8 +74,45 @@ exports.getUserData = async function (req, res, next) {
     username: user.username,
     registrationDate: user._id.getTimestamp().toString().slice(4,15)
   }))
-  console.log(userData)
 }
+
+/////////////////////// CONTENT POSTS \\\\\\\\\\\\\\\\\\\\
+
+exports.createPlaylist = async function (req, res) {
+  const playlistData = req.body
+  const user = await userModel.findById(req.body.id)
+  const UserID = "USERID::" + user.id
+
+  const newPlaylist = new playlistModel({
+    userID: UserID,
+    username: user.username,
+    name: playlistData.name,
+    description: playlistData.description,
+    uri: []
+  })
+  console.log(newPlaylist)
+  newPlaylist.save().then((playlistData) => {
+    res.status(200).send("Playlist created successfully!")
+  })
+}
+
+exports.appendPlaylist = async function (req, res) {
+  const id = {
+    name: req.body.id
+  }
+  console.log(req.body.uri)
+  const playlist = await playlistModel.findOne(id)
+  if (!playlist) {
+    res.status(404).send("No matching playlist found")
+  }
+  console.log(playlist)
+  playlist.uri.push(req.body.uri)
+  playlist.save().then(() => {
+    res.status(200).send("Successfully added track / album to playlist!")
+  })
+}
+
+//////////////////////// CHANGE USER DATA \\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 exports.updateUserData = async function (req, res, next) {
   console.log(req.params)
@@ -84,6 +127,7 @@ exports.updateUserData = async function (req, res, next) {
   user.email = req.body.email;
   user.picture = req.body.picture;
   await user.save()
+  res.send("User data updated successfully")
 }
 
 exports.changeUserPassword = async function (req, res, next) {
@@ -102,4 +146,5 @@ exports.changeUserPassword = async function (req, res, next) {
   }
   user.password = await security.hashPass(req.body.update);
   await user.save();
+  res.send("Password changed successfully")
 }

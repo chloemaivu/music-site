@@ -82,7 +82,7 @@ span {
 
 /* /////////////////////////////////////////// */
 
-input, select {
+input, select, textarea {
   background: none !important;
   border: 1px solid var(--edges) !important;
   border-radius: 0.5em !important;
@@ -266,4 +266,16 @@ div {
 .discographyTable {
   margin-right: 6em;
 }
+
+.modal {
+  background-color: var(--bg-highlight);
+  color: var(--text);
+  padding: 10px;
+  position: absolute;
+  top: 8%;
+  left: 42.5%;
+  max-width: 14%;
+  z-index: 1;
+}
+
 
