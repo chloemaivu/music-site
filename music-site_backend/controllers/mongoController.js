@@ -1,8 +1,10 @@
-const userModel = require("../models/userModel");
 const createError = require("http-errors");
 const { v4: uuidv4 } = require("uuid");
+const mongoose = require("mongoose")
+
 const security = require("./securityController");
 const playlistModel = require("../models/playlistModel");
+const userModel = require("../models/userModel");
 
 ///////////////////// USER DATA POSTS \\\\\\\\\\\\\\\\\\\\
 
@@ -58,7 +60,6 @@ exports.login = async function (req, res) {
 /////////////////////// USER DATA GETS \\\\\\\\\\\\\\\\\\\\\\\\\
 
 exports.getUserData = async function (req, res, next) {
-  console.log(req.params.id)
   if (!req.params.id) {
     return(next(createError(502, "Bad request: id not found in request header")))
   }
@@ -73,24 +74,22 @@ exports.getUserData = async function (req, res, next) {
     username: user.username,
     registrationDate: user._id.getTimestamp().toString().slice(4,15)
   }))
-  console.log(userData)
 }
 
 /////////////////////// CONTENT POSTS \\\\\\\\\\\\\\\\\\\\
 
 exports.createPlaylist = async function (req, res) {
   const playlistData = req.body
-  console.log(playlistData)
   const user = await userModel.findById(req.body.id)
+  const UserID = "USERID::" + user.id
 
   const newPlaylist = new playlistModel({
-    userID: user.id,
+    userID: UserID,
     username: user.username,
     name: playlistData.name,
     description: playlistData.description,
     uri: []
   })
-
   console.log(newPlaylist)
   newPlaylist.save().then((playlistData) => {
     res.status(200).send("Playlist created successfully!")

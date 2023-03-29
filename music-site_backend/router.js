@@ -29,6 +29,10 @@ router.get("/spotify/artist/:uri", spotify.artist)
 
 router.get("/spotify/album/:uri", spotify.album)
 
+router.get("/spotify/albums/:arr", spotify.albums)
+
+router.get("/spotify/tracks/:arr", spotify.tracks)
+
 router.get("/spotify/lyrics/:uri", spotify.lyrics)
 
 ////////////////// BANDCAMP REQUESTS \\\\\\\\\\\\\\

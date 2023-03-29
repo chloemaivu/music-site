@@ -69,7 +69,7 @@ function UserProfile(props) {
             gradientDuoTone="cyanToBlue"
             type="button"
             size="xl"
-            onClick={() => props.client.appendPlaylist("LORN", "spotify:track:5P5dA0hS21lA2Ys9Hm9EZI")}
+            onClick={() => props.client.appendPlaylist("Sufjan Sadboy", "spotify:track:5P5dA0hS21lA2Ys9Hm9EZI")}
           >
             add to playlist
           </Button>
