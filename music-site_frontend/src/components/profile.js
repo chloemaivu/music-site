@@ -62,6 +62,18 @@ function UserProfile(props) {
         <div>
           <CreatePlaylistModal client={props.client} />
         </div>
+        <div>
+          <Button
+            className="mt-5"
+            outline={true}
+            gradientDuoTone="cyanToBlue"
+            type="button"
+            size="xl"
+            onClick={() => props.client.appendPlaylist("LORN", "spotify:track:5P5dA0hS21lA2Ys9Hm9EZI")}
+          >
+            add to playlist
+          </Button>
+        </div>
       </div>
     </>
   )
