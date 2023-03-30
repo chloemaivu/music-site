@@ -48,9 +48,17 @@ export class ApiClient {
         return response
     }
 
+    async getPlaylists(id) {
+        const response = await axios.get(`${URL}/getplaylists/${id}`);
+        return(response.data)
+    }
+
+
+
     async createPlaylist(name, description) {
         const id = window.localStorage.currentUserID
         const response = await axios.post(`${URL}/createplaylist`, {id, name, description})
+        console.log(response)
         return response.data
     }
 

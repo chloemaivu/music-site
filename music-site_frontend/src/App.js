@@ -87,7 +87,7 @@ function App() {
       x.style.display = "block"
     }
   }
-
+  
   return token && authenticated ? (
     <>
       <NavbarLoggedIn
