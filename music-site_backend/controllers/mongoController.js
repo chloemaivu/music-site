@@ -76,6 +76,24 @@ exports.getUserData = async function (req, res, next) {
   }))
 }
 
+exports.getPlaylists = async function (req, res, next) {
+  const id = req.params.id
+  let filter = {}
+  if (!id) {
+    return(next(createError(502, "Bad request: id not found in request header")))
+  }
+  if (id.length === 24) {
+    const userID = `USERID::${id}`
+    filter = { userID: userID}
+  } else if (id.length === 32) {
+    filter = { _id: id}
+  } else if (typeof id === "string") {
+    filter = { name: id}
+  }
+  playlists = await playlistModel.find(filter)
+  res.status(200).send(playlists)
+}
+
 /////////////////////// CONTENT POSTS \\\\\\\\\\\\\\\\\\\\
 
 exports.createPlaylist = async function (req, res) {

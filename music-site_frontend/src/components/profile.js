@@ -1,11 +1,20 @@
+import { useEffect, useState } from "react"
 import { Card, Button, Badge } from "flowbite-react";
 import CreatePlaylistModal from "./modalCreatePlaylist";
 
 function UserProfile(props) {
+  const [playlists, setPlaylists] = useState({})
+
   const user = props.user
 
+  useEffect(() => {
+    props.client.getPlaylists(window.localStorage.currentUserID).then((response) => setPlaylists(response))
+  }, [])
+
+  console.log(playlists)
   return (
     <>
+      {/* ///////////// USER CARD ///////////////////////////////////////////// */}
       <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
         <div className="max-w-sm">
           <Card className="background-grey">
@@ -63,18 +72,16 @@ function UserProfile(props) {
           <CreatePlaylistModal client={props.client} />
         </div>
         <div>
-          <Button
-            className="mt-5"
-            outline={true}
-            gradientDuoTone="cyanToBlue"
-            type="button"
-            size="xl"
-            onClick={() => props.client.appendPlaylist("Sufjan Sadboy", "spotify:track:5P5dA0hS21lA2Ys9Hm9EZI")}
-          >
-            add to playlist
-          </Button>
+          {playlists.map(playlist => {
+            return (
+              <p className="white-text text-3xl">{playlist.name}</p>
+            )
+          }
+          )}
         </div>
       </div>
+      {/* //////////// PLAYLISTS ////////////////////////////////////////////// */}
+
     </>
   )
 }

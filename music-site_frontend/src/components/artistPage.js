@@ -108,15 +108,15 @@ function ArtistPage(props) {
                                 <Table.Body className="divide-y">
                                         {artistAlbum.map(album => {
                                             return (
-                                            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                                            <Table.Row className="dark:border-gray-700 dark:bg-gray-800">
                                                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                                     <img className="rounded-lg artistImage" src={album.releases?.items[0]?.coverArt?.sources?.[0]?.url} width={300}/>
-                                                    <h2 className="text-gray-900 font-bold py-1 mt-4 pb-4 text-center">{album.releases?.items[0]?.name}</h2>
-                                                    <h3 className="text-gray-800 py-1 text-center">Release year: {album.releases?.items[0]?.date?.year}</h3>
-                                                    <h3 className="text-gray-800 py-1 text-center">Number of tracks: {album.releases?.items[0]?.tracks?.totalCount}</h3>
-                                                    <h3 className="text-gray-800 py-1 text-center">Label: {album.releases?.items[0]?.label}</h3>
+                                                    <h2 className="grey-text font-bold py-1 mt-4 pb-4 text-center">{album.releases?.items[0]?.name}</h2>
+                                                    <h3 className="grey-text py-1 text-center">Release year: {album.releases?.items[0]?.date?.year}</h3>
+                                                    <h3 className="grey-text py-1 text-center">Number of tracks: {album.releases?.items[0]?.tracks?.totalCount}</h3>
+                                                    <h3 className="grey-text py-1 text-center">Label: {album.releases?.items[0]?.label}</h3>
                                                 </Table.Cell>
-                                                <Table.Cell className="whitespace-wrap font-medium text-gray-900 dark:text-white">
+                                                <Table.Cell className="whitespace-wrap font-medium grey-text">
                                                     {albumInfo.map(song => {
                                                         return (
                                                             <p className="albumSong">{song?.track?.name}</p>
