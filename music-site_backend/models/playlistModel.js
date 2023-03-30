@@ -30,6 +30,11 @@ const playlistSchema = new mongoose.Schema({
         minLength: [3, "The playlists description must be three characters or more"],
         maxLength: [280, "The playlists description cannot be more than 280 characters"]
     },
+    privacy: {
+        type: Boolean,
+        title: "Private / Public",
+        description: "Mark a playlist a public or private. true = private"
+    },
     uri: {
         type: Array,
         title: "SpotifyURI's",
