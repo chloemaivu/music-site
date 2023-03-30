@@ -101,15 +101,20 @@ exports.createPlaylist = async function (req, res) {
   const user = await userModel.findById(req.body.id)
   const UserID = "USERID::" + user.id
 
+  let isPrivate = false
+  if (req.body.privacy === "private") {
+    isPrivate = true
+  }
   const newPlaylist = new playlistModel({
     userID: UserID,
     username: user.username,
     name: playlistData.name,
     description: playlistData.description,
+    privacy: isPrivate,
     uri: []
   })
   console.log(newPlaylist)
-  newPlaylist.save().then((playlistData) => {
+  newPlaylist.save().then((newPlaylist) => {
     res.status(200).send("Playlist created successfully!")
   })
 }

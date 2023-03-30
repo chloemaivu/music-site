@@ -76,7 +76,7 @@ function UserProfile(props) {
           <CreatePlaylistModal client={props.client} />
         </div>
         <div>
-          {/* {playlists.map(playlist => {
+          {playlists.map(playlist => {
             return (
               <p className="white-text text-3xl">{playlist.name}</p>
             )
@@ -105,6 +105,7 @@ function UserProfile(props) {
         </div>
       </div>
       {/* //////////// PLAYLISTS ////////////////////////////////////////////// */}
+
     </>
   )
 }
