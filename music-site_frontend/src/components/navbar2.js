@@ -11,7 +11,7 @@ function NavbarLoggedIn(props) {
           <span className="navigationLogo self-center whitespace-nowrap">
             VANTA
           </span>
-        </ Link>
+        </Link>
       </Navbar.Brand>
       <div className="flex md:order-2">
         <Dropdown
@@ -50,12 +50,10 @@ function NavbarLoggedIn(props) {
         <Navbar.Link href="/home" active={true}>
           Home
         </Navbar.Link>
-        <Navbar.Link href="/navbars">Spotify picks</Navbar.Link>
-        <Navbar.Link href="/navbars">Alternative Music</Navbar.Link>
-        <Navbar.Link href="/navbars">Your playlists</Navbar.Link>
+        <Navbar.Link href="/community">Community</Navbar.Link>
         <Navbar.Link href="/profile">Your Profile</Navbar.Link>
       </Navbar.Collapse>
-    </Navbar >
+    </Navbar>
   );
 }
 

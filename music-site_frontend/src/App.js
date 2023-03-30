@@ -5,6 +5,7 @@ import { Button } from "flowbite-react";
 
 // component imports
 import ArtistPage from "./components/artistPage";
+import CommunityPage from "./components/communityPage";
 import Homepage from "./components/homepage";
 import HomepagePreLogin from "./components/hompagePreLogin";
 import RegisterView from "./components/registration";
@@ -111,6 +112,7 @@ function App() {
         <Route path="/profile" element={<div className="page center"><UserProfile client={client} user={userData} /> </div>} />
         <Route path="/user-settings" element={<div className="page center"><UserSettings user={userData} client={client}/> </div>} />
         <Route path="/artist/:artistId" element={<div className="page"> <ArtistPage client={client} /> </div>} />
+        <Route path="/community" element={<div className="page"> <CommunityPage client={client} user={userData}/> </div>} />
       </Routes>
       <SidebarPlayer type={type} songURI={songURI} client={client}/>
       <VantaFooter />

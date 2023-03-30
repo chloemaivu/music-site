@@ -288,3 +288,12 @@ div {
 .albumSong {
   color: black
 }
+
+/* ///////// TIMELINE /////////////////*/
+.timelineContainer {
+  margin-left: 200px!important;
+}
+
+*, ::after, ::before {
+  --tw-ring-offset-width: 0;
+}
