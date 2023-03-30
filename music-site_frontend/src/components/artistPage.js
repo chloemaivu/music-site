@@ -1,50 +1,75 @@
-import { React, useEffect, useRef, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { Carousel, Table } from "flowbite-react";
 import LoadingSpinner from './spinner';
 import { useParams } from 'react-router-dom';
 
 function ArtistPage(props) {
-    const [artistInfoFilled, setartistInfoFilled] = useState(false)
+    const { artistId } = useParams()
+
+    const [albumInfo, setAlbumInfo] = useState([])
+    const [albumMapped, setAlbumMapped] = useState([])
+
+    const [apiAlbums, setApiAlbums] = useState([])
+
+    const [artistAlbum, setArtistAlbum] = useState([])
+    const [artistImages, setArtistImages] = useState([])
+    const [artistInfoFilled, setArtistInfoFilled] = useState(false)
     const [artistInfo, setArtistInfo] = useState({})
     const [artistSocials, setArtistSocials] = useState([])
-    const [artistImages, setArtistImages] = useState([])
-    const [artistAlbum, setArtistAlbum] = useState([])
-    const [albumInfo, setAlbumInfo] = useState([])
+
     const [bio, setBio] = useState("")
 
-    const { artistId } = useParams()
+    const albumIDs = []
 
     const getArtistInfo = async (uri) => {
         const data = await props.client.getArtist(uri);
-        const albumMapped = data.artist.discography.albums.items
+
+        setAlbumMapped(data.artist.discography.albums.items)
+        setArtistAlbum(data.artist.discography.albums.items)
+        setArtistImages(data.artist.visuals.gallery.items)
         setArtistInfo(data)
         setArtistSocials(data.artist.profile.externalLinks.items)
-        setArtistImages(data.artist.visuals.gallery.items)
-        setArtistAlbum(data.artist.discography.albums.items)
-        getDiscography("5HOHne1wzItQlIYmLXLYfZ")
-        // getDiscography(data.artist.discography.albums.items[0].releases.items[0].id)
-        console.log(data.artist.discography.albums.items)
-
-        const mappedTrackResults= albumMapped.map(
-            albumTracks => 
-            getDiscography(albumTracks.releases.items[0].id)
-        )
         setBio(data.artist.profile.biography.text)
     }
 
-    const getDiscography = async (uri) => {
-        const albumData = await props.client.getAlbum(uri);
-        setAlbumInfo(albumData.album.tracks.items);
-        console.log("getDiscography's URI is set to: " + uri)
+    const extractAlbumIDs = () => {
+        albumMapped.map(albumId => albumIDs.push(albumId.releases?.items[0]?.id)
+        )
     }
 
     useEffect(() => {
         async function fetchData() {
-            await getArtistInfo(artistId)
-            setartistInfoFilled(true)
+            await getArtistInfo(artistId);
+            setArtistInfoFilled(true)
         }
         fetchData()
     }, [artistId])
+
+    useEffect(() => {
+        extractAlbumIDs()
+    }, [artistInfo])
+
+    // get discography albums info
+    useEffect(() => {
+        async function fetchAlbums() {
+            const data = await props.client.getAlbums(albumIDs)
+            setApiAlbums(data.albums)
+        }
+        fetchAlbums()
+    }, [albumIDs])
+
+    useEffect(() => {
+        const albumArrays = []
+        const albums = []
+
+        apiAlbums.map(albumData => albumArrays.push(albumData.tracks.items))
+        albumArrays.map(album => {
+            const tracks = []
+            album.map(item => tracks.push(item.name))
+            albums.push(tracks)
+        })
+        setAlbumInfo(albums)
+    }, [apiAlbums])  
 
     function createMarkup(html) {
         return {
@@ -54,13 +79,11 @@ function ArtistPage(props) {
 
     ////////////////////////////////////////////////////////////////////
 
-    const imageSize = 300
-
-    if (artistInfoFilled === false) {
+    if (artistInfoFilled === false && albumInfo.length == 0) {
         return (
             <LoadingSpinner />
         )
-    } else if (artistInfoFilled === true) {
+    } else if (artistInfoFilled === true && albumInfo.length > 0) {
         return (
             <div>
                 <div className="flex flex-col items-center justify-center border"
@@ -74,7 +97,6 @@ function ArtistPage(props) {
                         <Carousel slideInterval={2500} slide={true} indicators={false}
                             leftControl="<<"
                             rightControl=">>">
-
                             {
                                 artistImages.map(picture => {
                                     return (
@@ -90,16 +112,12 @@ function ArtistPage(props) {
                 <br />
                 <div className="grid grid-cols-2 gap-2">
                     <div className="ml-6">
-                        <h2 className="artistHeading py-4">Latest release</h2>
-                        {/* Latest album */}
-                        <img className="rounded-lg" src={artistInfo?.artist?.discography?.latest?.coverArt?.sources[0]?.url} width={imageSize} />
-                        <h3 className="albumHeading py-4">{artistInfo?.artist?.discography?.latest?.name} | {artistInfo?.artist?.discography?.latest?.date?.year}</h3>
-                        {/* Table element - All albums */}
+                        <h2 className="artistHeading py-4">Albums</h2>
                         <div className="artistTable">
                             <Table>
                                 <Table.Head>
                                     <Table.HeadCell>
-                                    {artistInfo?.artist?.profile?.name}'s Discography
+                                        {artistInfo?.artist?.profile?.name}'s Discography
                                     </Table.HeadCell>
                                     <Table.HeadCell>
                                         Tracks
@@ -118,14 +136,14 @@ function ArtistPage(props) {
                                                 </Table.Cell>
                                                 <Table.Cell className="whitespace-wrap font-medium grey-text">
                                                     {albumInfo.map(song => {
-                                                        return (
-                                                            <p className="albumSong">{song?.track?.name}</p>
-                                                            )
+                                       return (
+                                                            <p className="albumSong">{tracks}</p>
+                                                        )
                                                     })}
                                                 </Table.Cell>
                                             </Table.Row>
-                                                )
-                                        })}
+                                        )
+                                    })}
                                 </Table.Body>
                             </Table>
                         </div>
