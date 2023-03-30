@@ -11,7 +11,6 @@ function UserProfile(props) {
     props.client.getPlaylists(window.localStorage.currentUserID).then((response) => setPlaylists(response))
   }, [])
 
-  console.log(playlists)
   return (
     <>
       {/* ///////////// USER CARD ///////////////////////////////////////////// */}
@@ -72,16 +71,15 @@ function UserProfile(props) {
           <CreatePlaylistModal client={props.client} />
         </div>
         <div>
-          {playlists.map(playlist => {
+          {/* {playlists.map(playlist => {
             return (
               <p className="white-text text-3xl">{playlist.name}</p>
             )
           }
-          )}
+          )} */}
         </div>
       </div>
       {/* //////////// PLAYLISTS ////////////////////////////////////////////// */}
-
     </>
   )
 }
