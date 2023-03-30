@@ -285,6 +285,14 @@ div {
   z-index: 1;
 }
 
-.albumSong {
-  color: black
+.radio {
+  background-color: var(--bg) !important;
+}
+
+.radio:checked{
+  background-color: var(--high) !important;
+}
+
+.radio:active, .radio:focus {
+  border: var(--border) !important;
 }

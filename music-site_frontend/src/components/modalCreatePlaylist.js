@@ -18,7 +18,8 @@ function CreatePlaylistModal(props) {
         e.preventDefault()
         props.client.createPlaylist(
             e.target.name.value,
-            e.target.description.value)
+            e.target.description.value,
+            e.target.privacy.value)
         .then((response) => {
             alert(response)
             onClick()
@@ -49,12 +50,21 @@ function CreatePlaylistModal(props) {
                     <br />
                     <p className="white-text text-xl">Playlist description</p>
                     <textarea
-                    name="description"
-                    required
+                        name="description"
+                        required
                     ></textarea>
                     <br />
                     <br />
-                    <p className="text-justify grey-text p-1">once you've created a playlist you can add songs or albums to it from wherever you find them on the site!</p>
+                    <p className="white-text text-xl">Make the playlist private? </p>
+                    <div id="privacy" style={{display: "flex", justifyContent: "space-around", margin: "10px"}}>
+                        <div><input className="radio" type="radio" name="privacy" value="public" /> <span> public</span></div>
+                        <div><input className="radio" type="radio" name="privacy" value="private"/> <span> private</span></div>
+                    </div>
+                    <p className="grey-text text-justify"> A public playlist can be seen by anyone on the site, and will automatically appear in the community page </p>
+                    <br />
+                    <hr />
+
+                    <p className="text-justify grey-text p-1">Once you've created a playlist you can add songs or albums to it from wherever you find them on the site!</p>
                     <br />
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                         <Button type="submit"> create playlist </Button>
