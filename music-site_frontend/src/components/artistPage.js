@@ -1,63 +1,75 @@
-import { React, useEffect, useRef, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { Carousel, Table } from "flowbite-react";
 import LoadingSpinner from './spinner';
 import { useParams } from 'react-router-dom';
 
 function ArtistPage(props) {
-    const [artistInfoFilled, setartistInfoFilled] = useState(false)
+    const { artistId } = useParams()
+
+    const [albumInfo, setAlbumInfo] = useState([])
+    const [albumMapped, setAlbumMapped] = useState([])
+
+    const [apiAlbums, setApiAlbums] = useState([])
+
+    const [artistAlbum, setArtistAlbum] = useState([])
+    const [artistImages, setArtistImages] = useState([])
+    const [artistInfoFilled, setArtistInfoFilled] = useState(false)
     const [artistInfo, setArtistInfo] = useState({})
     const [artistSocials, setArtistSocials] = useState([])
-    const [artistImages, setArtistImages] = useState([])
-    const [artistAlbum, setArtistAlbum] = useState([])
-    const [albumInfo, setAlbumInfo] = useState([])
+
     const [bio, setBio] = useState("")
 
-    const { artistId } = useParams()
+    const albumIDs = []
 
     const getArtistInfo = async (uri) => {
         const data = await props.client.getArtist(uri);
-        const albumMapped = data.artist.discography.albums.items
+
+        setAlbumMapped(data.artist.discography.albums.items)
+        setArtistAlbum(data.artist.discography.albums.items)
+        setArtistImages(data.artist.visuals.gallery.items)
         setArtistInfo(data)
         setArtistSocials(data.artist.profile.externalLinks.items)
-        setArtistImages(data.artist.visuals.gallery.items)
-        setArtistAlbum(data.artist.discography.albums.items)
-        const albumIds = []
-
-        // get album ids in an array
-        albumMapped.map(
-            albumId =>
-                //add to array
-                albumIds.push(albumId.releases?.items[0]?.id)
-        )
-        getDiscography(albumIds)
         setBio(data.artist.profile.biography.text)
     }
 
-    const getDiscography = async (uri) => {
-        const albumArrays = []
-        const albums = []
-        const response = await props.client.getAlbums(uri);
-        // get albums data
-        response.albums.map(albumData =>
-            albumArrays.push(albumData.tracks.items)
+    const extractAlbumIDs = () => {
+        albumMapped.map(albumId => albumIDs.push(albumId.releases?.items[0]?.id)
         )
-        albumArrays.map(album => {
-            const tracks = []
-            album.map(item => tracks.push(item.name))
-            //array of tracks for each album
-            albums.push(tracks)
-        }
-        )
-        setAlbumInfo(albums)
     }
 
     useEffect(() => {
         async function fetchData() {
-            await getArtistInfo(artistId)
-            setartistInfoFilled(true)
+            await getArtistInfo(artistId);
+            setArtistInfoFilled(true)
         }
         fetchData()
     }, [artistId])
+
+    useEffect(() => {
+        extractAlbumIDs()
+    }, [artistInfo])
+
+    // get discography albums info
+    useEffect(() => {
+        async function fetchAlbums() {
+            const data = await props.client.getAlbums(albumIDs)
+            setApiAlbums(data.albums)
+        }
+        fetchAlbums()
+    }, [albumIDs])
+
+    useEffect(() => {
+        const albumArrays = []
+        const albums = []
+
+        apiAlbums.map(albumData => albumArrays.push(albumData.tracks.items))
+        albumArrays.map(album => {
+            const tracks = []
+            album.map(item => tracks.push(item.name))
+            albums.push(tracks)
+        })
+        setAlbumInfo(albums)
+    }, [apiAlbums])  
 
     function createMarkup(html) {
         return {
