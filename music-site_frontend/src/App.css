@@ -285,6 +285,21 @@ div {
   z-index: 1;
 }
 
+
+.albumSong {
+  color: black
+}
+
+/* ///////// TIMELINE /////////////////*/
+.timelineContainer {
+  margin-left: 200px!important;
+}
+
+*, ::after, ::before {
+  --tw-ring-offset-width: 0;
+}
+
+/* ///////// RADIO /////////////////*/
 .radio {
   background-color: var(--bg) !important;
 }
@@ -296,3 +311,4 @@ div {
 .radio:active, .radio:focus {
   border: var(--border) !important;
 }
+
