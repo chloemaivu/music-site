@@ -82,7 +82,9 @@ span {
 
 /* /////////////////////////////////////////// */
 
-input, select, textarea {
+input,
+select,
+textarea {
   background: none !important;
   border: 1px solid var(--edges) !important;
   border-radius: 0.5em !important;
@@ -178,12 +180,13 @@ span.flex:hover {
 
 .userImage {
   height: 18vh;
-  min-width: 12vw;  
+  min-width: 12vw;
   object-fit: cover;
 }
+
 .adminBadge {
   background-color: var(--bg) !important;
-  color: var(--edges)!important;
+  color: var(--edges) !important;
 }
 
 button {
@@ -195,19 +198,19 @@ button:hover {
   color: var(--bg) !important;
 }
 
-.resultsCard::after{
+.resultsCard::after {
   border-top-left-radius: var(--curve);
   border-top-right-radius: var(--curve);
   object-fit: cover;
   aspect-ratio: 1;
   box-sizing: unset !important;
- 
+
 }
 
-.innerText{
+.innerText {
   background-color: var(--bg-highlight);
   border-top: 1px solid var(--high);
-  padding: 10px;  
+  padding: 10px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -215,7 +218,7 @@ button:hover {
   min-height: 150px;
 }
 
-.cardTitle{
+.cardTitle {
   color: var(--text) !important;
 }
 
@@ -241,6 +244,7 @@ div {
   font-size: 1.5em;
   font-weight: 600;
 }
+
 .artistTitle {
   font-size: 5em;
   font-weight: 600;
@@ -249,9 +253,10 @@ div {
 .artistImage {
   transition: all 0.25s ease;
 }
+
 .artistImage:hover {
   transform: scale(1.6);
-  filter:saturate(1.2);
+  filter: saturate(1.2);
 }
 
 .albumHeading {
@@ -259,10 +264,12 @@ div {
   font-size: 1.5em;
   font-weight: 600;
 }
+
 .artistText {
   color: var(--text);
   margin-right: 3em;
 }
+
 .discographyTable {
   margin-right: 6em;
 }
@@ -278,4 +285,6 @@ div {
   z-index: 1;
 }
 
-
+.albumSong {
+  color: black
+}
