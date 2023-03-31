@@ -106,9 +106,9 @@ export class ApiClient {
     }
 
     async getTracks(arr) {
-        console.log(arr)
+        // console.log(arr)
         const response = await axios.get(`${spotifyURL}/tracks/${arr}`)
-        // console.log(response.data)
+        return response.data
     }
 
     async getLyrics(uri) {
