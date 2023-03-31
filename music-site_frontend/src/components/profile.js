@@ -9,7 +9,8 @@ function UserProfile(props) {
   const user = props.user
 
   useEffect(() => {
-    props.client.getPlaylists(window.localStorage.currentUserID).then((response) => setPlaylists(response))
+    const prependUserID = "USERID::" + window.localStorage.currentUserID
+    props.client.getPlaylists(prependUserID).then((response) => {setPlaylists(response)})
   }, [])
 
   const onClick = () => {
@@ -96,7 +97,6 @@ function UserProfile(props) {
             })
             : <></>}
         </div>
-
       </div>
 
     </>

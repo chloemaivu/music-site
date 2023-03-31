@@ -9,15 +9,17 @@ function PlaylistCard(props) {
     const [visibility, setVisibility] = useState("")
 
     const playlist = props.playlist
+    console.log(playlist)
 
     const trackIDs = playlist.uri.map((trackID => {
-        console.log(trackID.split(":")[2])
+        // console.log(trackID.split(":")[2])
         return (trackID.split(":")[2])
     }))
 
     // pass in multiple 
     const getTracks = async (uri) => {
         const data = await props.client.getTracks(uri)
+        // console.log(data.tracks)
         setTracks(data.tracks)
     }
 
@@ -29,7 +31,7 @@ function PlaylistCard(props) {
 
     useEffect(() => {
         getTracks(trackIDs);
-
+        console.log(playlist.privacy)
         if (playlist.privacy === undefined) {
             setVisibility("Unknown")
         } else if (playlist.privacy) {
