@@ -5,6 +5,7 @@ import { Button } from "flowbite-react";
 
 // component imports
 import ArtistPage from "./components/artistPage";
+import CommunityPage from "./components/communityPage";
 import Homepage from "./components/homepage";
 import HomepagePreLogin from "./components/hompagePreLogin";
 import RegisterView from "./components/registration";
@@ -18,6 +19,7 @@ import PlayerIcon from "./resources/player_icon.svg"
 
 import { ApiClient } from "./ApiClient";
 import UserSettings from "./components/userSettings";
+import HomeRouter from "./components/homeRouter";
 
 
 function App() {
@@ -28,6 +30,7 @@ function App() {
   );
   const [token, setToken] = useState(window.localStorage.getItem("token"));
   const [currentUserID, setCurrentUserID] = useState(window.localStorage.getItem("currentUserID"));
+  const [currentUserPlaylists, setCurrentUserPlaylists] = useState(window.localStorage.getItem("userPlaylists"));
 
   const [authenticated, setAuthenticated] = useState(false);
   const [userData, setUserData] = useState({});
@@ -65,6 +68,12 @@ function App() {
       .then((response) => setUserData(response.data))
   };
 
+  const getUserPlaylists = async (userID) => {
+    const userPlaylists = await client.getPlaylists(userID);
+    console.log(userPlaylists)
+    window.localStorage.setItem("userPlaylists", userPlaylists)    
+  }
+
   // authenticate user with token
   useEffect(() => {
     if (token) {
@@ -76,6 +85,8 @@ function App() {
   useEffect(() => {
     if (token) {
       getUserData(currentUserID)
+      const prependUserID = "USERID::" + currentUserID
+      getUserPlaylists(prependUserID)
     }
   }, [token]);
 
@@ -87,7 +98,7 @@ function App() {
       x.style.display = "block"
     }
   }
-  
+
   return token && authenticated ? (
     <>
       <NavbarLoggedIn
@@ -104,15 +115,17 @@ function App() {
         size="xl"
         onClick={() => sidebarToggle("sidebar")}
       >
-        <img src={PlayerIcon} title="toggle player" width="50px"/>
+        <img src={PlayerIcon} title="toggle player" width="50px" />
       </Button>
       <Routes>
+        <Route path="/" element={<HomeRouter />}/> 
         <Route path="/home" element={<div className="page"><Homepage client={client} getUserData={() => getUserData()} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)} /> </div>} />
         <Route path="/profile" element={<div className="page center"><UserProfile client={client} user={userData} /> </div>} />
-        <Route path="/user-settings" element={<div className="page center"><UserSettings user={userData} client={client}/> </div>} />
+        <Route path="/user-settings" element={<div className="page center"><UserSettings user={userData} client={client} /> </div>} />
         <Route path="/artist/:artistId" element={<div className="page"> <ArtistPage client={client} /> </div>} />
+        <Route path="/community" element={<div className="page"> <CommunityPage client={client} user={userData} /> </div>} />
       </Routes>
-      <SidebarPlayer type={type} songURI={songURI} client={client}/>
+      <SidebarPlayer type={type} songURI={songURI} client={client} />
       <VantaFooter />
     </>
   ) : (

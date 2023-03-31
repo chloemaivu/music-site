@@ -64,7 +64,6 @@ export class ApiClient {
     async appendPlaylist(id, uri) {
         console.log(id, uri)
         const response = await axios.post(`${URL}/appendPlaylist`, {id, uri})
-        alert(response.data)
         return response.data    
     }
 

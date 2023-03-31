@@ -12,6 +12,15 @@ function UserProfile(props) {
     props.client.getPlaylists(window.localStorage.currentUserID).then((response) => setPlaylists(response))
   }, [])
 
+  const onClick = () => {
+    let x = document.getElementById("createPlaylistModal")
+    if (x.style.display === "none") {
+      x.style.display = "block"
+    } else {
+      x.style.display = "none"
+    }
+  }
+
   return (
     <>
       {/* ///////////// USER CARD ///////////////////////////////////////////// */}
@@ -69,6 +78,9 @@ function UserProfile(props) {
           </Card>
         </div>
         <div>
+          <Button onClick={onClick}>
+            Create Playlist
+          </Button>
           <CreatePlaylistModal client={props.client} />
         </div>
 
