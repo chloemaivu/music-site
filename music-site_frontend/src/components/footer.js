@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function VantaFooter() {
   return (
     <Footer container={true}>
-      <div className="w-full text-center white-text">
+      <div id="footer" className="w-full text-center white-text">
         <div className="w-full justify-between sm:flex sm:items-center sm:justify-between">
           <Link to="/">
           <span className="navigationLogo self-center whitespace-nowrap dark:text-white">

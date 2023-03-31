@@ -39,8 +39,10 @@ body {
 .brand-title {
   font-size: 256pt;
   padding: 1%;
-  margin-top: 10%;
   margin-bottom: 2%;
+  background: -webkit-linear-gradient(245deg, var(--text), var(--high));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 a,
@@ -236,11 +238,27 @@ div {
   box-sizing: content-box !important;
 }
 
-.topleft {
-  position: fixed;
-  bottom: 50%;
+.hoverbuttons {
+  position: fixed;  
   right: 1%;
   z-index: 99;
+}
+
+.hoverhover:hover{
+  filter: invert();
+  transform: scale(1.5)
+}
+
+.hover1{
+  bottom: 55%;
+}
+
+.hover2{
+  bottom: 50%;
+}
+
+.hover3{
+  bottom: 45%;
 }
 
 #sidebar {
@@ -252,7 +270,7 @@ div {
 /* ///////// ARTISTS PAGE /////////////////*/
 
 .artistHeading {
-  font-size: 1.5em;
+  font-size: 3em;
   font-weight: 600;
 }
 

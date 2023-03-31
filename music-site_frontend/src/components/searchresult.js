@@ -16,6 +16,26 @@ function SearchResult(props) {
   const [filter, setFilter] = useState("")
   const [filteredResult, setFilteredResult] = useState([{}]);
 
+  const [modalProps, setModalProps] = useState({
+    name: "",
+    uri: ""
+  })
+  const [modalVisibility, setModalVisibility] = useState(false)
+  
+   ///// PARENT PROPS PASS HANDLING ////////////////////////////////////////////////
+   const [songURI, setSongURI] = useState("")
+   const [type, setType] = useState("")
+
+   useEffect(() => {
+       props.songURI(songURI)
+   }, [songURI])
+
+   useEffect(() => {
+       props.type(type)
+   }, [type])
+
+   ///// DATA HANDLING ////////////////////////////////////////////////////////
+
   const isEmpty = (obj) => {
     return Object.keys(obj).length === 0
   }
@@ -74,22 +94,31 @@ function SearchResult(props) {
     window.localStorage.setItem("spotifyURI", splitURI[2])
   }
 
+  ///////////////////// MODAL HANDLING /////////////////////////////////////////
+
+  function createModalProps(name, uri) {
+    setModalProps({
+      name: name,
+      uri: uri
+    })
+  }
+
   function toggleModal(id) {
     let x = document.getElementById(id)
     if (x.style.display === "none") {
-      return x.style.display = "block"
+        return x.style.display = "block"
     } else {
-      return x.style.display = "none"
+        return x.style.display = "none"
     }
+}
+
+  function hamburgerHandler(name, uri) {
+    setModalVisibility(true);
+    createModalProps(name, uri);
+    toggleModal("trackModal")    
   }
-  function toggleModal(id) {
-    let x = document.getElementById(id)
-    if (x.style.display === "none") {
-      return x.style.display = "block"
-    } else {
-      return x.style.display = "none"
-    }
-  }
+
+  ///////////////////// JSX /////////////////////////////////////////////////////
 
   if (dataFilled === false) {
     return (
@@ -102,7 +131,8 @@ function SearchResult(props) {
   } else if (dataFilled === true && isEmpty(filteredResult) === false) {
     return (
       <>
-        <div className="grid grid-cols-5 gap-4" style={{margin: "1%"}}>
+        <div className="grid grid-cols-5 gap-4" style={{ margin: "1%" }}>
+
           {
             filter === "artists" && filteredResult.map((artist, i) => {
               return (
@@ -156,27 +186,32 @@ function SearchResult(props) {
             filter === "tracks" && filteredResult.map((track, i) => {
               return (
                 <div key={i}>
-                  <div className="border" key={i}>
-                    <div key={track?.data?.uri}>
-                      <img className="resultsCard" src={track?.data?.albumOfTrack?.coverArt?.sources[0]?.url} style={{ width: "100%" }} alt={track?.data?.name} />
-                    </div>
-                    <div className="innerText" >
-                      <div style={{ display: "flex", justifyContent: "space-between" }}>
-                        <p className="cardTitle text-3xl">{track?.data?.name}</p>
-                        <img src={Hamburger} className="hamburger" style={{ display: "block" }} width={"30px"} onClick={() => toggleModal(track?.data?.uri)} />
-                      </div>
-                      <p className="nameText text-xl">Artist:<strong> {track?.data?.artists?.items[0]?.profile?.name}</strong></p>
-                      <p className="nameText text-xl">from album: <strong>{track?.data?.albumOfTrack?.name}</strong></p>
-                      <p className="nameText text-xl">Duration: <strong>{msConvert(track?.data?.duration?.totalMilliseconds)}</strong></p>
-                      <Button onClick={() => songHandler(track?.data?.uri)}> Play {track?.data?.name}</Button>
-                    </div>
+                  <div className="border">                  
+                    <img className="resultsCard" src={track?.data?.albumOfTrack?.coverArt?.sources[0]?.url} style={{ width: "100%" }} alt={track?.data?.name} />
                   </div>
-                  <TrackOptions client={props.client} name={track?.data?.name} songURI={props.songURI} type={props.type} uri={track?.data?.uri} />
+                  <div className="innerText" >
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                      <p className="cardTitle text-3xl">{track?.data?.name}</p>
+                      <img src={Hamburger} className="hamburger" style={{ display: "block" }} width={"30px"} onClick={() => hamburgerHandler(track.data.name, track.data.uri)} />
+                    </div>
+                    <p className="nameText text-xl">Artist:<strong> {track?.data?.artists?.items[0]?.profile?.name}</strong></p>
+                    <p className="nameText text-xl">from album: <strong>{track?.data?.albumOfTrack?.name}</strong></p>
+                    <p className="nameText text-xl">Duration: <strong>{msConvert(track?.data?.duration?.totalMilliseconds)}</strong></p>
+                    <Button onClick={() => songHandler(track?.data?.uri)}> Play {track?.data?.name}</Button>
+                  </div>
                 </div>
               )
             })
           }
         </div>
+        <TrackOptions
+        client={props.client}
+        name={modalProps.name}
+        songURI={(songURI) => setSongURI(songURI)}
+        type={(type) => setType(type)}
+        uri={modalProps.uri}
+        visibility={modalVisibility} />
+
         <CreatePlaylistModal client={props.client} />
       </>
     )
@@ -191,7 +226,7 @@ function SearchResult(props) {
       </>
     )
   }
-  
+
 }
 
 export default SearchResult;

@@ -5,7 +5,7 @@ function NavbarLoggedIn(props) {
   const user = props.user
 
   return (
-    <Navbar className="navigationBar" fluid={true} rounded={true}>
+    <Navbar id="navbar" className="navigationBar" fluid={true} rounded={true}>
       <Navbar.Brand href="#homepage">
         <Link to="/home">
           <span className="navigationLogo self-center whitespace-nowrap">

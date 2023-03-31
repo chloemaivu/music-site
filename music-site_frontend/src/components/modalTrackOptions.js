@@ -4,11 +4,17 @@ import QRCode from "react-qr-code";
 
 import Closer from "../resources/close-x_icon.svg"
 
-
 function TrackOptions(props) {
     const uri = props.uri
 
     const [userPlaylists, setUserPlaylists] = useState([])
+
+    useEffect(() => {
+        console.log(props.visiblity)
+        if (props.visiblity === true) {
+            toggleModal("trackModal")            
+        } 
+    }, [])
 
     useEffect(() => {
         async function getPlaylists(id) {
@@ -22,7 +28,7 @@ function TrackOptions(props) {
     //     console.log(window.localStorage.userPlaylists)
     //     setUserPlaylists(window.localStorage.userPlaylists)
     // }, [window.localStorage.userPlaylists])
-    
+
     function toggleModal(id) {
         let x = document.getElementById(id)
         if (x.style.display === "none") {
@@ -34,7 +40,7 @@ function TrackOptions(props) {
 
     const addHandler = async (id, uri) => {
         await props.client.appendPlaylist(id, uri)
-        toggleModal(uri)
+        toggleModal("trackModal")
     }
 
     function songHandler(uri) {
@@ -43,22 +49,22 @@ function TrackOptions(props) {
         // pass in type and songURI as props to homepage and then to player card
         props.type(splitURI[1]);
         props.songURI(splitURI[2]);
-    
+
         window.localStorage.setItem("filter", splitURI[1]);
         window.localStorage.setItem("spotifyURI", splitURI[2])
-      }
+    }
 
     return (
-        <div id={uri} className="trackModal border" style={{ display: "none" }}>
+        <div id="trackModal" className="trackModal border" style={{ display: "none" }}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <p className="white-text text-4xl">{props.name}</p>
-                <img className="hamburger" src={Closer} onClick={() => toggleModal(uri)} width="30px" />
+                <img className="hamburger" src={Closer} onClick={() => toggleModal("trackModal")} width="30px" />
             </div>
             <hr />
             <p className="white-text pb-4 text-xl"> add track to playlist : </p>
             {userPlaylists?.map((playlist, i) => {
                 return (
-                    <div onClick={() => addHandler(playlist._id, uri)}>
+                    <div key={i} onClick={() => addHandler(playlist._id, uri)}>
                         <p className="white-text pl-8 py-1 playlistItem" key={i}>{playlist?.name}</p>
                     </div>
                 )
@@ -89,7 +95,6 @@ function TrackOptions(props) {
             </div>
         </div>
     )
-
 }
 
 export default TrackOptions

@@ -15,7 +15,9 @@ import NavbarPreLogin from "./components/navbar";
 import Login from "./components/login";
 import SidebarPlayer from "./components/playerCard";
 import UserProfile from "./components/profile";
+
 import PlayerIcon from "./resources/player_icon.svg"
+import Arrow from "./resources/down_arrow.svg"
 
 import { ApiClient } from "./ApiClient";
 import UserSettings from "./components/userSettings";
@@ -37,7 +39,6 @@ function App() {
 
   const [songURI, setSongURI] = useState("")
   const [type, setType] = useState("")
-
 
   const login = (token, userID) => {
     window.localStorage.setItem("token", token);
@@ -70,8 +71,7 @@ function App() {
 
   const getUserPlaylists = async (userID) => {
     const userPlaylists = await client.getPlaylists(userID);
-    console.log(userPlaylists)
-    window.localStorage.setItem("userPlaylists", userPlaylists)    
+    window.localStorage.setItem("userPlaylists", userPlaylists)
   }
 
   // authenticate user with token
@@ -107,22 +107,23 @@ function App() {
         logout={() => logout()}
         user={userData}
       />
+      <Button id="goto top" className="mt-5 hoverbuttons hover1" outline={true} gradientDuoTone="cyanToBlue" type="submit" href="#navbar" >
+        <img src={Arrow} className="hoverhover" style={{ rotate: "180deg" }} title="scroll to top" width="30px" />
+      </Button>
       <Button
-        className="mt-5 topleft"
-        outline={true}
-        gradientDuoTone="cyanToBlue"
-        type="submit"
-        size="xl"
-        onClick={() => sidebarToggle("sidebar")}
-      >
-        <img src={PlayerIcon} title="toggle player" width="50px" />
+        id="sidebar toggler" className="mt-5 hoverbuttons hover2" outline={true} gradientDuoTone="cyanToBlue" type="submit" onClick={() => sidebarToggle("sidebar")} >
+        <img src={PlayerIcon} className="hoverhover" title="toggle player" width="30px" />
+      </Button>
+      <Button
+        id="goto sidebar" className="mt-5 hoverbuttons hover3" outline={true} gradientDuoTone="cyanToBlue" type="submit" href="#footer" >
+        <img src={Arrow} className="hoverhover" title="scroll to bottom" width="30px" />
       </Button>
       <Routes>
-        <Route path="/" element={<HomeRouter />}/> 
+        <Route path="/" element={<HomeRouter />} />
         <Route path="/home" element={<div className="page"><Homepage client={client} getUserData={() => getUserData()} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)} /> </div>} />
         <Route path="/profile" element={<div className="page center"><UserProfile client={client} user={userData} /> </div>} />
         <Route path="/user-settings" element={<div className="page center"><UserSettings user={userData} client={client} /> </div>} />
-        <Route path="/artist/:artistId" element={<div className="page"> <ArtistPage client={client} /> </div>} />
+        <Route path="/artist/:artistId" element={<div className="page"> <ArtistPage client={client} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)} /> </div>} />
         <Route path="/community" element={<div className="page"> <CommunityPage client={client} user={userData} /> </div>} />
       </Routes>
       <SidebarPlayer type={type} songURI={songURI} client={client} />

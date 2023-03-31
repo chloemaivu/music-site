@@ -1,11 +1,12 @@
 import { React, useEffect, useState } from 'react';
 import { Carousel, Table } from "flowbite-react";
 import { useParams } from 'react-router-dom';
-import { v4 as uudiv4} from "uuid"
+import { v4 as uuidv4 } from "uuid"
 
 import LoadingSpinner from './spinner';
 import Hamburger from "../resources/hamburger_icon.svg"
 import TrackOptions from './modalTrackOptions';
+import CreatePlaylistModal from "./modalCreatePlaylist";
 
 function ArtistPage(props) {
     const { artistId } = useParams()
@@ -20,10 +21,29 @@ function ArtistPage(props) {
     const [artistInfoFilled, setArtistInfoFilled] = useState(false)
     const [artistInfo, setArtistInfo] = useState({})
     const [artistSocials, setArtistSocials] = useState([])
-
     const [bio, setBio] = useState("")
 
     const albumIDs = []
+
+    const [modalProps, setModalProps] = useState({
+        name: "",
+        uri: ""
+    })
+    const [modalVisibility, setModalVisibility] = useState(false)
+
+    ///// PARENT PROPS PASS HANDLING ////////////////////////////////////////////////
+    const [songURI, setSongURI] = useState("")
+    const [type, setType] = useState("")
+
+    useEffect(() => {
+        props.songURI(songURI)
+    }, [songURI])
+
+    useEffect(() => {
+        props.type(type)
+    }, [type])
+
+    ///// DATA HANDLING ////////////////////////////////////////////////////////
 
     const getArtistInfo = async (uri) => {
         const data = await props.client.getArtist(uri);
@@ -37,7 +57,6 @@ function ArtistPage(props) {
     }
 
     const extractAlbumIDs = () => {
-        console.log("extracted albums is triggered")
         albumMapped.map(albumId => albumIDs.push(albumId.releases?.items[0]?.id)
         )
     }
@@ -84,7 +103,9 @@ function ArtistPage(props) {
         }
     }
 
-    function toggleModal(id) {
+    ///// MODAL HANDLING ////////////////////////////////////////////////
+
+    function toggleElement(id) {
         let x = document.getElementById(id)
         if (x.style.display === "none") {
             return x.style.display = "block"
@@ -93,7 +114,17 @@ function ArtistPage(props) {
         }
     }
 
-    console.log(albumInfo)
+    function createModalProps(name, uri) {
+        setModalProps({
+            name: name,
+            uri: uri
+        })
+    }
+
+    function hamburgerHandler(name, uri) {
+        setModalVisibility(true);
+        createModalProps(name, uri);
+    }
 
     ////////////////////////////////////////////////////////////////////
 
@@ -102,7 +133,7 @@ function ArtistPage(props) {
             <LoadingSpinner />
         )
     } else if (artistInfoFilled === true && albumInfo.length > 0) {
-        const div = uudiv4()
+        const div = uuidv4()
         return (
             <div key={div}>
                 <div className="flex flex-col items-center justify-center border"
@@ -129,11 +160,19 @@ function ArtistPage(props) {
                     </div>
                 </div>
                 <br />
+                <TrackOptions
+                    client={props.client}
+                    name={modalProps.name}
+                    songURI={(songURI) => setSongURI(songURI)}
+                    type={(type) => setType(type)}
+                    uri={modalProps.uri}
+                    visiblity={modalVisibility} />
+                <CreatePlaylistModal client={props.client} />
                 <div className="grid grid-cols-2 gap-2">
                     <div className="ml-6">
-                        <h2 className="artistHeading py-4">Albums</h2>
+                        <h2 className="artistHeading py-4 ">Albums</h2>
                         <div className="artistTable">
-                            <Table>
+                            <Table className="border">
                                 <Table.Head>
                                     <Table.HeadCell>
                                         {artistInfo?.artist?.profile?.name}'s Discography
@@ -155,15 +194,15 @@ function ArtistPage(props) {
                                                 </Table.Cell>
                                                 <Table.Cell className="leading-loose whitespace-wrap font-medium text-gray-900 dark:text-white">
                                                     {albumInfo[index].map((tracks, i) => {
+                                                        const hamburgerIcon = uuidv4()
+
                                                         return (
                                                             <>
-                                                            <div className="playlistItem" key={i} style={{ display: "flex", justifyContent: "space-between" }}>
-                                                                <p className="grey-text">{tracks[0]}</p>
-                                                                <p className="grey-text">{tracks[1]}</p>
-                                                                
-                                                                <img src={Hamburger} className="hamburger" style={{ display: "block" }} width={"30px"} onClick={() => toggleModal("")} />
-                                                            </div>
-                                                            {/* <TrackOptions client={props.client} key={i} name={tracks} /> */}
+                                                                <div className="playlistItem" key={i} style={{ display: "flex", justifyContent: "space-between" }} onMouseEnter={() => toggleElement(hamburgerIcon)} onMouseLeave={() => toggleElement(hamburgerIcon)}>
+                                                                    <p className="grey-text">{tracks[0]}</p>
+                                                                    <img id={hamburgerIcon} src={Hamburger} className="hamburger" style={{ display: "none" }} width={"30px"} onClick={() => hamburgerHandler(tracks[0], tracks[1])} />
+                                                                </div>
+
                                                             </>
                                                         )
                                                     })}
