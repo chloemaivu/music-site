@@ -20,7 +20,7 @@ function Homepage(props) {
     <>
     <p className="brand-title object-position: center">VANTA</p>
     <Searchbar client={props.client} searchFetch={(searchData) => setSearchData(searchData)}/>    
-    <SearchResult search={searchData} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)}/> 
+    <SearchResult client={props.client} search={searchData} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)}/> 
     </>
   );
 }

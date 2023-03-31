@@ -2,6 +2,10 @@ import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "flowbite-react";
 
+import Hamburger from "../resources/hamburger_icon.svg"
+import TrackOptions from "./modalTrackOptions";
+import CreatePlaylistModal from "./modalCreatePlaylist";
+
 function SearchResult(props) {
 
   ////////////////// DATA HANDLING \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -70,6 +74,23 @@ function SearchResult(props) {
     window.localStorage.setItem("spotifyURI", splitURI[2])
   }
 
+  function toggleModal(id) {
+    let x = document.getElementById(id)
+    if (x.style.display === "none") {
+      return x.style.display = "block"
+    } else {
+      return x.style.display = "none"
+    }
+  }
+  function toggleModal(id) {
+    let x = document.getElementById(id)
+    if (x.style.display === "none") {
+      return x.style.display = "block"
+    } else {
+      return x.style.display = "none"
+    }
+  }
+
   if (dataFilled === false) {
     return (
       <>
@@ -81,83 +102,82 @@ function SearchResult(props) {
   } else if (dataFilled === true && isEmpty(filteredResult) === false) {
     return (
       <>
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-5 gap-4" style={{margin: "1%"}}>
           {
-            filter === "artists" && filteredResult.map(artist => {
+            filter === "artists" && filteredResult.map((artist, i) => {
               return (
-                <>
-                  <div className="border">
-                    <div key={artist?.data?.uri} >
-                      <img className="resultsCard" src={artist?.data?.visuals?.avatarImage?.sources[0]?.url} style={{ width: "100%" }} alt={artist?.data?.profile.name} />
-                    </div>
-                    <div className="innerText">
-                      <p className="cardTitle text-3xl">{artist?.data?.profile?.name}</p>
-                      <Button onClick={() => artistHandler(artist?.data?.uri)}> Go to {artist?.data?.profile?.name}'s profile</Button>
-                      <Button onClick={() => songHandler(artist?.data?.uri)}> Play {artist?.data?.profile?.name}'s top tracks</Button>
-                    </div>
+                <div className="border" id={i} key={i}>
+                  <div key={artist?.data?.uri} >
+                    <img className="resultsCard" src={artist?.data?.visuals?.avatarImage?.sources[0]?.url} style={{ width: "100%" }} alt={artist?.data?.profile.name} />
                   </div>
-                </>
-              )
-            })
-          }
-          {
-            filter === "albums" && filteredResult.map(album => {
-              return (
-                <>
-                  <div className="border">
-                    <div key={album?.data?.uri}>
-                      <img className="resultsCard" src={album?.data?.coverArt?.sources[0]?.url} style={{ width: "100%", height: "100%" }}  alt={album?.data?.name}/>
-                    </div>
-                    <div className="innerText">
-                      <p className="cardTitle text-2xl">{album?.data?.name}</p>
-                      <p className="text-1xl">{album?.data?.artists?.items[0]?.profile?.name} </p>
-                      <Button onClick={() => songHandler(album?.data?.uri)}> Play {album?.data?.name}</Button>
+                  <div className="innerText">
+                    <p className="cardTitle text-3xl">{artist?.data?.profile?.name}</p>
+                    <Button onClick={() => artistHandler(artist?.data?.uri)}> Go to {artist?.data?.profile?.name}'s profile</Button>
+                    <Button onClick={() => songHandler(artist?.data?.uri)}> Play {artist?.data?.profile?.name}'s top tracks</Button>
+                  </div>
+                </div>
 
-                    </div>
-                  </div>
-                </>
               )
             })
           }
           {
-            filter === "playlists" && filteredResult.map(playlist => {
+            filter === "albums" && filteredResult.map((album, i) => {
               return (
-                <>
-                  <div className="border">
-                    <div key={playlist?.data?.uri}>
-                      <img className="resultsCard" src={playlist?.data?.images?.items[0]?.sources[0]?.url} style={{ width: "100%", height: "100%" }}  alt={playlist?.data?.name}/>
-                    </div>
-                    <div className="innerText">
-                      <p className="cardTitle text-3xl">{playlist?.data?.name}</p>
-                      <Button onClick={() => songHandler(playlist?.data?.uri)}> Play {playlist?.data?.name}</Button>
-                    </div>
+                <div className="border" key={i}>
+                  <div key={album?.data?.uri}>
+                    <img className="resultsCard" src={album?.data?.coverArt?.sources[0]?.url} style={{ width: "100%", height: "100%" }} alt={album?.data?.name} />
                   </div>
-                </>
+                  <div className="innerText">
+                    <p className="cardTitle text-2xl">{album?.data?.name}</p>
+                    <p className="text-1xl">{album?.data?.artists?.items[0]?.profile?.name} </p>
+                    <Button onClick={() => songHandler(album?.data?.uri)}> Play {album?.data?.name}</Button>
+
+                  </div>
+                </div>
               )
             })
           }
           {
-            filter === "tracks" && filteredResult.map(track => {
+            filter === "playlists" && filteredResult.map((playlist, i) => {
               return (
-                <>
-                  <div className="border">
+                <div className="border" key={i} >
+                  <div key={playlist?.data?.uri}>
+                    <img className="resultsCard" src={playlist?.data?.images?.items[0]?.sources[0]?.url} style={{ width: "100%", height: "100%" }} alt={playlist?.data?.name} />
+                  </div>
+                  <div className="innerText">
+                    <p className="cardTitle text-3xl">{playlist?.data?.name}</p>
+                    <Button onClick={() => songHandler(playlist?.data?.uri)}> Play {playlist?.data?.name}</Button>
+                  </div>
+                </div>
+              )
+            })
+          }
+          {
+            filter === "tracks" && filteredResult.map((track, i) => {
+              return (
+                <div key={i}>
+                  <div className="border" key={i}>
                     <div key={track?.data?.uri}>
-                      <img className="resultsCard" src={track?.data?.albumOfTrack?.coverArt?.sources[0]?.url} style={{ width: "100%" }}  alt={track?.data?.name}/>
+                      <img className="resultsCard" src={track?.data?.albumOfTrack?.coverArt?.sources[0]?.url} style={{ width: "100%" }} alt={track?.data?.name} />
                     </div>
-                    <div className="innerText">
-                      <p className="cardTitle text-3xl">{track?.data?.name}</p>
+                    <div className="innerText" >
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <p className="cardTitle text-3xl">{track?.data?.name}</p>
+                        <img src={Hamburger} className="hamburger" style={{ display: "block" }} width={"30px"} onClick={() => toggleModal(track?.data?.uri)} />
+                      </div>
                       <p className="nameText text-xl">Artist:<strong> {track?.data?.artists?.items[0]?.profile?.name}</strong></p>
                       <p className="nameText text-xl">from album: <strong>{track?.data?.albumOfTrack?.name}</strong></p>
                       <p className="nameText text-xl">Duration: <strong>{msConvert(track?.data?.duration?.totalMilliseconds)}</strong></p>
                       <Button onClick={() => songHandler(track?.data?.uri)}> Play {track?.data?.name}</Button>
                     </div>
                   </div>
-                </>
+                  <TrackOptions client={props.client} name={track?.data?.name} songURI={props.songURI} type={props.type} uri={track?.data?.uri} />
+                </div>
               )
             })
-          }          
+          }
         </div>
-        
+        <CreatePlaylistModal client={props.client} />
       </>
     )
   } else if (dataFilled === true && isEmpty(filteredResult) === true) {
@@ -171,6 +191,7 @@ function SearchResult(props) {
       </>
     )
   }
+  
 }
 
 export default SearchResult;

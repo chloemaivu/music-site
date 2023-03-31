@@ -77,6 +77,7 @@ span {
 .border {
   border: var(--border);
   border-radius: var(--curve);
+  z-index: 3;
 }
 
 
@@ -89,6 +90,11 @@ textarea {
   border: 1px solid var(--edges) !important;
   border-radius: 0.5em !important;
   color: var(--text) !important;
+  z-index: 2 !important;
+}
+
+form {
+  z-index: 2 !important
 }
 
 select {
@@ -130,12 +136,15 @@ a.block {
 }
 
 li:hover,
-a.block:hover {
+a.block:hover,
+.playlistItem:hover {
   color: var(--high) !important;
+  cursor: pointer;
   background-color: rgba(162, 196, 189, .33) !important;
   transform: scale(1.025) !important;
-  transition-duration: 0.25s;
+  transition-duration: 0.1s;
   transition-timing-function: ease-in;
+  
 }
 
 /* Navigation bar Dropdown item styling */
@@ -191,6 +200,7 @@ span.flex:hover {
 
 button {
   background-color: var(--high-nofocus) !important;
+  z-index: 5 !important;
 }
 
 button:hover {
@@ -215,7 +225,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 150px;
+  min-height: 200px;
 }
 
 .cardTitle {
@@ -230,6 +240,7 @@ div {
   position: fixed;
   bottom: 50%;
   right: 1%;
+  z-index: 99;
 }
 
 #sidebar {
@@ -257,6 +268,7 @@ div {
 .artistImage:hover {
   transform: scale(1.6);
   filter: saturate(1.2);
+  z-index: 2;
 }
 
 .albumHeading {
@@ -278,11 +290,11 @@ div {
   background-color: var(--bg-highlight);
   color: var(--text);
   padding: 10px;
-  position: absolute;
-  top: 8%;
-  left: 42.5%;
+  position: fixed;
+  top: 25%;
+  right: 30%;
   max-width: 14%;
-  z-index: 1;
+  z-index: 100;
 }
 
 
@@ -312,3 +324,24 @@ div {
   border: var(--border) !important;
 }
 
+/* ///////// ADD TRACK MODAL ///////// */
+.hamburger {
+  opacity: 33%;
+  cursor: pointer;
+}
+
+.hamburger:hover, .hamburger:active {
+  opacity: 70%;
+  transform: scale(1.25);
+}
+
+.trackModal {
+  background-color: var(--bg-highlight);
+  color: var(--text);
+  padding: 10px;
+  position: fixed;
+  left: 30%;
+  top: 23%;
+  min-width: 20%;
+  z-index: 100;
+}

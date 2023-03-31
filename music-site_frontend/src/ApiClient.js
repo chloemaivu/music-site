@@ -64,7 +64,6 @@ export class ApiClient {
     async appendPlaylist(id, uri) {
         console.log(id, uri)
         const response = await axios.post(`${URL}/appendPlaylist`, {id, uri})
-        alert(response.data)
         return response.data    
     }
 
@@ -109,6 +108,7 @@ export class ApiClient {
         console.log(arr)
         const response = await axios.get(`${spotifyURL}/tracks/${arr}`)
         // console.log(response.data)
+        return response.data
     }
 
     async getLyrics(uri) {

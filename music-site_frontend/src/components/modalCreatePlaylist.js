@@ -2,8 +2,23 @@ import React from "react"
 import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react"
 import { onClick, onClose } from "react"
 
-
 function CreatePlaylistModal(props) {
+
+    async function submitHandler(e) {
+        e.preventDefault()
+        props.client.createPlaylist(
+            e.target.name.value,
+            e.target.description.value,
+            e.target.privacy.value)
+            .then((response) => {
+                alert(response)
+                onClick()
+            })
+            .catch((err) => {
+                console.log(err);
+                alert("an error occured, please try again");
+            });
+    }
 
     const onClick = () => {
         let x = document.getElementById("createPlaylistModal")
@@ -12,29 +27,17 @@ function CreatePlaylistModal(props) {
         } else {
             x.style.display = "none"
         }
+        const prependUserID = "USERID::" + window.localStorage.currentUserID
+        getUserPlaylists(prependUserID)
     }
 
-    async function submitHandler(e) {
-        e.preventDefault()
-        props.client.createPlaylist(
-            e.target.name.value,
-            e.target.description.value,
-            e.target.privacy.value)
-        .then((response) => {
-            alert(response)
-            onClick()
-          })
-          .catch((err) => {
-            console.log(err);
-            alert("an error occured, please try again");
-          });
-    }
+    const getUserPlaylists = async (userID) => {
+        const userPlaylists = await props.client.getPlaylists(userID);
+        window.localStorage.setItem("userPlaylists", userPlaylists)    
+      }
 
     return (
         <>
-            <Button onClick={onClick}>
-                Create Playlist
-            </Button>
             {/* ////////////////////////////////////////////////////////////////////////////// */}
             <div id="createPlaylistModal" className="modal border" style={{ display: "none" }}>
                 <form onSubmit={(e) => submitHandler(e)}>
@@ -56,9 +59,9 @@ function CreatePlaylistModal(props) {
                     <br />
                     <br />
                     <p className="white-text text-xl">Make the playlist private? </p>
-                    <div id="privacy" style={{display: "flex", justifyContent: "space-around", margin: "10px"}}>
+                    <div id="privacy" style={{ display: "flex", justifyContent: "space-around", margin: "10px" }}>
                         <div><input className="radio" type="radio" name="privacy" value="public" /> <span> public</span></div>
-                        <div><input className="radio" type="radio" name="privacy" value="private"/> <span> private</span></div>
+                        <div><input className="radio" type="radio" name="privacy" value="private" /> <span> private</span></div>
                     </div>
                     <p className="grey-text text-justify"> A public playlist can be seen by anyone on the site, and will automatically appear in the community page </p>
                     <br />

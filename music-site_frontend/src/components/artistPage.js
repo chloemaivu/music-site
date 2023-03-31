@@ -1,7 +1,11 @@
 import { React, useEffect, useState } from 'react';
 import { Carousel, Table } from "flowbite-react";
-import LoadingSpinner from './spinner';
 import { useParams } from 'react-router-dom';
+import { v4 as uudiv4} from "uuid"
+
+import LoadingSpinner from './spinner';
+import Hamburger from "../resources/hamburger_icon.svg"
+import TrackOptions from './modalTrackOptions';
 
 function ArtistPage(props) {
     const { artistId } = useParams()
@@ -33,6 +37,7 @@ function ArtistPage(props) {
     }
 
     const extractAlbumIDs = () => {
+        console.log("extracted albums is triggered")
         albumMapped.map(albumId => albumIDs.push(albumId.releases?.items[0]?.id)
         )
     }
@@ -69,11 +74,20 @@ function ArtistPage(props) {
             albums.push(tracks)
         })
         setAlbumInfo(albums)
-    }, [apiAlbums])  
+    }, [apiAlbums])
 
     function createMarkup(html) {
         return {
             __html: html
+        }
+    }
+
+    function toggleModal(id) {
+        let x = document.getElementById(id)
+        if (x.style.display === "none") {
+            return x.style.display = "block"
+        } else {
+            return x.style.display = "none"
         }
     }
 
@@ -84,10 +98,11 @@ function ArtistPage(props) {
             <LoadingSpinner />
         )
     } else if (artistInfoFilled === true && albumInfo.length > 0) {
+        const div = uudiv4()
         return (
-            <div>
+            <div key={div}>
                 <div className="flex flex-col items-center justify-center border"
-                    style={{ background: `linear-gradient(45deg,${artistInfo?.artist?.visuals?.headerImage?.extractedColors?.colorRaw?.hex},${artistInfo?.artist?.visuals?.avatarImage?.extractedColors?.colorRaw?.hex}` }}
+                    style={{ margin: "1%", background: `linear-gradient(45deg,${artistInfo?.artist?.visuals?.headerImage?.extractedColors?.colorRaw?.hex},${artistInfo?.artist?.visuals?.avatarImage?.extractedColors?.colorRaw?.hex}` }}
                 >
                     <div className="flex-row">
                         <h1 className="artistTitle text-center py-5">{artistInfo?.artist?.profile?.name}</h1>
@@ -98,9 +113,9 @@ function ArtistPage(props) {
                             leftControl="<<"
                             rightControl=">>">
                             {
-                                artistImages.map(picture => {
+                                artistImages.map((picture, i) => {
                                     return (
-                                        <div className="relative duration-1000 ease-in-out">
+                                        <div className="relative duration-1000 ease-in-out" key={i}>
                                             <img className="rounded-lg artistImage" src={picture.sources[0]?.url} />
                                         </div>
                                     )
@@ -126,7 +141,7 @@ function ArtistPage(props) {
                                 <Table.Body className="divide-y">
                                     {artistAlbum.map((album, index) => {
                                         return (
-                                            <Table.Row className="dark:border-gray-700 dark:bg-gray-800">
+                                            <Table.Row className="dark:border-gray-700 dark:bg-gray-800" key={index}>
                                                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                                     <img className="rounded-lg artistImage" src={album.releases?.items[0]?.coverArt?.sources?.[0]?.url} width={300} />
                                                     <h2 className="white-text font-bold py-1 mt-4 pb-4 text-center">{album.releases?.items[0]?.name}</h2>
@@ -135,9 +150,15 @@ function ArtistPage(props) {
                                                     <h3 className="grey-text py-1 text-center">Label: {album.releases?.items[0]?.label}</h3>
                                                 </Table.Cell>
                                                 <Table.Cell className="leading-loose whitespace-wrap font-medium text-gray-900 dark:text-white">
-                                                    {albumInfo[index].map(tracks => {
+                                                    {albumInfo[index].map((tracks, i) => {
                                                         return (
-                                                            <p className="grey-text">{tracks}</p>
+                                                            <>
+                                                            <div className="playlistItem" key={i} style={{ display: "flex", justifyContent: "space-between" }}>
+                                                                <p className="grey-text">{tracks}</p>
+                                                                <img src={Hamburger} className="hamburger" style={{ display: "block" }} width={"30px"} onClick={() => toggleModal("")} />
+                                                            </div>
+                                                            {/* <TrackOptions client={props.client} key={i} name={tracks} /> */}
+                                                            </>
                                                         )
                                                     })}
                                                 </Table.Cell>
@@ -157,9 +178,9 @@ function ArtistPage(props) {
                         </div>
                         <div>
                             <h2 className="artistHeading py-4">Social</h2>
-                            {artistSocials.map(info => {
+                            {artistSocials.map((info, i) => {
                                 return (
-                                    <a href={info?.url}><p className="py-1">{info?.name}</p></a>
+                                    <a href={info?.url} key={i}><p className="py-1">{info?.name}</p></a>
                                 )
                             })}
                         </div>

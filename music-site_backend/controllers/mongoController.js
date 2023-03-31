@@ -77,20 +77,26 @@ exports.getUserData = async function (req, res, next) {
 }
 
 exports.getPlaylists = async function (req, res, next) {
+  console.log(req.params.id)
   const id = req.params.id
   let filter = {}
   if (!id) {
     return(next(createError(502, "Bad request: id not found in request header")))
   }
-  if (id.length === 24) {
-    const userID = `USERID::${id}`
-    filter = { userID: userID}
-  } else if (id.length === 32) {
+  if (id.length === 32) {
+    console.log("id is 32 char")
+    filter = { userID: id}
+  } else if (id.length === 24) {
+    console.log(" id is 24 chars")
     filter = { _id: id}
   } else if (typeof id === "string") {
     filter = { name: id}
   }
   playlists = await playlistModel.find(filter)
+  if (!playlists) {
+    return(next(createError(404, "playlists not found")))
+  }
+  console.log(playlists)
   res.status(200).send(playlists)
 }
 
@@ -120,15 +126,11 @@ exports.createPlaylist = async function (req, res) {
 }
 
 exports.appendPlaylist = async function (req, res) {
-  const id = {
-    name: req.body.id
-  }
-  console.log(req.body.uri)
-  const playlist = await playlistModel.findOne(id)
+  const playlist = await playlistModel.findById(req.body.id)
   if (!playlist) {
+    console.log("No matching playlist found")
     res.status(404).send("No matching playlist found")
   }
-  console.log(playlist)
   playlist.uri.push(req.body.uri)
   playlist.save().then(() => {
     res.status(200).send("Successfully added track / album to playlist!")
