@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Card, Button, Badge } from "flowbite-react";
 import CreatePlaylistModal from "./modalCreatePlaylist";
+import PlaylistCard from "./playlistCard";
 
 function UserProfile(props) {
   const [playlists, setPlaylists] = useState({})
@@ -8,7 +9,8 @@ function UserProfile(props) {
   const user = props.user
 
   useEffect(() => {
-    props.client.getPlaylists(window.localStorage.currentUserID).then((response) => setPlaylists(response))
+    const prependUserID = "USERID::" + window.localStorage.currentUserID
+    props.client.getPlaylists(prependUserID).then((response) => {setPlaylists(response)})
   }, [])
 
   const onClick = () => {
@@ -82,16 +84,21 @@ function UserProfile(props) {
           </Button>
           <CreatePlaylistModal client={props.client} />
         </div>
-        <div>
-          {/* {playlists.map(playlist => {
-            return (
-              <p className="white-text text-3xl">{playlist.name}</p>
-            )
-          }
-          )} */}
+
+
+        {/* //////////// PLAYLISTS ////////////////////////////////////////////// */}
+        <div className="playlistsArea">
+          <h1 className="artistHeading text-center py-3">My Playlists</h1>
+          {playlists?.length > 0 ?
+            playlists?.map((playlist) => {
+              return (
+                <PlaylistCard key={playlist._id} playlist={playlist} client={props.client} />
+              )
+            })
+            : <></>}
         </div>
       </div>
-      {/* //////////// PLAYLISTS ////////////////////////////////////////////// */}
+
     </>
   )
 }
