@@ -345,3 +345,29 @@ div {
   min-width: 20%;
   z-index: 100;
 }
+
+.playlistTitle {
+  font-size: 2.5em;
+  padding: 0.5em;
+  margin-left: 6em;
+}
+.heartIcon {
+padding-left: 7em;
+}
+/* .bg-white {
+  --tw-bg-opacity: 1;
+  background-color: var(--edges);
+} */
+
+.playlistDark {
+  background-color: var(--bg-highlight);
+}
+.playlistBlack {
+  background-color: var(--bg);
+  color: var(--edges) !important;
+}
+
+.playlistBlack:hover{
+  background-color: var(--high-nofocus);
+  color: var(--bg)!important;
+}

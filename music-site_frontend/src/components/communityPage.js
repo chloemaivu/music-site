@@ -1,7 +1,6 @@
 import { React, useState, useEffect } from 'react';
-import { Timeline, Card } from "flowbite-react";
+import { Timeline, Card, Avatar, Badge } from "flowbite-react";
 import { CalendarIcon } from "@heroicons/react/24/solid";
-// import TimeIcon from './clockIcon.svg';
 
 function CommunityPage(props) {
     const user = props.user
@@ -21,9 +20,23 @@ function CommunityPage(props) {
 
   return (
     <>
-    <h2 className="mb-1 text-3xl font-medium dark:text-white p-2 text-center mt-6">
-        {user.username}'s Timeline
-    </h2>
+    <div className="flex flex-row items-center justify-center">
+        <Avatar className="rounded-2xl"
+        img={user.picture}
+        rounded={true}/>
+            <div className="flex-col mb-1 text-2xl font-medium dark:text-white p-2">
+                  {(user.isAdmin === true) ? (
+                    <Badge
+                      size="sm"
+                      className="adminBadge">
+                      <h6 className="uppercase">admin 🔒</h6>
+                    </Badge>
+                  ) : (<></>)}
+            </div>
+        <h2 className="mb-1 text-3xl font-medium dark:text-white p-2 text-center mt-6">
+            {user.username}'s Timeline
+        </h2>
+    </div>
     <div className="timelineContainer my-12">
     <Timeline className="userContainer pl-8">
         <Timeline.Item>
