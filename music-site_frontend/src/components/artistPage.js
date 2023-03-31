@@ -70,7 +70,9 @@ function ArtistPage(props) {
         apiAlbums.map(albumData => albumArrays.push(albumData.tracks.items))
         albumArrays.map(album => {
             const tracks = []
-            album.map(item => tracks.push(item.name))
+            album.map(item => {
+                tracks.push([item.name, item.uri])
+            })
             albums.push(tracks)
         })
         setAlbumInfo(albums)
@@ -90,6 +92,8 @@ function ArtistPage(props) {
             return x.style.display = "none"
         }
     }
+
+    console.log(albumInfo)
 
     ////////////////////////////////////////////////////////////////////
 
@@ -154,7 +158,9 @@ function ArtistPage(props) {
                                                         return (
                                                             <>
                                                             <div className="playlistItem" key={i} style={{ display: "flex", justifyContent: "space-between" }}>
-                                                                <p className="grey-text">{tracks}</p>
+                                                                <p className="grey-text">{tracks[0]}</p>
+                                                                <p className="grey-text">{tracks[1]}</p>
+                                                                
                                                                 <img src={Hamburger} className="hamburger" style={{ display: "block" }} width={"30px"} onClick={() => toggleModal("")} />
                                                             </div>
                                                             {/* <TrackOptions client={props.client} key={i} name={tracks} /> */}
