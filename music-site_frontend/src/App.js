@@ -70,7 +70,6 @@ function App() {
 
   const getUserPlaylists = async (userID) => {
     const userPlaylists = await client.getPlaylists(userID);
-    console.log(userPlaylists)
     window.localStorage.setItem("userPlaylists", userPlaylists)    
   }
 

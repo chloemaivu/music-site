@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import { Carousel, Table } from "flowbite-react";
 import { useParams } from 'react-router-dom';
-import { v4 as uudiv4} from "uuid"
+import { v4 as uudiv4 } from "uuid"
 
 import LoadingSpinner from './spinner';
 import Hamburger from "../resources/hamburger_icon.svg"
@@ -37,7 +37,6 @@ function ArtistPage(props) {
     }
 
     const extractAlbumIDs = () => {
-        console.log("extracted albums is triggered")
         albumMapped.map(albumId => albumIDs.push(albumId.releases?.items[0]?.id)
         )
     }
@@ -65,15 +64,19 @@ function ArtistPage(props) {
 
     useEffect(() => {
         const albumArrays = []
-        const albums = []
+        const albumsData = []
 
         apiAlbums.map(albumData => albumArrays.push(albumData.tracks.items))
+        // console.log(albumArrays)
         albumArrays.map(album => {
-            const tracks = []
-            album.map(item => tracks.push(item.name))
-            albums.push(tracks)
+            const albums = []
+            const tracks = (album.map(item => (
+                [item.name,item.uri]
+            )))
+            albums.push(tracks);
+            albumsData.push(albums)
         })
-        setAlbumInfo(albums)
+        setAlbumInfo(albumsData)
     }, [apiAlbums])
 
     function createMarkup(html) {
@@ -139,7 +142,9 @@ function ArtistPage(props) {
                                     </Table.HeadCell>
                                 </Table.Head>
                                 <Table.Body className="divide-y">
+                                    {/* {console.log(albumInfo)} */}
                                     {artistAlbum.map((album, index) => {
+                                        // console.log(index)
                                         return (
                                             <Table.Row className="dark:border-gray-700 dark:bg-gray-800" key={index}>
                                                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
@@ -150,14 +155,16 @@ function ArtistPage(props) {
                                                     <h3 className="grey-text py-1 text-center">Label: {album.releases?.items[0]?.label}</h3>
                                                 </Table.Cell>
                                                 <Table.Cell className="leading-loose whitespace-wrap font-medium text-gray-900 dark:text-white">
-                                                    {albumInfo[index].map((tracks, i) => {
+                                                    {albumInfo[index].map((tracks, i) => {                                                        
+                                                        console.log(tracks)
                                                         return (
                                                             <>
-                                                            <div className="playlistItem" key={i} style={{ display: "flex", justifyContent: "space-between" }}>
-                                                                <p className="grey-text">{tracks}</p>
-                                                                <img src={Hamburger} className="hamburger" style={{ display: "block" }} width={"30px"} onClick={() => toggleModal("")} />
-                                                            </div>
-                                                            {/* <TrackOptions client={props.client} key={i} name={tracks} /> */}
+                                                                <div className="playlistItem" key={i} id={i} style={{ display: "flex", justifyContent: "space-between" }}>
+                                                                    <p className="grey-text">{tracks[i][0]}</p>
+                                                                    <p className="grey-text">{tracks[i][1]}</p>
+                                                                    <img src={Hamburger} className="hamburger" style={{ display: "block" }} width={"30px"} onClick={() => toggleModal("")} />
+                                                                </div>
+                                                                {/* <TrackOptions client={props.client} key={i} name={tracks[i]?.uri} /> */}
                                                             </>
                                                         )
                                                     })}
