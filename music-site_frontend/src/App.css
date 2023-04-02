@@ -82,6 +82,12 @@ span {
   z-index: 3;
 }
 
+.borderGrey {
+  border: 2px solid var(--edges);
+  border-radius: var(--curve);
+  z-index: 3;
+}
+
 
 /* /////////////////////////////////////////// */
 

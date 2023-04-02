@@ -68,11 +68,14 @@ exports.getUserData = async function (req, res, next) {
     return (next(createError(404, "User not found")))
   }
   res.send(userData = ({
+    bio: user.bio,
+    createdAt: user.createdAt,
     email: user.email,
     isAdmin: user.isAdmin,
     picture: user.picture,
     username: user.username,
-    registrationDate: user._id.getTimestamp().toString().slice(4,15)
+    // registrationDate: user._id.getTimestamp().toString().slice(4,15)
+    updatedAt: user.updatedAt
   }))
 }
 
@@ -153,6 +156,21 @@ exports.updateUserData = async function (req, res, next) {
   user.picture = req.body.picture;
   await user.save()
   res.send("User data updated successfully")
+}
+
+exports.setUserBio = async function (req, res, next) {
+  if (!req.params.id) {
+    return(next(createError(502, "Bad request: id not found in request header")))
+  }
+  user = await userModel.findById(req.params.id);
+  console.log(user)
+  if (!user) {
+    return(next(createError(404, "User not found")))
+  }
+  user.bio = req.body.bio;
+  console.log(user.bio)
+  await user.save()
+  res.send(req.body.bio)
 }
 
 exports.changeUserPassword = async function (req, res, next) {

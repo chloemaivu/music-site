@@ -21,6 +21,8 @@ router.get("/getplaylists/:id", mongo.getPlaylists)
 
 router.post("/user/:id/update", mongo.updateUserData)
 
+router.post("/user/:id/bio", mongo.setUserBio)
+
 router.post("/user/:id/password", mongo.changeUserPassword)
 
 ////////////////// SPOTIFY REQUESTS \\\\\\\\\\\\\\
