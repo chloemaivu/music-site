@@ -7,17 +7,13 @@ function CommunityPage(props) {
     const user = props.user
     const [playlists, setPlaylists] = useState([])
 
-    // useEffect(() => {
-    //     const getUserPlaylists = async (userID) => {
-    //     const userPlaylists = await props.client.getPlaylists(userID);
-    //     window.localStorage.setItem("userPlaylists", userPlaylists)    
-    //       }
-    //   }, [])
-
-      useEffect(() => {
-        const prependUserID = "USERID::" + window.localStorage.currentUserID
-        props.client.getPlaylists(prependUserID).then((response) => {setPlaylists(response)})
+    useEffect(() => {
+        const getUserPlaylists = async (userID) => {
+        const userPlaylists = await props.client.getPlaylists(userID);
+        window.localStorage.setItem("userPlaylists", userPlaylists)    
+          }
       }, [])
+
 
       console.log(playlists)
 
