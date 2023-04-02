@@ -1,8 +1,5 @@
 const mongoose = require("mongoose");
 
-/*unique is not validation, use Model.on for validation
-        https://mongoosejs.com/docs/faq.html */ 
-
 const userSchema = new mongoose.Schema({
   _id: {
     type: mongoose.Types.ObjectId,
@@ -30,19 +27,19 @@ const userSchema = new mongoose.Schema({
     type: String,
     maxLength: [600, "Image URL must not exceed more than 600 characters"],
   },
+  bio: {
+    type: String,
+    maxLength: [1000, "Bio cannot be more that 1000 characters"]
+  },
   isAdmin: {
     type: Boolean,
     default: false,
-  },
-  registrationDate: {
-    type: Date,
-    timestamps: true
   },
   token: {
     type: String,
     default: "new_user",
   },
-});
+}, {timestamps: true});
 
 const userModel = mongoose.model("user", userSchema, "users");
 

@@ -35,8 +35,7 @@ function UserSettings(props) {
                 i.newPassword.value,
             )
             setPasswordDisabled(true)
-        };
-        
+        };        
     }
 
     return (

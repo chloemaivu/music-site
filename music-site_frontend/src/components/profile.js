@@ -5,21 +5,40 @@ import PlaylistCard from "./playlistCard";
 
 function UserProfile(props) {
   const [playlists, setPlaylists] = useState({})
+  const [bioState, setBioState] = useState(true)
+  const [bio, setBio] = useState("")
 
   const user = props.user
 
   useEffect(() => {
     const prependUserID = "USERID::" + window.localStorage.currentUserID
-    props.client.getPlaylists(prependUserID).then((response) => {setPlaylists(response)})
+    props.client.getPlaylists(prependUserID).then((response) => { setPlaylists(response) })
   }, [])
 
-  const onClick = () => {
-    let x = document.getElementById("createPlaylistModal")
+  useEffect(() => {
+    if (user?.bio?.length === 0) {
+      setBioState(false)
+    }
+  }, [user])
+
+  console.log(user.bio)
+
+  const onClick = (id) => {
+    let x = document.getElementById(id)
     if (x.style.display === "none") {
       x.style.display = "block"
     } else {
       x.style.display = "none"
     }
+  }
+
+  async function bioHandler(e) {
+    e.preventDefault()
+    props.client.setBio(
+      window.localStorage.currentUserID,
+      e.target.bio.value
+    ).then((response) => setBio(response));
+    setBioState(true);
   }
 
   return (
@@ -52,18 +71,75 @@ function UserProfile(props) {
                 {user.email}
               </h5>
               <h5 className="mb-1 text-xl font-medium dark:text-white p-2">
-                Member since: <strong>{user.registrationDate}</strong>
+                Member since: <strong>{Date(user.createdAt).slice(4, 15)}</strong>
               </h5>
               <div className="mt-4 flex space-x-3 lg:mt-6">
-                <Button
-                  className="mt-5"
-                  outline={true}
-                  gradientDuoTone="cyanToBlue"
-                  type="button"
-                  size="xl"
-                >
-                  Playlists
-                </Button>
+                {bioState === true ? (
+                  <>
+                    <div>
+                      <p id="userBio" className="grey-text borderGrey p-4">{user?.bio}</p>
+                      <div style={{ display: "flex", justifyContent: "center" }}>
+                        <Button
+                          className="mt-5"
+                          outline={true}
+                          gradientDuoTone="cyanToBlue"
+                          type="button"
+                          size="xl"
+                          onClick={() => {
+                            setBioState(false)
+                          }}
+                        >
+                          update bio
+                        </Button>
+                      </div>
+                    </div>
+
+                  </>) : (
+                  <>
+                    <Button
+                      id="createBioButton"
+                      className="mt-5"
+                      outline={true}
+                      gradientDuoTone="cyanToBlue"
+                      type="button"
+                      size="xl"
+                      onClick={() => {
+                        onClick("createBioButton");
+                        onClick("bioWriter")
+                      }}
+                    >
+                      create a user bio
+                    </Button>
+                    <form id="bioWriter" style={{ display: "none" }} onSubmit={(e) => bioHandler(e)}>
+                      <textarea name="bio"
+                        placeholder={"Hi! My name is ..., I listen to a mix of everything except rap and country. My favourite arists is ..."}
+                      ></textarea>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <Button
+                          className="mt-5"
+                          outline={true}
+                          gradientDuoTone="cyanToBlue"
+                          type="submit"
+                          size="xl"
+                        >
+                          submit
+                        </Button>
+                        <Button
+                          className="mt-5"
+                          outline={true}
+                          gradientDuoTone="cyanToBlue"
+                          type="button"
+                          size="xl"
+                          onClick={()=> setBioState(true)}
+                        >
+                          cancel
+                        </Button>
+                      </div>
+                    </form>
+                  </>
+                )}
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-around" }}>
                 <Button
                   className="mt-5"
                   outline={true}

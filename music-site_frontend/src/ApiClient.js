@@ -73,11 +73,18 @@ export class ApiClient {
         return response
     } 
 
+    async setBio(id, bio) {
+        const response = await axios.post(`${URL}/user/${id}/bio`, {bio})
+        return response
+    }
+
     async updatePassword(id, current, update) {
         const response = await axios.post(`${URL}/user/${id}/password`, {id, current, update})
         console.log(response)
         return response
     }
+
+    
 
     /////////////// SPOTIFY \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     async search(filter, search) {

@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Card } from "flowbite-react";
+
 import HeartOutline from "../resources/heart_outline.svg"
 import Heart from "../resources/heart_filled.svg"
+import Delete from "../resources/delete_icon.svg"
+
 import LoadingSpinner from './spinner';
 
 function PlaylistCard(props) {
@@ -24,6 +27,12 @@ function PlaylistCard(props) {
         setTracks(data.tracks)
     }
 
+    const removeTrack = async (id, uri) => {
+        console.log(id, uri)
+        // await props.client.removeTrack(id, uri)
+    }
+
+
     function msConvert(duration) {
         const seconds = (duration / 1000).toFixed(0);
         const minutes = Math.floor(seconds / 60);
@@ -41,6 +50,8 @@ function PlaylistCard(props) {
             setVisibility("Public")
         }
     }, [playlist])
+
+    console.log(playlist)
   
     return tracks?.length > 0 ? (
             <div className="min-w-full w-screen">
@@ -75,6 +86,7 @@ function PlaylistCard(props) {
                                             <span className="flex-grow-0 ml-3 flex-1 text-center whitespace-nowrap">
                                                 {msConvert(track?.duration_ms)}
                                             </span>
+                                            <img src={Delete} width={35} title={"remove track from playlist"}  onClick={() => removeTrack(playlist?._id, track?.uri)} />
                                         </div>
                                     </li>
                                 </>
