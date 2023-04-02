@@ -5,16 +5,21 @@ import PlaylistCard from "./playlistCard";
 
 function CommunityPage(props) {
     const user = props.user
-    const [playlists, setPlaylists] = useState({})
+    const [playlists, setPlaylists] = useState([])
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     const getUserPlaylists = async (userID) => {
+    //     const userPlaylists = await props.client.getPlaylists(userID);
+    //     window.localStorage.setItem("userPlaylists", userPlaylists)    
+    //       }
+    //   }, [])
+
+      useEffect(() => {
         const prependUserID = "USERID::" + window.localStorage.currentUserID
         props.client.getPlaylists(prependUserID).then((response) => {setPlaylists(response)})
       }, [])
 
-    // useEffect(() => {
-    //   props.client.getPlaylists(window.localStorage.currentUserID).then((response) => setPlaylists(response))
-    // }, [])
+      console.log(playlists)
 
     function Calendar() {
         return (
@@ -49,17 +54,17 @@ function CommunityPage(props) {
     <div className="timelineContainer my-12">
     <Timeline className="userContainer pl-8">
         <div className="timelinePlaylists">
-        {playlists ? playlists?.map((playlist) => {
+        {playlists ? playlists.map((playlist, i) => {
             if (!playlist.privacy)
         return (
-        <Timeline.Item>
+        <Timeline.Item key={i}>
             <Timeline.Point icon={Calendar} />
             <Timeline.Content>
             <Timeline.Time className="text-5xl">
-            Date to be added
+            {Date(playlist.createdAt).slice(4, 16)}
             </Timeline.Time>
             <Timeline.Title className="text-3xl py-4">
-                {playlist.name}
+                {playlist?.name}
             </Timeline.Title>
                     <Timeline.Body>
                         <PlaylistCard key={playlist._id} playlist={playlist} client={props.client} />

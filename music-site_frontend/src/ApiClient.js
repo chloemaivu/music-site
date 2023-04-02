@@ -52,7 +52,10 @@ export class ApiClient {
         const response = await axios.get(`${URL}/getplaylists/${id}`);
         return(response.data)
     }
-
+    async getAllPlaylists() {
+        const response = await axios.get(`${URL}/getallplaylists`);
+        return response.data
+    }
 
     async createPlaylist(name, description, privacy) {
         const id = window.localStorage.currentUserID
