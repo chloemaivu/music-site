@@ -155,7 +155,7 @@ function UserProfile(props) {
           </Card>
         </div>
         <div>
-          <Button onClick={onClick}>
+          <Button onClick={() => onClick("createPlaylistModal")}>
             Create Playlist
           </Button>
           <CreatePlaylistModal client={props.client} />
