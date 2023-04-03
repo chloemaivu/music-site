@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react"
 import { Card, Button, Badge } from "flowbite-react";
+
 import CreatePlaylistModal from "./modalCreatePlaylist";
+import TrackOptions from './modalTrackOptions';
 import PlaylistCard from "./playlistCard";
 
 function UserProfile(props) {
+  const user = props.user
+
   const [playlists, setPlaylists] = useState({})
   const [bioState, setBioState] = useState(true)
   const [bio, setBio] = useState("")
-
-  const user = props.user
 
   useEffect(() => {
     const prependUserID = "USERID::" + window.localStorage.currentUserID
@@ -20,8 +22,6 @@ function UserProfile(props) {
       setBioState(false)
     }
   }, [user])
-
-  console.log(user.bio)
 
   const onClick = (id) => {
     let x = document.getElementById(id)
@@ -40,6 +40,42 @@ function UserProfile(props) {
     ).then((response) => setBio(response));
     setBioState(true);
   }
+
+  ////// PARENT PROPS PASS HANDLING ////////////////////////////////////////////
+  const [songURI, setSongURI] = useState("")
+  const [type, setType] = useState("")
+
+  useEffect(() => {
+    props.songURI(songURI)
+  }, [songURI])
+
+  useEffect(() => {
+    props.type(type)
+  }, [type])
+
+  ///// MODAL HANDLING ////////////////////////////////////////////////
+
+  const [modalProps, setModalProps] = useState({
+    name: "",
+    uri: ""
+  })
+  const [modalVisibility, setModalVisibility] = useState(false)
+
+  function toggleElement(id) {
+    let x = document.getElementById(id)
+    if (x.style.display === "none") {
+      return x.style.display = "block"
+    } else {
+      return x.style.display = "none"
+    }
+  }
+
+  useEffect(() => {
+    if (modalVisibility === true) {
+      toggleElement("trackModal")
+    }
+  }, [modalVisibility])
+
 
   return (
     <>
@@ -71,13 +107,14 @@ function UserProfile(props) {
                 {user.email}
               </h5>
               <h5 className="mb-1 text-xl font-medium dark:text-white p-2">
-                Member since: <strong>{Date(user.createdAt).slice(4, 15)}</strong>
+                Member since: {user?.createdAt?.slice(0, 10)}
               </h5>
+              {/* /////////////////////////// USER BIO /////////////////////// */}
               <div className="mt-4 flex space-x-3 lg:mt-6">
                 {bioState === true ? (
                   <>
                     <div>
-                      <p id="userBio" className="grey-text borderGrey p-4">{user?.bio}</p>
+                      <p id="userBio" className="grey-text borderGrey text-justify p-4">{user?.bio}</p>
                       <div style={{ display: "flex", justifyContent: "center" }}>
                         <Button
                           className="mt-5"
@@ -130,7 +167,7 @@ function UserProfile(props) {
                           gradientDuoTone="cyanToBlue"
                           type="button"
                           size="xl"
-                          onClick={()=> setBioState(true)}
+                          onClick={() => setBioState(true)}
                         >
                           cancel
                         </Button>
@@ -163,12 +200,24 @@ function UserProfile(props) {
 
 
         {/* //////////// PLAYLISTS ////////////////////////////////////////////// */}
+        <TrackOptions
+          client={props.client}
+          name={modalProps.name}
+          songURI={(songURI) => setSongURI(songURI)}
+          type={(type) => setType(type)}
+          uri={modalProps.uri}
+          visiblity={modalVisibility} />
         <div className="playlistsArea">
           <h1 className="artistHeading text-center py-3">My Playlists</h1>
           {playlists?.length > 0 ?
             playlists?.map((playlist) => {
               return (
-                <PlaylistCard key={playlist._id} playlist={playlist} client={props.client} />
+                <PlaylistCard
+                  client={props.client}
+                  key={playlist._id}
+                  playlist={playlist}
+                  modalProps={(modalProps) => setModalProps(modalProps)}
+                  visibility={(modalVisibility) => setModalVisibility(modalVisibility)} />
               )
             })
             : <></>}
