@@ -53,7 +53,6 @@ export class ApiClient {
         return(response.data)
     }
 
-
     async createPlaylist(name, description, privacy) {
         const id = window.localStorage.currentUserID
         const response = await axios.post(`${URL}/createplaylist`, {id, name, description, privacy})
@@ -65,6 +64,13 @@ export class ApiClient {
         console.log(id, uri)
         const response = await axios.post(`${URL}/appendPlaylist`, {id, uri})
         return response.data    
+    }
+
+    async removeTrack(playlistID, trackURI) {
+        console.log(playlistID, trackURI)
+        const userID = "USERID::" + window.localStorage.currentUserID
+        const response = await axios.post(`${URL}/deletetrack/${playlistID}`, {userID, trackURI})
+        console.log(response.data)
     }
 
     async updateUserData(id, username, email, picture) {
@@ -82,9 +88,7 @@ export class ApiClient {
         const response = await axios.post(`${URL}/user/${id}/password`, {id, current, update})
         console.log(response)
         return response
-    }
-
-    
+    }    
 
     /////////////// SPOTIFY \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     async search(filter, search) {
