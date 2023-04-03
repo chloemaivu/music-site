@@ -10,7 +10,6 @@ function TrackOptions(props) {
     const [userPlaylists, setUserPlaylists] = useState([])
 
     useEffect(() => {
-        console.log(props.visiblity)
         if (props.visiblity === true) {
             toggleModal("trackModal")            
         } 

@@ -61,7 +61,7 @@ exports.login = async function (req, res) {
 
 exports.getUserData = async function (req, res, next) {
   if (!req.params.id) {
-    return(next(createError(502, "Bad request: id not found in request header")))
+    return (next(createError(502, "Bad request: id not found in request header")))
   }
   user = await userModel.findById(req.params.id);
   if (!user) {
@@ -84,20 +84,20 @@ exports.getPlaylists = async function (req, res, next) {
   const id = req.params.id
   let filter = {}
   if (!id) {
-    return(next(createError(502, "Bad request: id not found in request header")))
+    return (next(createError(502, "Bad request: id not found in request header")))
   }
   if (id.length === 32) {
     console.log("id is 32 char")
-    filter = { userID: id}
+    filter = { userID: id }
   } else if (id.length === 24) {
     console.log(" id is 24 chars")
-    filter = { _id: id}
+    filter = { _id: id }
   } else if (typeof id === "string") {
-    filter = { name: id}
+    filter = { name: id }
   }
   playlists = await playlistModel.find(filter)
   if (!playlists) {
-    return(next(createError(404, "playlists not found")))
+    return (next(createError(404, "playlists not found")))
   }
   // console.log(playlists)
   res.status(200).send(playlists)
@@ -149,16 +149,32 @@ exports.appendPlaylist = async function (req, res) {
   })
 }
 
+exports.deleteTrack = async function (req, res, next) {
+  const playlist = await playlistModel.findById(req.params.id)
+  if (!playlist) {
+    console.log("No matching playlist found")
+    res.status(404).send("No matching playlist found")
+  }
+  console.log(playlist)
+  if (!req.body.userID === playlist.userID) {
+    res.status(500).send("Bad request, unauthorised call")
+  }
+  playlist.uri.remove(req.body.trackURI)
+  playlist.save().then(() => { 
+    res.status(200).send("Track successfully removed from playlist") 
+  });
+}
+
 //////////////////////// CHANGE USER DATA \\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 exports.updateUserData = async function (req, res, next) {
   console.log(req.params)
   if (!req.params.id) {
-    return(next(createError(502, "Bad request: id not found in request header")))
+    return (next(createError(502, "Bad request: id not found in request header")))
   }
   user = await userModel.findById(req.params.id);
   if (!user) {
-    return(next(createError(404, "User not found")))
+    return (next(createError(404, "User not found")))
   }
   user.username = req.body.username;
   user.email = req.body.email;
@@ -169,12 +185,12 @@ exports.updateUserData = async function (req, res, next) {
 
 exports.setUserBio = async function (req, res, next) {
   if (!req.params.id) {
-    return(next(createError(502, "Bad request: id not found in request header")))
+    return (next(createError(502, "Bad request: id not found in request header")))
   }
   user = await userModel.findById(req.params.id);
   console.log(user)
   if (!user) {
-    return(next(createError(404, "User not found")))
+    return (next(createError(404, "User not found")))
   }
   user.bio = req.body.bio;
   console.log(user.bio)
@@ -186,15 +202,15 @@ exports.changeUserPassword = async function (req, res, next) {
   console.log(req.params)
   console.log(req.body)
   if (!req.params.id) {
-    return(next(createError(502, "Bad request: id not found in request header")))
+    return (next(createError(502, "Bad request: id not found in request header")))
   }
   user = await userModel.findById(req.params.id);
   if (!user) {
-    return(next(createError(404, "User not found")))
+    return (next(createError(404, "User not found")))
   }
   const hashedPass = await security.comparePass(req.body.current, user.password)
   if (!hashedPass || hashedPass === false) {
-    return(next(createError(401, "Error validating current password")))
+    return (next(createError(401, "Error validating current password")))
   }
   user.password = await security.hashPass(req.body.update);
   await user.save();
