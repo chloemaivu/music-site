@@ -99,7 +99,16 @@ exports.getPlaylists = async function (req, res, next) {
   if (!playlists) {
     return(next(createError(404, "playlists not found")))
   }
-  console.log(playlists)
+  // console.log(playlists)
+  res.status(200).send(playlists)
+}
+
+
+exports.getAllPlaylists = async function (req, res, next) {
+  playlists = await playlistModel.find().sort({"updatedAt":-1}).limit(5)
+  if (!playlists) {
+    return(next(createError(404, "Playlist not found.")))
+  }
   res.status(200).send(playlists)
 }
 
