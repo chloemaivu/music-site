@@ -65,7 +65,7 @@ function UserProfile(props) {
     let x = document.getElementById(id)
     if (x.style.display === "none") {
       return x.style.display = "block"
-    } else {
+    } else if (x.style.display === "block"){
       return x.style.display = "none"
     }
   }
@@ -75,7 +75,6 @@ function UserProfile(props) {
       toggleElement("trackModal")
     }
   }, [modalVisibility])
-
 
   return (
     <>

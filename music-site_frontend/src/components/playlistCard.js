@@ -81,6 +81,7 @@ function PlaylistCard(props) {
         }
         props.modalProps(setModalProps);
         props.visibility(true);
+        toggleElement("trackModal")
     }
 
     ////////////// JSX //////////////////////////////////////////////////////////

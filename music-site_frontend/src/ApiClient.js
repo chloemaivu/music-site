@@ -50,7 +50,11 @@ export class ApiClient {
 
     async getPlaylists(id) {
         const response = await axios.get(`${URL}/getplaylists/${id}`);
-        return(response.data)
+        return response.data
+    }
+    async getAllPlaylists() {
+        const response = await axios.get(`${URL}/getallplaylists`)
+        return response.data
     }
 
     async createPlaylist(name, description, privacy) {
@@ -90,6 +94,25 @@ export class ApiClient {
         return response
     }    
 
+    //////////////// Community Page \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+    async getAllPosts() {
+        const response = await axios.get(`${URL}/getallposts/`);
+        return response.data
+    }
+
+    async createPost(playlistID) {
+        const userID = window.localStorage.currentUserID
+        console.log(playlistID)
+        const response = await axios.post(`${URL}/createpost/${playlistID}`, {userID})
+        return response.data
+    }
+
+    async deletePost(id) {
+        const response = await axios.post(`${URL}/deletepost/${id}`)
+        return response.data
+    }
+
     /////////////// SPOTIFY \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     async search(filter, search) {
         const response = await axios.get(`${spotifyURL}/${search}&${filter}&${limit}`);
@@ -109,7 +132,6 @@ export class ApiClient {
     }
 
     async getAlbums(arr) {
-        // console.log(arr)
         const response = await axios.get(`${spotifyURL}/albums/${arr}`)
         // console.log(response.data)
         return response.data
