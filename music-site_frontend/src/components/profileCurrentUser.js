@@ -5,7 +5,7 @@ import CreatePlaylistModal from "./modalCreatePlaylist";
 import TrackOptions from './modalTrackOptions';
 import PlaylistCard from "./playlistCard";
 
-function UserProfile(props) {
+function CurrentUserProfile(props) {
   const user = props.user
 
   const [playlists, setPlaylists] = useState({})
@@ -227,4 +227,4 @@ function UserProfile(props) {
   )
 }
 
-export default UserProfile;
+export default CurrentUserProfile;

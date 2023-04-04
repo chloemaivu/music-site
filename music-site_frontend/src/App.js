@@ -14,7 +14,8 @@ import NavbarLoggedIn from "./components/navbar2";
 import NavbarPreLogin from "./components/navbar";
 import Login from "./components/login";
 import SidebarPlayer from "./components/playerCard";
-import UserProfile from "./components/profile";
+import CurrentUserProfile from "./components/profileCurrentUser";
+import UserProfile from "./components/profileUser";
 
 import PlayerIcon from "./resources/player_icon.svg"
 import Arrow from "./resources/down_arrow.svg"
@@ -121,7 +122,8 @@ function App() {
       <Routes>
         <Route path="/" element={<HomeRouter />} />
         <Route path="/home" element={<div className="page"><Homepage client={client} getUserData={() => getUserData()} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)} /> </div>} />
-        <Route path="/profile" element={<div className="page center"><UserProfile client={client} user={userData} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)}/> </div>} />
+        <Route path="/profile" element={<div className="page center"><CurrentUserProfile client={client} user={userData} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)}/> </div>} />
+        <Route path="/profile/:userid" element={<div className="page center"><UserProfile client={client} currentUser={userData} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)}/> </div>} />
         <Route path="/user-settings" element={<div className="page center"><UserSettings user={userData} client={client} /> </div>} />
         <Route path="/artist/:artistId" element={<div className="page"> <ArtistPage client={client} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)} /> </div>} />
         <Route path="/community" element={<div className="page"> <CommunityPage client={client} user={userData} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)}/> </div>} />
