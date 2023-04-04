@@ -13,6 +13,8 @@ router.post("/auth/login", mongo.login)
 
 router.get("/user/:id", mongo.getUserData)
 
+router.post("/deleteuser/:id", mongo.deleteUser)
+
 router.post("/createplaylist", mongo.createPlaylist)
 
 router.post("/appendplaylist/", mongo.appendPlaylist)
