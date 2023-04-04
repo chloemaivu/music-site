@@ -17,6 +17,8 @@ router.post("/createplaylist", mongo.createPlaylist)
 
 router.post("/appendplaylist/", mongo.appendPlaylist)
 
+router.post("/highlightplaylist/", mongo.highlightPlaylist)
+
 router.post("/deletetrack/:id", mongo.deleteTrack)
 
 router.get("/getplaylists/:id", mongo.getPlaylists)

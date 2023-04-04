@@ -42,7 +42,12 @@ const playlistSchema = new mongoose.Schema({
         items: {
             type: String
         }
-    }    
+    },
+    highlighted: {
+        type: Boolean,
+        title: "Highlighted / Not highlighted",
+        description: "Mark a playlist as highlighted or not. true = highlighted"
+    }   
 }, { timestamps: true })
 
 const playlistModel = mongoose.model("newPlaylist", playlistSchema, "userPlaylists");
