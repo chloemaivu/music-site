@@ -40,7 +40,7 @@ function CommunityPage(props) {
                         <Badge
                             size="sm"
                             className="adminBadge">
-                            <h6 className="uppercase">admin :lock:</h6>
+                            <h6 className="uppercase">admin 🔒</h6>
                         </Badge>
                     ) : (<></>)}
                 </div>
