@@ -79,6 +79,15 @@ exports.getUserData = async function (req, res, next) {
   }))
 }
 
+exports.deleteUser = async function (req, res, next) {
+  const user = await userModel.findById(req.params.id)
+  if (!user) {
+    return (next(createError(404, "User not found")))
+  }
+  user.deleteOne().save().then(() =>
+    res.status(200).send("You've successfully deleted the user."))
+}
+
 exports.getPlaylists = async function (req, res, next) {
   // console.log(req.params.id)
   const id = req.params.id

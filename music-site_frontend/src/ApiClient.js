@@ -48,6 +48,11 @@ export class ApiClient {
         return response
     }
 
+    async deleteUser(id) {
+        const response = await axios.post(`${URL}/deleteuser/${id}`, {id});
+        return response.data
+    }
+
     async getPlaylists(id) {
         const response = await axios.get(`${URL}/getplaylists/${id}`);
         return response.data
@@ -82,6 +87,7 @@ export class ApiClient {
         const userID = "USERID::" + window.localStorage.currentUserID
         const response = await axios.post(`${URL}/deletetrack/${playlistID}`, {userID, trackURI})
         console.log(response.data)
+        return response.data
     }
 
     async updateUserData(id, username, email, picture) {
