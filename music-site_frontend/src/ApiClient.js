@@ -120,6 +120,11 @@ export class ApiClient {
         return response.data
     }
 
+    async postComment(postID, username, comment) {
+        const response = await axios.post(`${URL}/post/${postID}/addcomment`, {username, comment})
+        console.log(response.data)
+    }
+
     /////////////// SPOTIFY \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     async search(filter, search) {
         const response = await axios.get(`${spotifyURL}/${search}&${filter}&${limit}`);

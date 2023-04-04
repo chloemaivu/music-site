@@ -39,6 +39,8 @@ router.post("/createpost/:id", posts.createPost)
 
 router.post("/deletepost/:id", posts.deletePost)
 
+router.post("/post/:id/addcomment", posts.addComment)
+
 ////////////////// SPOTIFY REQUESTS \\\\\\\\\\\\\\
 
 router.get("/spotify/:search&:type&:limit", spotify.search)
