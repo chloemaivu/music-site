@@ -1,53 +1,24 @@
 import { React, useState, useEffect } from 'react';
 import { Timeline, Avatar, Badge } from "flowbite-react";
 import { CalendarIcon } from "@heroicons/react/24/solid";
-import PlaylistCard from "./playlistCard";
-import { v4 as uuidv4} from "uuid"
+// import PlaylistCard from "./playlistCard";
+import PostCard from "./postCard";
 
 function CommunityPage(props) {
     const user = props.user
-    const [playlists, setPlaylists] = useState([])
-    const [usersData, setUsersData] = useState({})
-    const [playlistUsersInfo, setPlaylistsUsersInfo] = useState([])
+    const [posts, setPosts] = useState([])
 
-    useEffect(() => {
-        getAllPlaylist()
-    }, [])
 
-    const getAllPlaylist = async () => {
-        await props.client.getAllPlaylists().then((response) => setPlaylists(response))
+    const getAllPosts = async () => {
+        await props.client.getAllPosts().then((response) => {
+            setPosts(response)
+        })
     }
 
-    /// still needs work
-    // const getUserInfo = async (id) => {
-    //     const userID = id.slice(8, 32)
-    //     const usersResponse = await props.client.getUserData(userID)
-    //     setUsersData(usersResponse)
-    // }
+    useEffect(() => {
+        getAllPosts()
+    }, [])
 
-    // /// still needs work`
-    // const extractUsersData = () => {
-    //     const playlistUsersInfo = []
-    //     const userData = [usersData]
-    //     userData.map(user => {
-    //         playlistUsersInfo.push({
-    //             name: user.username,
-    //             picture: user.picture
-    //         })
-    //     })
-    //     setPlaylistsUsersInfo(playlistUsersInfo)
-    // }
-
-    // /// still needs work
-    // useEffect(() => {
-    //     async function get(){
-    //         getUserInfo()
-    //     }
-    //     get();
-    //     extractUsersData()     
-    // }, [])
-
-    console.log(playlistUsersInfo)
 
     function Calendar() {
         return (
@@ -68,7 +39,7 @@ function CommunityPage(props) {
                         <Badge
                             size="sm"
                             className="adminBadge">
-                            <h6 className="uppercase">admin 🔒</h6>
+                            <h6 className="uppercase">admin :lock:</h6>
                         </Badge>
                     ) : (<></>)}
                 </div>
@@ -76,43 +47,31 @@ function CommunityPage(props) {
                     {user.username}'s Timeline
                 </h2>
             </div>
-
-            {/* Mapping through user's playlists here */}
-
             <div className="timelineContainer my-12">
-                <Timeline className="userContainer pl-8">
+            <Timeline className="userContainer pl-8">
                     <div className="timelinePlaylists">
-                        {playlists ? playlists?.map((playlist, i) => {
-                            // getUserInfo(playlist.userID)
-                            const uniqueKey = uuidv4()
-                            if (!playlist.privacy)
+                        {posts ? posts?.map((post) => {
                                 return (
-                                    <Timeline.Item key={i}>
-                                        <Timeline.Point icon={Calendar} />
-                                        <Timeline.Content>
-                                            <Timeline.Time className="text-5xl">
-                                                {playlist.updatedAt.slice(0, 10)} {playlist.updatedAt.slice(11, 16)}
-                                            </Timeline.Time>
-                                            <Timeline.Title className="text-3xl py-4">
-                                                <img key={uniqueKey} src={usersData?.picture} rounded={true} width={100} />
-                                                {playlist.username}'s playlist
-                                            </Timeline.Title>
-                                            <Timeline.Body>
-                                                <PlaylistCard key={playlist._id} playlist={playlist} client={props.client} />
-                                            </Timeline.Body>
-                                        </Timeline.Content>
-                                    </Timeline.Item>
-                                )
-                        })
-                            :
-                            <>
-                            </>
-                        }
+                        <Timeline.Item>
+                            <Timeline.Point icon={Calendar} />
+                            <Timeline.Content>
+                                <Timeline.Time className="text-5xl">
+                                    {post.updatedAt.slice(0, 10)} {post.updatedAt.slice(11, 16)}
+                                </Timeline.Time>
+                                <Timeline.Body>
+                                <PostCard
+                                playlistID={post.playlistID}
+                                post={post}
+                                client={props.client}/>
+                                </Timeline.Body>
+                            </Timeline.Content>
+                        </Timeline.Item>
+                        )
+                        }) : <h1>Sorry, no posts here yet.</h1> }
                     </div>
                 </Timeline>
             </div>
         </>
     )
 }
-
 export default CommunityPage;

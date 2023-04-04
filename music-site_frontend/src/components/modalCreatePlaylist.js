@@ -1,8 +1,9 @@
-import React from "react"
+import { React, useEffect, useState } from 'react';
 import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react"
 import { onClick, onClose } from "react"
 
 function CreatePlaylistModal(props) {
+    const [newPlaylist, setNewPlaylist] = useState({})
 
     async function submitHandler(e) {
         e.preventDefault()
@@ -11,14 +12,32 @@ function CreatePlaylistModal(props) {
             e.target.description.value,
             e.target.privacy.value)
             .then((response) => {
-                alert(response)
-                onClick()
+                setNewPlaylist(response)
             })
             .catch((err) => {
                 console.log(err);
                 alert("an error occured, please try again");
             });
     }
+
+    async function newPost(id) {
+        console.log(id)
+        await props.client.createPost(id)
+            .then((response) => {
+                alert(response)
+            })
+        onClick()
+    }  
+
+    const isEmpty = (obj) => {
+        return Object.keys(obj).length === 0
+      }
+
+    useEffect(() => {
+        if (isEmpty(newPlaylist) === false) {
+            newPost(newPlaylist._id)
+        }
+    }, [newPlaylist])
 
     const onClick = () => {
         let x = document.getElementById("createPlaylistModal")
@@ -33,8 +52,8 @@ function CreatePlaylistModal(props) {
 
     const getUserPlaylists = async (userID) => {
         const userPlaylists = await props.client.getPlaylists(userID);
-        window.localStorage.setItem("userPlaylists", userPlaylists)    
-      }
+        window.localStorage.setItem("userPlaylists", userPlaylists)
+    }
 
     return (
         <>

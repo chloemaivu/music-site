@@ -3,8 +3,8 @@ const router = express.Router()
 
 const spotify = require("./controllers/spotifyController")
 const mongo = require("./controllers/mongoController")
+const posts = require("./controllers/postsController")
 
-//Example: router.get('/book', books.index)
 ////////////////// MONGO REQUESTS \\\\\\\\\\\\\\
 
 router.post("/auth/register", mongo.register)
@@ -29,6 +29,14 @@ router.post("/user/:id/bio", mongo.setUserBio)
 
 router.post("/user/:id/password", mongo.changeUserPassword)
 
+////////////////// COMMUNITY CONTENT REQUESTS \\\\\\\\\\\\\\
+
+router.get("/getallposts", posts.getAllPosts)
+
+router.post("/createpost/:id", posts.createPost)
+
+router.post("/deletepost/:id", posts.deletePost)
+
 ////////////////// SPOTIFY REQUESTS \\\\\\\\\\\\\\
 
 router.get("/spotify/:search&:type&:limit", spotify.search)
@@ -42,9 +50,5 @@ router.get("/spotify/albums/:arr", spotify.albums)
 router.get("/spotify/tracks/:arr", spotify.tracks)
 
 router.get("/spotify/lyrics/:uri", spotify.lyrics)
-
-////////////////// BANDCAMP REQUESTS \\\\\\\\\\\\\\
-
-////////////////// SOUNDCLOUD REQUESTS \\\\\\\\\\\\\\
 
 module.exports = router;

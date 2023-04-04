@@ -80,17 +80,17 @@ exports.getUserData = async function (req, res, next) {
 }
 
 exports.getPlaylists = async function (req, res, next) {
-  console.log(req.params.id)
+  // console.log(req.params.id)
   const id = req.params.id
   let filter = {}
   if (!id) {
     return (next(createError(502, "Bad request: id not found in request header")))
   }
   if (id.length === 32) {
-    console.log("id is 32 char")
+    // console.log("id is 32 char")
     filter = { userID: id }
   } else if (id.length === 24) {
-    console.log(" id is 24 chars")
+    // console.log(" id is 24 chars")
     filter = { _id: id }
   } else if (typeof id === "string") {
     filter = { name: id }
@@ -103,11 +103,10 @@ exports.getPlaylists = async function (req, res, next) {
   res.status(200).send(playlists)
 }
 
-
 exports.getAllPlaylists = async function (req, res, next) {
-  playlists = await playlistModel.find().sort({"updatedAt":-1}).limit(5)
+  playlists = await playlistModel.find().sort({ "updatedAt": -1 }).limit(5)
   if (!playlists) {
-    return(next(createError(404, "Playlist not found.")))
+    return (next(createError(404, "Playlist not found.")))
   }
   res.status(200).send(playlists)
 }
@@ -131,10 +130,8 @@ exports.createPlaylist = async function (req, res) {
     privacy: isPrivate,
     uri: []
   })
-  console.log(newPlaylist)
-  newPlaylist.save().then((newPlaylist) => {
-    res.status(200).send("Playlist created successfully!")
-  })
+  // console.log(newPlaylist)
+  newPlaylist.save().then(() => res.status(200).send(newPlaylist))
 }
 
 exports.appendPlaylist = async function (req, res) {
@@ -160,8 +157,8 @@ exports.deleteTrack = async function (req, res, next) {
     res.status(500).send("Bad request, unauthorised call")
   }
   playlist.uri.remove(req.body.trackURI)
-  playlist.save().then(() => { 
-    res.status(200).send("Track successfully removed from playlist") 
+  playlist.save().then(() => {
+    res.status(200).send("Track successfully removed from playlist")
   });
 }
 

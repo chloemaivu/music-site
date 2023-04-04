@@ -3,10 +3,9 @@ import { Card } from "flowbite-react";
 import { v4 as uuidv4 } from 'uuid'
 
 import HeartOutline from "../resources/heart_outline.svg"
-import Heart from "../resources/heart_filled.svg"
+import StarOutline from "../resources/star_outline.svg"
 import Delete from "../resources/delete_icon.svg"
 import Hamburger from "../resources/hamburger_icon.svg"
-
 import LoadingSpinner from './spinner';
 
 
@@ -17,18 +16,16 @@ function PlaylistCard(props) {
     const [ownPlaylist, setOwnPlaylist] = useState()
     const playlist = props.playlist
 
-    const trackIDs = playlist.uri.map((trackID => {
+    const trackIDs = playlist?.uri?.map((trackID => {
         // console.log(trackID.split(":")[2])
         return (trackID.split(":")[2])
     }))
-
     // pass in multiple 
     const getTracks = async (uri) => {
         const data = await props.client.getTracks(uri)
-        // console.log(data.tracks)
         setTracks(data.tracks)
     }
-
+    console.log(playlist?.uri)
     const removeTrack = async (id, uri) => {
         await props.client.removeTrack(id, uri)
     }
@@ -81,6 +78,7 @@ function PlaylistCard(props) {
         }
         props.modalProps(setModalProps);
         props.visibility(true);
+        toggleElement("trackModal")
     }
 
     ////////////// JSX //////////////////////////////////////////////////////////
@@ -97,7 +95,8 @@ function PlaylistCard(props) {
                             </span>
                         </div>
                         <span className="heartIcon justify-content-end">
-                            <img src={HeartOutline} width={35} />
+                            <img className="inline-block" src={StarOutline} width={35} />
+                            <img className="inline-block" src={HeartOutline} width={35} />
                         </span>
                     </h5>
                     <p key={uuidv4()} className="text-sm white-text text-center font-normal dark:text-gray-400">
