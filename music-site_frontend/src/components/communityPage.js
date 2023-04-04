@@ -1,19 +1,14 @@
 import { React, useState, useEffect } from 'react';
 import { Timeline, Avatar, Badge } from "flowbite-react";
 import { CalendarIcon } from "@heroicons/react/24/solid";
-// import PlaylistCard from "./playlistCard";
+
 import PostCard from "./postCard";
 import { v4 as uuidv4 } from "uuid";
 
 function CommunityPage(props) {
     const user = props.user
-    const [playlists, setPlaylists] = useState([])
     const [posts, setPosts] = useState([])
 
-
-    const getAllPlaylist = async () => {
-        await props.client.getAllPlaylists().then((response) => setPlaylists(response))
-    }
 
     const getAllPosts = async () => {
         await props.client.getAllPosts().then((response) => {
@@ -22,12 +17,9 @@ function CommunityPage(props) {
     }
 
     useEffect(() => {
-        getAllPlaylist()
-    }, [])
-
-    useEffect(() => {
         getAllPosts()
     }, [])
+
 
     function Calendar() {
         return (
@@ -36,6 +28,7 @@ function CommunityPage(props) {
             </div>
         )
     }
+
     return (
         <>
             <div className="flex flex-row items-center justify-center">
@@ -55,29 +48,27 @@ function CommunityPage(props) {
                     {user.username}'s Timeline
                 </h2>
             </div>
-            {/* Mapping through user's playlists here */}
             <div className="timelineContainer my-12">
                 <Timeline className="userContainer pl-8">
                     <div className="timelinePlaylists">
-                        {/* {playlists ? playlists?.map((playlist, i) => {
-                            // getUserInfo(playlist.userID)
-                            const uniqueKey = uuidv4()
-                            if (!playlist.privacy)
-                                return ( */}
-                        <Timeline.Item
-                        // key={i}
-                        >
-                            <Timeline.Point icon={Calendar} />
-                            <Timeline.Content>
-                                <PostCard posts={posts} playlists={playlists}/>
-                            </Timeline.Content>
-                        </Timeline.Item>
-                        {/* )
-                        })
-                            :
-                            <>
-                            </>
-                        } */}
+                        {posts ? posts?.map((post) => {
+                            return (
+                                <Timeline.Item key={uuidv4()}>
+                                    <Timeline.Point icon={Calendar} />
+                                    <Timeline.Content>
+                                        <Timeline.Time className="text-5xl">
+                                            {post.updatedAt.slice(0, 10)} {post.updatedAt.slice(11, 16)}
+                                        </Timeline.Time>
+                                        <Timeline.Body>
+                                            <PostCard
+                                                playlistID={post.playlistID}
+                                                post={post}
+                                                client={props.client} />
+                                        </Timeline.Body>
+                                    </Timeline.Content>
+                                </Timeline.Item>
+                            )
+                        }) : <h1>Sorry, no posts here yet.</h1>}
                     </div>
                 </Timeline>
             </div>
