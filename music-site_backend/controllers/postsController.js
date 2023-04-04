@@ -60,7 +60,7 @@ exports.deletePost = async function (req, res, next) {
 
 exports.addComment = async function (req, res, next) {
     const post = await postModel.findById(req.params.id)
-    if(!post){
+    if (!post){
         res.status(404).send("No matching post found")
     }
     const combined = req.body.username + ": " + req.body.comment
@@ -68,4 +68,11 @@ exports.addComment = async function (req, res, next) {
     post.save().then(() => {
         res.status(200).send("Comment added successfully")
     })
+}
+
+exports.deleteComment = async function (req, res) {
+    const post = await postModel.findById(req.params.id)
+    if (!post){
+        res.status(404).send("No matching post found")
+    }
 }

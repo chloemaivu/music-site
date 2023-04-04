@@ -131,6 +131,11 @@ export class ApiClient {
         console.log(response.data)
     }
 
+    async deleteComment(postID, comment) {
+        const response = await axios.post(`${URL}/post/${postID}/deletecomment`, {comment})
+        return response.data
+    }
+
     /////////////// SPOTIFY \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     async search(filter, search) {
         const response = await axios.get(`${spotifyURL}/${search}&${filter}&${limit}`);
