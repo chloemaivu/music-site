@@ -128,7 +128,8 @@ exports.createPlaylist = async function (req, res) {
     name: playlistData.name,
     description: playlistData.description,
     privacy: isPrivate,
-    uri: []
+    uri: [],
+    highlighted: false
   })
   // console.log(newPlaylist)
   newPlaylist.save().then(() => res.status(200).send(newPlaylist))
@@ -143,6 +144,19 @@ exports.appendPlaylist = async function (req, res) {
   playlist.uri.push(req.body.uri)
   playlist.save().then(() => {
     res.status(200).send("Successfully added track / album to playlist!")
+  })
+}
+
+exports.highlightPlaylist = async function (req, res) {
+  const playlist = await playlistModel.findById(req.body.id)
+  if (!playlist) {
+    console.log("No matching playlist found")
+    res.status(404).send("No matching playlist found")
+  }
+  // tentative approach
+  playlist.highlighted = req.body.highlighted;
+  playlist.save().then(() => {
+    res.status(200).send("Playlist updated successfully")
   })
 }
 

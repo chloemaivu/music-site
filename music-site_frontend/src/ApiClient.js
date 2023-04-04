@@ -70,6 +70,13 @@ export class ApiClient {
         return response.data    
     }
 
+    async highlightPlaylist(id, highlighted) {
+        console.log(id, highlighted)
+        const response = await axios.post(`${URL}/highlightplaylist`, {id, highlighted})
+        console.log(response)
+        return response.data    
+    }
+
     async removeTrack(playlistID, trackURI) {
         console.log(playlistID, trackURI)
         const userID = "USERID::" + window.localStorage.currentUserID
