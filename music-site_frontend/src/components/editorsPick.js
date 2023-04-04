@@ -2,7 +2,7 @@ import { useEffect, useState, React } from "react";
 
 function EditorsPick(props) {
 
-    const [playlists, setPlaylists] = useState({})
+    const [playlists, setPlaylists] = useState([])
     const [tracks, setTracks] = useState([])
 
     const getAllPlaylist = async () => {
@@ -18,7 +18,6 @@ function EditorsPick(props) {
         filteredPlaylists.map(playlist =>
             images.push(playlist.uri[0].split(":")[2]))
         getTracks(images)
-        console.log(images)
     }
 
     // get tracks to get image of first track
@@ -31,12 +30,9 @@ function EditorsPick(props) {
         getAllPlaylist()
     }, [])
 
-    console.log(playlists)
-    // tracks[i]?.album?.images[0]?.url
-
     return (
         <>
-            {playlists.length > 0 ? (
+            {playlists.length > 0 && tracks.length > 0 ? (
                 <>
                     <h2 className="text-5xl text-center">Editor's Picks</h2>
                     {/* grid */}
@@ -46,7 +42,7 @@ function EditorsPick(props) {
                                 return (
                                     <div key={i} className="border">
                                         <div>
-                                            <img src="" style={{ width: "100%" }} alt="first track image" />
+                                            <img src={tracks[i]?.album?.images[0]?.url} style={{ width: "100%" }} alt="first track image" />
                                         </div>
                                         <div className="text-center" >
                                             <p className="text-3xl"><strong>{playlist.name}</strong></p>
