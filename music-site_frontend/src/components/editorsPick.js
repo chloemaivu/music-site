@@ -21,6 +21,7 @@ function EditorsPick(props) {
         console.log(images)
     }
 
+    // get tracks to get image of first track
     const getTracks = async (uri) => {
         const data = await props.client.getTracks(uri)
         setTracks(data.tracks)
@@ -35,28 +36,29 @@ function EditorsPick(props) {
 
     return (
         <>
-            <h2 className="text-5xl text-center">Editor's Picks</h2>
-            {/* grid */}
-            {playlists.length > 0 ? (<>
-                <div className="grid grid-cols-5 gap-4" style={{ margin: "1%" }}>
-                    {
-                        playlists?.map((playlist, i) => {
-                            return (
-                                <div key={i} className="border">
-                                    <div>
-                                        <img src="" style={{ width: "100%" }} alt="first track image" />
+            {playlists.length > 0 ? (
+                <>
+                    <h2 className="text-5xl text-center">Editor's Picks</h2>
+                    {/* grid */}
+                    <div className="grid grid-cols-5 gap-4" style={{ margin: "1%" }}>
+                        {
+                            playlists?.map((playlist, i) => {
+                                return (
+                                    <div key={i} className="border">
+                                        <div>
+                                            <img src="" style={{ width: "100%" }} alt="first track image" />
+                                        </div>
+                                        <div className="text-center" >
+                                            <p className="text-3xl"><strong>{playlist.name}</strong></p>
+                                            <p className="text-xl">{playlist.description}</p>
+                                        </div>
                                     </div>
-                                    <div className="text-center" >
-                                        <p className="text-3xl"><strong>{playlist.name}</strong></p>
-                                        <p className="text-xl">{playlist.description}</p>
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
+                                )
+                            })
+                        }
+                    </div>
 
-            </>) : (<></>)}
+                </>) : (<></>)}
 
 
         </>
