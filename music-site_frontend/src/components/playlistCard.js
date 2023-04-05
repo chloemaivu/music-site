@@ -25,7 +25,7 @@ function PlaylistCard(props) {
         const data = await props.client.getTracks(uri)
         setTracks(data.tracks)
     }
-    console.log(playlist?.uri)
+    // console.log(playlist?.uri)
     const removeTrack = async (id, uri) => {
         await props.client.removeTrack(id, uri)
     }
@@ -85,10 +85,10 @@ function PlaylistCard(props) {
 
     return tracks?.length > 0 ? (
         <>
-            <div key={uuidv4()} className="min-w-full w-screen">
+            <div key={uuidv4()} className="min-w-min w-full">
                 <Card className="playlistDark" key={uuidv4()}>
                     <h5 className="playlistTitle flex flex-row mb-3 text-base text-center font-semibold text-gray-900 dark:text-white">
-                        <div className="text-center">
+                        <div className="flex text-center">
                             <span className="text-white">{playlist.name}</span>
                             <span className="ml-3 inline-flex items-center justify-center rounded bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-500 dark:bg-gray-700 dark:text-gray-400">
                                 {visibility}
@@ -99,7 +99,7 @@ function PlaylistCard(props) {
                             <img className="inline-block" src={HeartOutline} width={35} />
                         </span>
                     </h5>
-                    <p key={uuidv4()} className="text-sm white-text text-center font-normal dark:text-gray-400">
+                    <p key={uuidv4()} className="text-md white-text text-center font-normal dark:text-gray-400">
                         {playlist.description}
                     </p>
                     <ul key={uuidv4()} className="my-4 space-y-3">

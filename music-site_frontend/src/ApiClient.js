@@ -128,7 +128,7 @@ export class ApiClient {
 
     async postComment(postID, username, comment) {
         const response = await axios.post(`${URL}/post/${postID}/addcomment`, {username, comment})
-        console.log(response.data)
+        return response.data
     }
 
     /////////////// SPOTIFY \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

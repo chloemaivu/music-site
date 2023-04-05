@@ -31,6 +31,7 @@ function CommunityPage(props) {
 
     return (
         <>
+        <div className="items-center">
             <div className="flex flex-row items-center justify-center">
                 <Avatar className="rounded-2xl"
                     img={user.picture}
@@ -49,19 +50,20 @@ function CommunityPage(props) {
                 </h2>
             </div>
             <div className="timelineContainer my-12">
-                <Timeline className="userContainer pl-8">
+                <Timeline className="userContainer pl-8 max-w-screen-md">
                     <div className="timelinePlaylists">
                         {posts ? posts?.map((post) => {
                             return (
                                 <Timeline.Item key={uuidv4()}>
                                     <Timeline.Point icon={Calendar} />
                                     <Timeline.Content>
-                                        <Timeline.Time className="text-5xl">
-                                            {post.updatedAt.slice(0, 10)} {post.updatedAt.slice(11, 16)}
+                                        <Timeline.Time className="text-3xl">
+                                            <p className="timestamp py-5">{post.updatedAt.slice(0, 10)} {post.updatedAt.slice(11, 16)}</p>
                                         </Timeline.Time>
                                         <Timeline.Body>
                                             <PostCard
                                                 playlistID={post.playlistID}
+                                                username={user.username}
                                                 post={post}
                                                 client={props.client} />
                                         </Timeline.Body>
@@ -72,6 +74,7 @@ function CommunityPage(props) {
                     </div>
                 </Timeline>
             </div>
+        </div>
         </>
     )
 }

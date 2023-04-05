@@ -328,11 +328,41 @@ div {
 
 /* ///////// TIMELINE /////////////////*/
 .timelineContainer {
-  margin-left: 200px!important;
+  margin-right: 5em!important;
 }
 
 *, ::after, ::before {
   --tw-ring-offset-width: 0;
+}
+.accordionElement {
+  width: 800px!important;
+}
+#commentArea {
+  display: flex;
+  background-color: var(--bg-highlight);
+  color: var(--text)!important;
+}
+#replyArea {
+  display: none;
+  background-color: var(--bg-highlight);
+  color: var(--text)!important;
+}
+.postCardImage {
+  height: 150px!important;
+}
+.timestamp {
+  color: var(--text)!important;
+}
+.accordionTop {
+background-color: var(--bg)!important;
+}
+
+.accordionTop:hover {
+  background-color: var(--bg-highlight)!important;
+  }
+
+.postBtn {
+  margin-top: 1em;
 }
 
 /* ///////// RADIO /////////////////*/
@@ -371,12 +401,11 @@ div {
 }
 
 .playlistTitle {
-  font-size: 2.5em;
+  font-size: 1.75em;
   padding: 0.5em;
-  margin-left: 6em;
 }
 .heartIcon {
-padding-left: 7em;
+padding-left: 1.5em;
 }
 /* .bg-white {
   --tw-bg-opacity: 1;

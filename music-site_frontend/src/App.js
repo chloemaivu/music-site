@@ -126,7 +126,7 @@ function App() {
         <Route path="/profile/:userid" element={<div className="page center"><UserProfile client={client} currentUser={userData} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)}/> </div>} />
         <Route path="/user-settings" element={<div className="page center"><UserSettings user={userData} client={client} /> </div>} />
         <Route path="/artist/:artistId" element={<div className="page"> <ArtistPage client={client} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)} /> </div>} />
-        <Route path="/community" element={<div className="page"> <CommunityPage client={client} user={userData} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)}/> </div>} />
+        <Route path="/community" element={<div className="page  center"> <CommunityPage client={client} user={userData} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)}/> </div>} />
       </Routes>
       <SidebarPlayer type={type} songURI={songURI} client={client} />
       <VantaFooter />
