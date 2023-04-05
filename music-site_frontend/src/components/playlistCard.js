@@ -30,6 +30,10 @@ function PlaylistCard(props) {
         await props.client.removeTrack(id, uri)
     }
 
+    const highlightPlaylist = async () => {
+        await props.client.highlightPlaylist(playlist._id).then((response) => console.log(response))
+    }
+
     function msConvert(duration) {
         const seconds = (duration / 1000).toFixed(0);
         const minutes = Math.floor(seconds / 60);
@@ -102,9 +106,9 @@ function PlaylistCard(props) {
                             </span>
                         </div>
                         <span className="heartIcon justify-content-end">
-                            <img className="inline-block" src={StarOutline} width={35} />
-                            <img className="inline-block" src={HeartOutline} width={35} />
+                            <img className="inline-block" src={StarOutline} width={35} style={{cursor: "pointer"}} onClick={() => highlightPlaylist()}/>
                         </span>
+                        {playlist?.highlighted === true ? (<><p className="grey-text text-4xl"> Featured Playlist! </p></>): (<></>)}
                     </h5>
                     <p key={uuidv4()} className="text-sm white-text text-center font-normal dark:text-gray-400">
                         {playlist.description}

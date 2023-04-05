@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import PlaylistCard from "./playlistCard";
 import { Accordion, Avatar, Card, Button, Textarea } from "flowbite-react";
 
+import HeartOutline from "../resources/heart_outline.svg"
+import Comment from "../resources/comment_icon.svg"
+
+
 function PostCard(props) {
     const post = props.post;
     const [playlists, setPlaylists] = useState([])
@@ -21,22 +25,29 @@ function PostCard(props) {
 
     const userLink = "/profile/" + post.userID.slice(8.32)
 
+    const likePost = async () => {
+        const postUser = post.userID.slice(8, 32)
+        if (window.localStorage.currentUserID != postUser) {
+            await props.client.likePost(post._id)
+        } else {
+            alert("You can't like your own post!")
+        }
+
+
+    }
+
     return (
         <Accordion alwaysOpen={true} collapseAll={true} onClick={() => setTrackLoadState(true)}>
             <Accordion.Panel >
                 <Accordion.Title >
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <div>
-                            <a href="profile/user_id">
-                                <Link to={userLink} >
-                                    <Avatar img={post?.userPicture} rounded={true} />
-                                </Link>
-                            </a>
-                            <a href="">
+                            <Link to={userLink} >
+                                <Avatar img={post?.userPicture} rounded={true} style={{ justifyContent: "start" }} />
                                 <h2>{post?.username}</h2>
-                            </a>
+                            </Link>
                         </div>
-                        <h2 className="white-text text-3xl">{post.playlistName}</h2>
+                        <h2 className="white-text text-xl">{post.playlistName}</h2>
                     </div>
                 </Accordion.Title>
                 <Accordion.Content>
@@ -94,6 +105,17 @@ function PostCard(props) {
                                     </Button>
                                 </div>
                             </Card>
+                        </div>
+                        <div id="interactionCounters" style={{ display: "flex", justifyContent: "start", alignItems: "center", gap: "30px" }}>
+                            <div id="likes" style={{ display: "flex", alignItems: "center" }}>
+                                <img src={HeartOutline} width={35} onClick={() => likePost()} />
+                                <p className="grey-text text-4xl" >{post.likes.length}</p>
+                            </div>
+                            <div id="comment" style={{ display: "flex", alignItems: "center" }}>
+                                <img src={Comment} width={35} />
+                                <p className="grey-text text-4xl" >{post.comments.length}</p>
+                            </div>
+                            {playlists?.highlighted === true ? (<><p className="grey-text text-4xl"> Featured Playlist! </p></>): (<></>)}
                         </div>
                     </div>
                 </Accordion.Content>
