@@ -47,7 +47,7 @@ exports.createPost = async function (req, res, next) {
     })
 }
 
-exports.deletePost = async function (req, res, next) {
+exports.deletePost = async function (req, res) {
     const post = await postModel.findById(req.params.id)
     if (!post) {
         res.status(404).send("No matching post found")
@@ -59,7 +59,7 @@ exports.deletePost = async function (req, res, next) {
         res.status(200).send("You've successfully removed the post."))
 }
 
-exports.addComment = async function (req, res, next) {
+exports.addComment = async function (req, res) {
     const post = await postModel.findById(req.params.id)
     if(!post){
         res.status(404).send("No matching post found")
@@ -68,5 +68,16 @@ exports.addComment = async function (req, res, next) {
     post.comment.push(combined)
     post.save().then(() => {
         res.status(200).send("Comment added successfully")
+    })
+}
+
+exports.likePost = async function (req, res) {
+    const post = await postModel.findById(req.params.id)
+    if (!post) {
+        res.status(404).send("No matching post found")
+    }
+    post.likes.push(req.body.userID)
+    post.save().then(() => {
+        res.status(200).send("Post liked successfully")
     })
 }
