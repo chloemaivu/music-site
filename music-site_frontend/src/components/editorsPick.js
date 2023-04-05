@@ -30,9 +30,11 @@ function EditorsPick(props) {
         getAllPlaylist()
     }, [])
 
+    console.log(playlists)
+
     return (
         <>
-            {playlists.length > 0 && tracks.length > 0 ? (
+            {playlists.length > 0 && tracks?.length > 0 ? (
                 <>
                     <h2 className="text-5xl text-center">Editor's Picks</h2>
                     {/* grid */}
