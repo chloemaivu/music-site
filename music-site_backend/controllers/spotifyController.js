@@ -9,7 +9,7 @@ exports.search = function (req, res) {
 
   const options = {
     method: "GET",
-    url: `https://${process.env.SPOTIFY_API_HOST}/search/`,
+    url: `https://${process.env.SPOTIFY_API_HOST_ALT}/search`,
     params: {
       q: searchParam,
       type: searchType,
@@ -19,7 +19,7 @@ exports.search = function (req, res) {
     },
     headers: {
       "X-RapidAPI-Key": `${process.env.SPOTIFY_API_KEY}`,
-      "X-RapidAPI-Host": `${process.env.SPOTIFY_API_HOST}`,
+      "X-RapidAPI-Host": `${process.env.SPOTIFY_API_HOST_ALT}`,
     },
   };
 
@@ -38,11 +38,11 @@ exports.artist = function (req, res) {
 
   const options = {
     method: 'GET',
-    url: `https://${process.env.SPOTIFY_API_HOST}/artist_overview/`,
+    url: `https://${process.env.SPOTIFY_API_HOST_ALT}/artist_overview`,
     params: { id: searchParam },
     headers: {
       'X-RapidAPI-Key': `${process.env.SPOTIFY_API_KEY}`,
-      'X-RapidAPI-Host': `${process.env.SPOTIFY_API_HOST}`,
+      'X-RapidAPI-Host': `${process.env.SPOTIFY_API_HOST_ALT}`,
     },
   };
 
@@ -62,11 +62,11 @@ exports.album = function (req, res) {
 
   const options = {
     method: 'GET',
-    url: `https://${process.env.SPOTIFY_API_HOST}/album_tracks/`,
+    url: `https://${process.env.SPOTIFY_API_HOST_ALT}/album_tracks`,
     params: { id: searchParam, offset: '0', limit: '100' },
     headers: {
       'X-RapidAPI-Key': `${process.env.SPOTIFY_API_KEY}`,
-      'X-RapidAPI-Host': `${process.env.SPOTIFY_API_HOST}`
+      'X-RapidAPI-Host': `${process.env.SPOTIFY_API_HOST_ALT}`
     }
   };
 
@@ -84,11 +84,11 @@ exports.albums = function (req, res) {
 
   const options = {
     method: 'GET',
-    url: `https://${process.env.SPOTIFY_API_HOST}/albums/`,
+    url: `https://${process.env.SPOTIFY_API_HOST_ALT}/albums`,
     params: {ids: searchParam},
     headers: {
       'X-RapidAPI-Key': `${process.env.SPOTIFY_API_KEY}`,
-      'X-RapidAPI-Host': `${process.env.SPOTIFY_API_HOST}`
+      'X-RapidAPI-Host': `${process.env.SPOTIFY_API_HOST_ALT}`
     }
   };
   
@@ -107,11 +107,11 @@ exports.tracks = function (req, res) {
 
   const options = {
     method: 'GET',
-    url: `https://${process.env.SPOTIFY_API_HOST}/tracks/`,
+    url: `https://${process.env.SPOTIFY_API_HOST_ALT}/tracks`,
     params: {ids: searchParam},
     headers: {
       'X-RapidAPI-Key': `${process.env.SPOTIFY_API_KEY}`,
-      'X-RapidAPI-Host': `${process.env.SPOTIFY_API_HOST}`
+      'X-RapidAPI-Host': `${process.env.SPOTIFY_API_HOST_ALT}`
     }
   };
   
@@ -128,11 +128,11 @@ exports.lyrics = function (req, res) {
 
   const options = {
     method: 'GET',
-    url: `https://${process.env.SPOTIFY_API_HOST}/track_lyrics/`,
+    url: `https://${process.env.SPOTIFY_API_HOST_ALT}/track_lyrics`,
     params: { id: searchParam },
     headers: {
       'X-RapidAPI-Key': `${process.env.SPOTIFY_API_KEY}`,
-      'X-RapidAPI-Host': `${process.env.SPOTIFY_API_HOST}`
+      'X-RapidAPI-Host': `${process.env.SPOTIFY_API_HOST_ALT}`
     }
   };
 
