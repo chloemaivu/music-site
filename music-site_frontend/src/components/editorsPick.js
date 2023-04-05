@@ -37,8 +37,14 @@ function EditorsPick(props) {
 
     function revealPlaylist(i) {
         //change index of playlists to be shown
-        // automatically reveal playlist card when clicked
-        setIndex(i)
+        // automatically reveal full playlist when clicked
+        if (index === i) {
+            // can toggle to hide full playlist
+            setIndex(-1)
+        } else {
+            setIndex(i)
+        }
+
     }
 
     return (
