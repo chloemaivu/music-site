@@ -27,6 +27,8 @@ router.get("/getplaylists/:id", mongo.getPlaylists)
 
 router.get("/getallplaylists", mongo.getAllPlaylists)
 
+router.post("/deleteplaylist/:id", mongo.deletePlaylist)
+
 router.post("/user/:id/update", mongo.updateUserData)
 
 router.post("/user/:id/bio", mongo.setUserBio)

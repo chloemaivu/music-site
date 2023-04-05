@@ -61,20 +61,25 @@ exports.deletePost = async function (req, res) {
 
 exports.addComment = async function (req, res) {
     const post = await postModel.findById(req.params.id)
-    if(!post){
-        res.status(404).send("No matching post found")
+    if (!post) {
+        return res.status(404).send("No matching post found")
     }
     const combined = req.body.username + ": " + req.body.comment
     post.comment.push(combined)
     post.save().then(() => {
-        res.status(200).send("Comment added successfully")
+        return res.status(200).send("Comment added successfully")
     })
 }
 
 exports.likePost = async function (req, res) {
+    const likeCheck = await postModel.findOne({ _id: req.params.id, likes: req.body.userID })
+    if (likeCheck) {
+        console.log("cannot like a post more than once")
+        return res.status(200).send("Cannot like a post more than once")
+    }
     const post = await postModel.findById(req.params.id)
     if (!post) {
-        res.status(404).send("No matching post found")
+        return res.status(404).send("No matching post found")
     }
     post.likes.push(req.body.userID)
     post.save().then(() => {

@@ -221,9 +221,8 @@ function CurrentUserProfile(props) {
                   parent={playlistParent}
                   playlist={playlist}
                   modalProps={(modalProps) => setModalProps(modalProps)}
-                  visibility={(modalVisibility) => setModalVisibility(modalVisibility)} />
-                  <br/>
-                  </>
+                  visibility={(modalVisibility) => setModalVisibility(modalVisibility)} 
+                  user={props.user}/>
               )
             })
             : <></>}

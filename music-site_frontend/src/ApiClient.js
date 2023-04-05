@@ -90,6 +90,12 @@ export class ApiClient {
         return response.data
     }
 
+    async deletePlaylist(playlistID) {
+        const userID = window.localStorage.currentUserID
+        const response = await axios.post(`${URL}/deleteplaylist/${playlistID}`, {userID})
+        console.log(response.data)
+    }
+
     async updateUserData(id, username, email, picture) {
         const response = await axios.post(`${URL}/user/${id}/update`, {id, username, email, picture})
         console.log(response)
@@ -133,7 +139,13 @@ export class ApiClient {
 
     async likePost(postID) {
         const userID = window.localStorage.currentUserID
-        const reponse = await axios.post(`${URL}/post/${postID}/like`, {userID})
+        const response = await axios.post(`${URL}/post/${postID}/like`, {userID})
+        console.log(response.data)
+        if (response.data === "Cannot like a post more than once") {
+            alert(response.data)
+        } else {
+            return response.data
+        }
     }
 
     /////////////// SPOTIFY \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

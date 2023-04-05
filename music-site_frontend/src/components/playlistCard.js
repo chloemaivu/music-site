@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card } from "flowbite-react";
+import { Button } from 'flowbite-react';
 import { v4 as uuidv4 } from 'uuid'
 
 import HeartOutline from "../resources/heart_outline.svg"
@@ -34,6 +35,10 @@ function PlaylistCard(props) {
         await props.client.highlightPlaylist(playlist._id).then((response) => console.log(response))
     }
 
+    const deletePlaylist = async () => {
+        await props.client.deletePlaylist(playlist._id)
+    }
+
     function msConvert(duration) {
         const seconds = (duration / 1000).toFixed(0);
         const minutes = Math.floor(seconds / 60);
@@ -47,7 +52,7 @@ function PlaylistCard(props) {
             console.log("not the card parent")
             getTracks(trackIDs)
         }
-        if (playlist.privacy === undefined) {
+        if (playlist?.privacy === undefined) {
             setVisibility("Unknown")
         } else if (playlist.privacy) {
             setVisibility("Private")
@@ -100,48 +105,60 @@ function PlaylistCard(props) {
                 <Card className="playlistDark" key={uuidv4()}>
                     <h5 className="playlistTitle flex flex-row mb-3 text-base text-center font-semibold text-gray-900 dark:text-white">
                         <div className="text-center">
-                            <span className="text-white">{playlist.name}</span>
+                            <span className="text-white">{playlist?.name}</span>
                             <span className="ml-3 inline-flex items-center justify-center rounded bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-500 dark:bg-gray-700 dark:text-gray-400">
                                 {visibility}
                             </span>
                         </div>
                         <span className="heartIcon justify-content-end">
-                            <img className="inline-block" src={StarOutline} width={35} style={{cursor: "pointer"}} onClick={() => highlightPlaylist()}/>
+                            <img className="inline-block" src={StarOutline} width={35} style={{ cursor: "pointer" }} onClick={() => highlightPlaylist()} />
                         </span>
-                        {playlist?.highlighted === true ? (<><p className="grey-text text-4xl"> Featured Playlist! </p></>): (<></>)}
+                        {playlist?.highlighted === true ? (<><p className="grey-text text-4xl"> Featured Playlist! </p></>) : (<></>)}
                     </h5>
                     <p key={uuidv4()} className="text-sm white-text text-center font-normal dark:text-gray-400">
-                        {playlist.description}
+                        {playlist?.description}
                     </p>
                     {tracks?.length > 0 ? (
-                    <ul key={uuidv4()} className="my-4 space-y-3">
-                        {tracks?.map(track => {
-                            const hamburgerIcon = uuidv4()
-                            return (
-                                <>
-                                    <li key={uuidv4()}>
-                                        <div className="playlistBlack border group flex items-center rounded-lg bg-gray-50 p-3 text-base font-bold text-gray-900hover:bg-gray-100 hover:shadow dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500"
-                                            onMouseEnter={() => toggleElement(hamburgerIcon)} onMouseLeave={() => toggleElement(hamburgerIcon)}>
-                                            <img className="resultsCard" src={track?.album?.images[0]?.url} style={{ width: "10%" }} alt={track?.name} />
-                                            <span className="flex-grow-1 ml-3 flex-1 whitespace-nowrap">
-                                                {track?.name}
-                                            </span>
-                                            <span className="flex-grow-0 ml-3 flex-1 text-center whitespace-nowrap">
-                                                {msConvert(track?.duration_ms)}
-                                            </span>
-                                            {ownPlaylist === true ? (
-                                                <img src={Delete} width={35} title={"remove track from playlist"} onClick={() => removeTrack(playlist?._id, track?.uri)} />
-                                            )
-                                                : (<> </>)
-                                            }
-                                            <img id={hamburgerIcon} src={Hamburger} className="hamburger" style={{ display: "none" }} width={"30px"} onClick={() => hamburgerHandler(track?.name, track?.uri)} />
-                                        </div>
-                                    </li>
-                                </>
-                            )
-                        })}
-                    </ul>
-                    ): <p className='text-center flex-grow-0 ml-3 flex-1 whitespace-nowrap'><i>This playlist is empty - add some songs!</i></p>}
+                        <ul key={uuidv4()} className="my-4 space-y-3">
+                            {tracks?.map(track => {
+                                const hamburgerIcon = uuidv4()
+                                return (
+                                    <>
+                                        <li key={uuidv4()}>
+                                            <div className="playlistBlack border group flex items-center rounded-lg bg-gray-50 p-3 text-base font-bold text-gray-900hover:bg-gray-100 hover:shadow dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500"
+                                                onMouseEnter={() => toggleElement(hamburgerIcon)} onMouseLeave={() => toggleElement(hamburgerIcon)}>
+                                                <img className="resultsCard" src={track?.album?.images[0]?.url} style={{ width: "10%" }} alt={track?.name} />
+                                                <span className="flex-grow-1 ml-3 flex-1 whitespace-nowrap">
+                                                    {track?.name}
+                                                </span>
+                                                <span className="flex-grow-0 ml-3 flex-1 text-center whitespace-nowrap">
+                                                    {msConvert(track?.duration_ms)}
+                                                </span>
+                                                {ownPlaylist === true ? (
+                                                    <img src={Delete} width={35} title={"remove track from playlist"} onClick={() => removeTrack(playlist?._id, track?.uri)} />
+                                                )
+                                                    : (<> </>)
+                                                }
+                                                <img id={hamburgerIcon} src={Hamburger} className="hamburger" style={{ display: "none" }} width={"30px"} onClick={() => hamburgerHandler(track?.name, track?.uri)} />
+                                            </div>
+                                        </li>
+                                    </>
+                                )
+                            })}
+                        </ul>
+                    ) : <p className='text-center flex-grow-0 ml-3 flex-1 whitespace-nowrap'>This playlist is empty - add some songs!</p>}
+                    {ownPlaylist === true || props.user?.isAdmin === true ? (<>
+                        <Button 
+                            onClick={() => deletePlaylist()}
+                            className="mt-5"
+                            outline={true}
+                            gradientDuoTone="cyanToBlue"
+                            type="button"
+                            size="xl"
+                            style={{backgroundColor: "rgb(255,0,0)"}}
+                            >
+                            DELETE PLAYLIST
+                        </Button></>) : (<></>)}
                 </Card>
             </div>
         </>
