@@ -6,6 +6,7 @@ function EditorsPick(props) {
 
     const [playlists, setPlaylists] = useState([])
     const [tracks, setTracks] = useState([])
+    const [index, setIndex] = useState(-1)
 
     const getAllPlaylist = async () => {
         await props.client.getAllPlaylists().then((response) => filterPlaylists(response))
@@ -34,17 +35,22 @@ function EditorsPick(props) {
 
     console.log(playlists)
 
+    function revealPlaylist(i) {
+        //change index of playlists to be shown
+        // automatically reveal playlist card when clicked
+        setIndex(i)
+    }
+
     return (
         <>
-            {playlists.length > 0 && tracks?.length > 0 ? (
+            {playlists?.length > 0 && tracks?.length > 0 ? (
                 <>
                     <h2 className="text-5xl text-center">Editor's Picks</h2>
-                    {/* grid */}
                     <div className="grid grid-cols-5 gap-4" style={{ margin: "1%" }}>
                         {
                             playlists?.map((playlist, i) => {
                                 return (
-                                    <div key={i} className="border" onClick="revealPlaylist()" style={{cursor: "pointer"}}>
+                                    <div key={i} className="border" onClick={() => revealPlaylist(i)} style={{ cursor: "pointer" }}>
                                         <div>
                                             <img src={tracks[i]?.album?.images[0]?.url} style={{ width: "100%" }} alt="first track image" />
                                         </div>
@@ -57,13 +63,18 @@ function EditorsPick(props) {
                             })
                         }
                     </div>
-                    {/* <PlaylistCard/> */}
-
+                    {/* update playlist in playlist card */}
+                    {index >= 0 ?
+                        <PlaylistCard
+                            id={playlists[index]._id}
+                            playlist={playlists[index]}
+                            client={props.client}
+                            parent={"profile"}
+                        />
+                        : <></>}
                 </>) : (<>
-                <LoadingSpinner/>
+                    <LoadingSpinner />
                 </>)}
-
-
         </>
     )
 }
