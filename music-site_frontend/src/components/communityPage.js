@@ -30,7 +30,7 @@ function CommunityPage(props) {
     }
 
     return (
-        <>
+        <><div>
             <div className="flex flex-row items-center justify-center">
                 <Avatar className="rounded-2xl"
                     img={user.picture}
@@ -72,6 +72,7 @@ function CommunityPage(props) {
                     </div>
                 </Timeline>
             </div>
+        </div>
         </>
     )
 }

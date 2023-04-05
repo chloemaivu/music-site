@@ -13,6 +13,7 @@ function UserProfile(props) {
     const [playlists, setPlaylists] = useState({})
     const [bioState, setBioState] = useState(true)
     const [bio, setBio] = useState("")
+    const playlistParent = "profile"
 
     console.log(user)
 
@@ -156,6 +157,7 @@ function UserProfile(props) {
                                 <PlaylistCard
                                     client={props.client}
                                     key={playlist._id}
+                                    parent={playlistParent}
                                     playlist={playlist}
                                     modalProps={(modalProps) => setModalProps(modalProps)}
                                     visibility={(modalVisibility) => setModalVisibility(modalVisibility)} />

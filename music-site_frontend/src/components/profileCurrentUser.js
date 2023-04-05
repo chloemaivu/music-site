@@ -11,6 +11,7 @@ function CurrentUserProfile(props) {
   const [playlists, setPlaylists] = useState({})
   const [bioState, setBioState] = useState(true)
   const [bio, setBio] = useState("")
+  const playlistParent = "profile"
 
   useEffect(() => {
     const prependUserID = "USERID::" + window.localStorage.currentUserID
@@ -214,6 +215,7 @@ function CurrentUserProfile(props) {
                 <PlaylistCard
                   client={props.client}
                   key={playlist._id}
+                  parent={playlistParent}
                   playlist={playlist}
                   modalProps={(modalProps) => setModalProps(modalProps)}
                   visibility={(modalVisibility) => setModalVisibility(modalVisibility)} />

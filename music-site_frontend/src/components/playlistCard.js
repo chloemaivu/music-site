@@ -19,13 +19,13 @@ function PlaylistCard(props) {
     const trackIDs = playlist?.uri?.map((trackID => {
         return (trackID.split(":")[2])
     }))
-    
+
     // pass in multiple 
     const getTracks = async (uri) => {
         const data = await props.client.getTracks(uri)
         setTracks(data.tracks)
     }
-    console.log(playlist?.uri)
+
     const removeTrack = async (id, uri) => {
         await props.client.removeTrack(id, uri)
     }
@@ -37,7 +37,12 @@ function PlaylistCard(props) {
     }
 
     useEffect(() => {
-        getTracks(trackIDs);
+        if (props.parent === "postCard" && props.load === true) {
+            getTracks(trackIDs);
+        } else if (props.parent === "profile") {
+            console.log("not the card parent")
+            getTracks(trackIDs)
+        }
         if (playlist.privacy === undefined) {
             setVisibility("Unknown")
         } else if (playlist.privacy) {
@@ -45,7 +50,9 @@ function PlaylistCard(props) {
         } else {
             setVisibility("Public")
         }
-    }, [playlist])
+    }, [props.load, playlist])
+
+    console.log(props.load)
 
     const userChecker = (playlistsID) => {
         const currentUser = "USERID::" + window.localStorage.currentUserID
