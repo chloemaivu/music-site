@@ -337,12 +337,13 @@ div {
 .accordionElement {
   width: 800px!important;
 }
-#commentArea {
+.commentArea {
   display: flex;
   background-color: var(--bg-highlight);
   color: var(--text)!important;
+  margin: 1em;
 }
-#replyArea {
+.replyArea {
   display: none;
   background-color: var(--bg-highlight);
   color: var(--text)!important;

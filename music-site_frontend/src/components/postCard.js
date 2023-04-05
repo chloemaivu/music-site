@@ -2,6 +2,7 @@ import { React, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PlaylistCard from "./playlistCard";
 import { Accordion, Avatar, Card, Button, Textarea } from "flowbite-react";
+import { v4 as uuidv4 } from "uuid";
 
 function PostCard(props) {
     const post = props.post;
@@ -11,6 +12,9 @@ function PostCard(props) {
     const [trackLoadState, setTrackLoadState] = useState(false)
     const cardParent = "postCard"
     const [comment, setComment] = useState([])
+    const replyID = uuidv4()
+    const commentID = uuidv4()
+    const replyBtnID = uuidv4()
 
     const getPlaylists = async () => {
         const playlistID = props.playlistID.slice(8, 32)
@@ -18,14 +22,17 @@ function PostCard(props) {
     }
 
     const toggleComment = () => {
-        let replyCard = document.getElementById("replyArea")
-        let commentsCard = document.getElementById("commentArea")
+        let replyCard = document.getElementById(replyID)
+        let commentsCard = document.getElementById(commentID)
+        let replyButton = document.getElementById(replyBtnID)
             if (replyCard.style.display === "none") {
                 replyCard.style.display = "flex"
+                replyButton.style.display = "none"
                 commentsCard.style.display = "none"
             } else {
                 replyCard.style.display = "none"
                 commentsCard.style.display = "flex"
+                replyButton.style.display = "flex"
             }}
 
             async function submitHandler(e) {
@@ -88,48 +95,60 @@ console.log(loggedInUser)
                             {/* </div> */}
                         </div>
                         <div>
-                            <Card id="commentArea">
+                        {post.comments ? post?.comments?.map((posts, index) => {
+                            return (
+                                <>
+                            <Card id={commentID}
+                            className="commentArea"
+                            key={index}
+                            >
                                 <h5 className="text-lg font-bold tracking-tight text-gray-400 dark:text-white">
-                                    Username said:
+                                {posts?.split(":")[0]}
                                 </h5>
                                 <p className="font-normal text-gray-700 dark:text-gray-400">
-                                    {post.comments}
+                                    {posts?.split(":")[1]}
                                 </p>
                             </Card>
-                            {/* Button that pops up the "Create a new comment" form */}
-                            <Button
-                                className="postBtn mt-5"
+                            </>
+                            )
+                        }) : <h1>No comments here yet.</h1>}
+                        <div className="flex justify-center mb-4">
+                        <Button
+                                id={replyBtnID}
+                                className="postBtn mt-5 object-center"
                                 outline={true}
                                 gradientDuoTone="cyanToBlue"
                                 type="button"
                                 size="lg"
-                                onClick={toggleComment}
+                                onClick={() => toggleComment()}
                             >
                                 Write a reply
-                            </Button>
-                            {/* Create a new comment form */}
-                            <Card id="replyArea">
-                                <form
+                        </Button>
+                        </div>
+                        <Card id={replyID} key={replyID} className="replyArea hidden">
+                            <form
                                 className="mb-2 block"
                                 onSubmit={(e) => submitHandler(e)}
                                 >
-                                    <Textarea
-                                        className="text-black"
-                                        id="comment"
-                                        name="comment"
-                                        placeholder="Leave a comment..."
-                                        required={true}
-                                        rows={4}
-                                    />
-                                    <Button
-                                        className="postBtn mt-5"
-                                        outline={true}
-                                        gradientDuoTone="cyanToBlue"
-                                        type="submit"
-                                        size="lg"
-                                    >
-                                        Submit comment
-                                    </Button>
+                                        <Textarea
+                                            className="text-black"
+                                            id="comment"
+                                            name="comment"
+                                            placeholder="Leave a comment..."
+                                            required={true}
+                                            rows={4}
+                                        />
+                                    <div className="flex justify-center">
+                                        <Button
+                                            className="postBtn"
+                                            outline={true}
+                                            gradientDuoTone="cyanToBlue"
+                                            type="submit"
+                                            size="lg"
+                                        >
+                                            Submit comment
+                                        </Button>
+                                    </div>
                                 </form>
                             </Card>
                         </div>

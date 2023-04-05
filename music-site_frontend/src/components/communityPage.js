@@ -75,7 +75,6 @@ function CommunityPage(props) {
                 </Timeline>
             </div>
         </div>
-        </div>
         </>
     )
 }
