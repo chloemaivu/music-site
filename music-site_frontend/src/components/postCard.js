@@ -25,14 +25,19 @@ function PostCard(props) {
         <Accordion alwaysOpen={true} collapseAll={true} onClick={() => setTrackLoadState(true)}>
             <Accordion.Panel >
                 <Accordion.Title >
-                    <a href="profile/user_id">
-                        <Link to={userLink} >
-                            <Avatar img={post?.userPicture} rounded={true} />
-                        </Link>
-                    </a>
-                    <a href="">
-                        <h2>{post?.username}</h2>
-                    </a>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div>
+                            <a href="profile/user_id">
+                                <Link to={userLink} >
+                                    <Avatar img={post?.userPicture} rounded={true} />
+                                </Link>
+                            </a>
+                            <a href="">
+                                <h2>{post?.username}</h2>
+                            </a>
+                        </div>
+                        <h2 className="white-text text-3xl">{post.playlistName}</h2>
+                    </div>
                 </Accordion.Title>
                 <Accordion.Content>
                     <p className="mb-2 text-gray-500 dark:text-gray-400 text-center">
