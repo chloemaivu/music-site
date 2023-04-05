@@ -117,6 +117,7 @@ function PlaylistCard(props) {
                     </h5>
                     <p key={uuidv4()} className="text-md white-text text-center font-normal dark:text-gray-400">
                         {playlist.description}
+                    </p>
                     <p key={uuidv4()} className="text-sm white-text text-center font-normal dark:text-gray-400">
                         {playlist?.description}
                     </p>

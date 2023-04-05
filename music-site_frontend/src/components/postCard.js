@@ -159,6 +159,17 @@ console.log(loggedInUser)
                                         >
                                             Submit comment
                                         </Button>
+                                        <Button
+                                        id={replyBtnID}
+                                        className="postBtn mt-5 ml-3 object-center"
+                                        outline={true}
+                                        gradientDuoTone="cyanToBlue"
+                                        type="button"
+                                        size="lg"
+                                        onClick={() => toggleComment()}
+                                        >
+                                       Cancel
+                                    </Button>
                                     </div>
                                 </form>
                             </Card>

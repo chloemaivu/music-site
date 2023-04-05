@@ -72,7 +72,7 @@ exports.addComment = async function (req, res) {
     post.save().then(() => {
         return res.status(200).send("Comment added successfully")
     })
-}
+}}
 
 exports.likePost = async function (req, res) {
     const likeCheck = await postModel.findOne({ _id: req.params.id, likes: req.body.userID })
