@@ -1,10 +1,14 @@
 import { React, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import PlaylistCard from "./playlistCard";
 import { Accordion, Avatar, Card, Button, Textarea } from "flowbite-react";
 
 function PostCard(props) {
     const post = props.post;
     const [playlists, setPlaylists] = useState([])
+
+    const [trackLoadState, setTrackLoadState] = useState(false)
+    const cardParent = "postCard"
 
     const getPlaylists = async () => {
         const playlistID = props.playlistID.slice(8, 32)
@@ -15,13 +19,16 @@ function PostCard(props) {
         getPlaylists()
     }, [post])
 
+    const userLink = "/profile/" + post.userID.slice(8.32)
+
     return (
-        <Accordion collapseAll={true}>
-            <Accordion.Panel>
-                <Accordion.Title
-                >
+        <Accordion alwaysOpen={true} collapseAll={true} onClick={() => setTrackLoadState(true)}>
+            <Accordion.Panel >
+                <Accordion.Title >
                     <a href="profile/user_id">
-                        <Avatar img={post?.userPicture} rounded={true} />
+                        <Link to={userLink} >
+                            <Avatar img={post?.userPicture} rounded={true} />
+                        </Link>
                     </a>
                     <a href="">
                         <h2>{post?.username}</h2>
@@ -37,6 +44,8 @@ function PostCard(props) {
                                 id={playlists?._id}
                                 playlist={playlists}
                                 client={props.client}
+                                load={trackLoadState}
+                                parent={cardParent}
                             />
                         </div>
                         <div>
