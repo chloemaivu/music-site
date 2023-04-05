@@ -66,7 +66,7 @@ function CurrentUserProfile(props) {
     let x = document.getElementById(id)
     if (x.style.display === "none") {
       return x.style.display = "block"
-    } else if (x.style.display === "block"){
+    } else if (x.style.display === "block") {
       return x.style.display = "none"
     }
   }
@@ -212,14 +212,17 @@ function CurrentUserProfile(props) {
           {playlists?.length > 0 ?
             playlists?.map((playlist) => {
               return (
-                <PlaylistCard
-                  client={props.client}
-                  key={playlist._id}
-                  parent={playlistParent}
-                  playlist={playlist}
-                  modalProps={(modalProps) => setModalProps(modalProps)}
-                  visibility={(modalVisibility) => setModalVisibility(modalVisibility)} 
-                  user={props.user}/>
+                <>
+                  <PlaylistCard
+                    client={props.client}
+                    key={playlist._id}
+                    parent={playlistParent}
+                    playlist={playlist}
+                    modalProps={(modalProps) => setModalProps(modalProps)}
+                    visibility={(modalVisibility) => setModalVisibility(modalVisibility)}
+                    user={props.user} />
+                  <br />
+                </>
               )
             })
             : <></>}

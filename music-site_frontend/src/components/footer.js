@@ -1,5 +1,6 @@
 import { Footer } from "flowbite-react";
 import { Link } from "react-router-dom";
+import SiteInfo from "./aboutSite";
 
 function VantaFooter() {
   return (

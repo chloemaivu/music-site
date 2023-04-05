@@ -36,7 +36,7 @@ function EditorsPick(props) {
     console.log(playlists)
 
     function revealPlaylist(i) {
-        //change index of playlists to be shown
+        // change index of playlists to be shown
         // automatically reveal full playlist when clicked
         if (index === i) {
             // can toggle to hide full playlist
