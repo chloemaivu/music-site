@@ -8,7 +8,7 @@ const userModel = require("../models/userModel");
 const postModel = require("../models/postModel");
 
 exports.getAllPosts = async function (req, res, next) {
-    posts = await postModel.find().sort({ "updatedAt": -1 }).limit(5)
+    posts = await postModel.find().sort({ "updatedAt": -1 }).limit(2)
     if (!posts) {
         return (next(createError(404, "Posts not found.")))
     }
@@ -61,15 +61,18 @@ exports.deletePost = async function (req, res) {
 
 exports.addComment = async function (req, res) {
     const post = await postModel.findById(req.params.id)
+    if(!post){
+        return  res.status(404).send("No matching post found")
     if (!post) {
         return res.status(404).send("No matching post found")
     }
     const combined = req.body.username + ": " + req.body.comment
-    post.comment.push(combined)
+    post.comments.push(combined)
+    console.log(post)
     post.save().then(() => {
         return res.status(200).send("Comment added successfully")
     })
-}
+}}
 
 exports.likePost = async function (req, res) {
     const likeCheck = await postModel.findOne({ _id: req.params.id, likes: req.body.userID })
