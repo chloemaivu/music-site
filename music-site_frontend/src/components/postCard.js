@@ -31,8 +31,8 @@ function PostCard(props) {
             async function submitHandler(e) {
                 e.preventDefault()
                 props.client.postComment(
-                    post._id.value,
-                    loggedInUser.value,
+                    post._id,
+                    loggedInUser,
                     e.target.comment.value)
                     .then((response) => {
                         setComment(response)
@@ -44,7 +44,8 @@ function PostCard(props) {
                     });
             }
 
-// console.log(post._id)
+console.log(post._id)
+console.log(loggedInUser)
 
     useEffect(() => {
         getPlaylists()
@@ -57,7 +58,6 @@ function PostCard(props) {
             <Accordion.Panel >
                 <Accordion.Title >
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                className="accordionTop justify-content-start"
                         <div>
                             <a className="inline-block mx-2" href="profile/user_id">
                                 <Link to={userLink} >
