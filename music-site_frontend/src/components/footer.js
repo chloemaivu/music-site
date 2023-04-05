@@ -1,6 +1,5 @@
 import { Footer } from "flowbite-react";
 import { Link } from "react-router-dom";
-import SiteInfo from "./aboutSite";
 
 function VantaFooter() {
   return (
@@ -13,10 +12,10 @@ function VantaFooter() {
           </span>
           </Link>
           <Footer.LinkGroup>
-            <Footer.Link href="#">About</Footer.Link>
-            <Footer.Link href="#">Privacy Policy</Footer.Link>
-            <Footer.Link href="#">Licensing</Footer.Link>
-            <Footer.Link href="#">Contact</Footer.Link>
+            <Footer.Link href="/about">About</Footer.Link>
+            <Footer.Link href="/about">Privacy Policy</Footer.Link>
+            <Footer.Link href="/about">Licensing</Footer.Link>
+            <Footer.Link href="/about">Contact</Footer.Link>
           </Footer.LinkGroup>
         </div>
         <Footer.Divider />
