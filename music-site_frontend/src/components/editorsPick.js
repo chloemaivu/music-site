@@ -1,5 +1,6 @@
 import { useEffect, useState, React } from "react";
 import LoadingSpinner from "./spinner";
+import PlaylistCard from "./playlistCard";
 
 function EditorsPick(props) {
 
@@ -43,7 +44,7 @@ function EditorsPick(props) {
                         {
                             playlists?.map((playlist, i) => {
                                 return (
-                                    <div key={i} className="border">
+                                    <div key={i} className="border" onClick="revealPlaylist()" style={{cursor: "pointer"}}>
                                         <div>
                                             <img src={tracks[i]?.album?.images[0]?.url} style={{ width: "100%" }} alt="first track image" />
                                         </div>
@@ -56,6 +57,7 @@ function EditorsPick(props) {
                             })
                         }
                     </div>
+                    {/* <PlaylistCard/> */}
 
                 </>) : (<>
                 <LoadingSpinner/>
