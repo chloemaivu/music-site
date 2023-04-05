@@ -66,7 +66,7 @@ function CurrentUserProfile(props) {
     let x = document.getElementById(id)
     if (x.style.display === "none") {
       return x.style.display = "block"
-    } else if (x.style.display === "block"){
+    } else if (x.style.display === "block") {
       return x.style.display = "none"
     }
   }
@@ -81,7 +81,7 @@ function CurrentUserProfile(props) {
     <>
       {/* ///////////// USER CARD ///////////////////////////////////////////// */}
       <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
-        <div className="max-w-sm pt-6">
+        <div className="max-w-sm">
           <Card className="background-grey">
             <div className="flex flex-col items-center pb-10">
               <img
@@ -117,7 +117,7 @@ function CurrentUserProfile(props) {
                       <p id="userBio" className="grey-text borderGrey text-justify p-4">{user?.bio}</p>
                       <div style={{ display: "flex", justifyContent: "center" }}>
                         <Button
-                          className="mt-5 p-6"
+                          className="mt-5"
                           outline={true}
                           gradientDuoTone="cyanToBlue"
                           type="button"
@@ -176,7 +176,6 @@ function CurrentUserProfile(props) {
                   </>
                 )}
               </div>
-              <br/>
               <div style={{ display: "flex", justifyContent: "space-around" }}>
                 <Button
                   className="mt-5"
@@ -192,7 +191,6 @@ function CurrentUserProfile(props) {
             </div>
           </Card>
         </div>
-        <br/>
         <div>
           <Button onClick={() => onClick("createPlaylistModal")}>
             Create Playlist
@@ -215,14 +213,16 @@ function CurrentUserProfile(props) {
             playlists?.map((playlist) => {
               return (
                 <>
-                <PlaylistCard
-                  client={props.client}
-                  key={playlist._id}
-                  parent={playlistParent}
-                  playlist={playlist}
-                  modalProps={(modalProps) => setModalProps(modalProps)}
-                  visibility={(modalVisibility) => setModalVisibility(modalVisibility)} 
-                  user={props.user}/>
+                  <PlaylistCard
+                    client={props.client}
+                    key={playlist._id}
+                    parent={playlistParent}
+                    playlist={playlist}
+                    modalProps={(modalProps) => setModalProps(modalProps)}
+                    visibility={(modalVisibility) => setModalVisibility(modalVisibility)}
+                    user={props.user} />
+                  <br />
+                </>
               )
             })
             : <></>}
