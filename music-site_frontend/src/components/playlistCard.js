@@ -94,7 +94,7 @@ function PlaylistCard(props) {
 
     ////////////// JSX //////////////////////////////////////////////////////////
 
-    return tracks?.length > 0 ? (
+    return (
         <>
             <div key={uuidv4()} className="min-w-full w-screen">
                 <Card className="playlistDark" key={uuidv4()}>
@@ -113,6 +113,7 @@ function PlaylistCard(props) {
                     <p key={uuidv4()} className="text-sm white-text text-center font-normal dark:text-gray-400">
                         {playlist.description}
                     </p>
+                    {tracks?.length > 0 ? (
                     <ul key={uuidv4()} className="my-4 space-y-3">
                         {tracks?.map(track => {
                             const hamburgerIcon = uuidv4()
@@ -140,10 +141,11 @@ function PlaylistCard(props) {
                             )
                         })}
                     </ul>
+                    ): <p className='text-center flex-grow-0 ml-3 flex-1 whitespace-nowrap'>This playlist is empty - add some songs!</p>}
                 </Card>
             </div>
         </>
-    ) : (<LoadingSpinner key={uuidv4()} />)
+    )
 }
 
 export default PlaylistCard;
