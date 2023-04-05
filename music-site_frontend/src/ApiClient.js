@@ -90,6 +90,12 @@ export class ApiClient {
         return response.data
     }
 
+    async deletePlaylist(playlistID) {
+        const userID = window.localStorage.currentUserID
+        const response = await axios.post(`${URL}/deleteplaylist/${playlistID}`, {userID})
+        console.log(response.data)
+    }
+
     async updateUserData(id, username, email, picture) {
         const response = await axios.post(`${URL}/user/${id}/update`, {id, username, email, picture})
         console.log(response)

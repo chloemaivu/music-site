@@ -5,6 +5,7 @@ const mongoose = require("mongoose")
 const security = require("./securityController");
 const playlistModel = require("../models/playlistModel");
 const userModel = require("../models/userModel");
+const postModel = require("../models/postModel")
 
 ///////////////////// USER DATA POSTS \\\\\\\\\\\\\\\\\\\\
 
@@ -180,6 +181,29 @@ exports.highlightPlaylist = async function (req, res) {
   playlist.save().then(() => {
     return res.status(200).send("Playlist updated successfully")
   })
+}
+
+exports.deletePlaylist = async function (req, res) {
+  const playlist = await playlistModel.findById(req.params.id)
+  const playlistUserID = playlist.userID.slice(8,32)
+  if (!playlist) {
+    return res.status(404).send("Playlist not found")
+  }
+  const user = await userModel.findById(req.body.userID)
+  if (!user) {
+    return res.status(404).send("User not found")
+  }
+  if (user._id != playlistUserID || user.isAdmin != true) {
+    return res.status(502).send("Bad request. You are not authorised to delete this playlist")
+  }
+  const playlistID = "PLAYLIST" + playlist._id
+  const post = await postModel.findOne({playlistID: playlistID})
+  if (!post) {
+    return res.status(404).send("Post not found")
+  }
+  playlist.deleteOne()
+  post.deleteOne()
+  return res.status(200).send("Playlist removed successfully")
 }
 
 exports.deleteTrack = async function (req, res, next) {
