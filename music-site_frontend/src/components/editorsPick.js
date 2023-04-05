@@ -1,4 +1,5 @@
 import { useEffect, useState, React } from "react";
+import LoadingSpinner from "./spinner";
 
 function EditorsPick(props) {
 
@@ -56,7 +57,9 @@ function EditorsPick(props) {
                         }
                     </div>
 
-                </>) : (<></>)}
+                </>) : (<>
+                <LoadingSpinner/>
+                </>)}
 
 
         </>
