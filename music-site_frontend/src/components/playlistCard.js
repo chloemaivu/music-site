@@ -43,7 +43,7 @@ function PlaylistCard(props) {
             console.log("not the card parent")
             getTracks(trackIDs)
         }
-        if (playlist.privacy === undefined) {
+        if (playlist?.privacy === undefined) {
             setVisibility("Unknown")
         } else if (playlist.privacy) {
             setVisibility("Private")
