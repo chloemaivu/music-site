@@ -9,9 +9,7 @@ function HomepagePreLogin() {
       <div>
         <h3 className="text-8xl object-position: center">About us</h3>
         <p className="text-5xl object-position: center mx-3">
-          Vanta is a music based social media site that integrates your
-          favourite music sites into one unified library. Collate all your music
-          from Spotify, Bandcamp and Soundcloud into one place and share your
+          Vanta is a music based social media site. Discover new music and share your
           music interests with your friends.
         </p>
       </div>

@@ -81,7 +81,7 @@ function CurrentUserProfile(props) {
     <>
       {/* ///////////// USER CARD ///////////////////////////////////////////// */}
       <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
-        <div className="max-w-sm">
+        <div className="max-w-sm pt-6">
           <Card className="background-grey">
             <div className="flex flex-col items-center pb-10">
               <img
@@ -117,7 +117,7 @@ function CurrentUserProfile(props) {
                       <p id="userBio" className="grey-text borderGrey text-justify p-4">{user?.bio}</p>
                       <div style={{ display: "flex", justifyContent: "center" }}>
                         <Button
-                          className="mt-5"
+                          className="mt-5 p-6"
                           outline={true}
                           gradientDuoTone="cyanToBlue"
                           type="button"
@@ -176,6 +176,7 @@ function CurrentUserProfile(props) {
                   </>
                 )}
               </div>
+              <br/>
               <div style={{ display: "flex", justifyContent: "space-around" }}>
                 <Button
                   className="mt-5"
@@ -191,6 +192,7 @@ function CurrentUserProfile(props) {
             </div>
           </Card>
         </div>
+        <br/>
         <div>
           <Button onClick={() => onClick("createPlaylistModal")}>
             Create Playlist
@@ -212,6 +214,7 @@ function CurrentUserProfile(props) {
           {playlists?.length > 0 ?
             playlists?.map((playlist) => {
               return (
+                <>
                 <PlaylistCard
                   client={props.client}
                   key={playlist._id}
@@ -219,6 +222,8 @@ function CurrentUserProfile(props) {
                   playlist={playlist}
                   modalProps={(modalProps) => setModalProps(modalProps)}
                   visibility={(modalVisibility) => setModalVisibility(modalVisibility)} />
+                  <br/>
+                  </>
               )
             })
             : <></>}
