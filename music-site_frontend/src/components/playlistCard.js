@@ -146,7 +146,7 @@ function PlaylistCard(props) {
                                 )
                             })}
                         </ul>
-                    ) : <p className='text-center flex-grow-0 ml-3 flex-1 whitespace-nowrap'>This playlist is empty - add some songs!</p>}
+                    ) : <p className='text-center flex-grow-0 ml-3 flex-1 whitespace-nowrap'><i>This playlist is empty - add some songs!</i></p>}
                     {ownPlaylist === true || props.user?.isAdmin === true ? (<>
                         <Button 
                             onClick={() => deletePlaylist()}
