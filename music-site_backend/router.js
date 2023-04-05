@@ -19,13 +19,15 @@ router.post("/createplaylist", mongo.createPlaylist)
 
 router.post("/appendplaylist/", mongo.appendPlaylist)
 
-router.post("/highlightplaylist/", mongo.highlightPlaylist)
+router.post("/highlightplaylist/:id", mongo.highlightPlaylist)
 
 router.post("/deletetrack/:id", mongo.deleteTrack)
 
 router.get("/getplaylists/:id", mongo.getPlaylists)
 
 router.get("/getallplaylists", mongo.getAllPlaylists)
+
+router.post("/deleteplaylist/:id", mongo.deletePlaylist)
 
 router.post("/user/:id/update", mongo.updateUserData)
 
@@ -42,6 +44,8 @@ router.post("/createpost/:id", posts.createPost)
 router.post("/deletepost/:id", posts.deletePost)
 
 router.post("/post/:id/addcomment", posts.addComment)
+
+router.post("/post/:id/like", posts.likePost)
 
 ////////////////// SPOTIFY REQUESTS \\\\\\\\\\\\\\
 

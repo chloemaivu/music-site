@@ -5,6 +5,7 @@ const mongoose = require("mongoose")
 const security = require("./securityController");
 const playlistModel = require("../models/playlistModel");
 const userModel = require("../models/userModel");
+const postModel = require("../models/postModel")
 
 ///////////////////// USER DATA POSTS \\\\\\\\\\\\\\\\\\\\
 
@@ -117,7 +118,7 @@ exports.getAllPlaylists = async function (req, res, next) {
   if (!playlists) {
     return (next(createError(404, "Playlist not found.")))
   }
-  res.status(200).send(playlists)
+  return res.status(200).send(playlists)
 }
 
 /////////////////////// CONTENT POSTS \\\\\\\\\\\\\\\\\\\\
@@ -148,36 +149,72 @@ exports.appendPlaylist = async function (req, res) {
   const playlist = await playlistModel.findById(req.body.id)
   if (!playlist) {
     console.log("No matching playlist found")
-    res.status(404).send("No matching playlist found")
+    return res.status(404).send("No matching playlist found")
   }
   playlist.uri.push(req.body.uri)
   playlist.save().then(() => {
-    res.status(200).send("Successfully added track / album to playlist!")
+    return res.status(200).send("Successfully added track / album to playlist!")
   })
 }
 
 exports.highlightPlaylist = async function (req, res) {
-  const playlist = await playlistModel.findById(req.body.id)
+  const playlist = await playlistModel.findById(req.params.id)
   if (!playlist) {
     console.log("No matching playlist found")
-    res.status(404).send("No matching playlist found")
+    return res.status(404).send("No matching playlist found")
   }
-  // tentative approach
-  playlist.highlighted = req.body.highlighted;
+  const user = await userModel.findById(req.body.userID)
+  if (user.isAdmin === false) {
+    return res.status(502).send("Bad request. Only admins can highlight playlists")
+  }
+  if (playlist.privacy === true) {
+    console.log("playlist is private")
+    return res.status(502).send("Bad request: You cannot highlight a private playlist")
+  }
+  if (playlist.highlighted === false) {
+    playlist.highlighted = true;
+  }
+  if (playlist.highlighted === true) {
+    playlist.highlighted = false;
+  }
+  console.log(playlist)
   playlist.save().then(() => {
-    res.status(200).send("Playlist updated successfully")
+    return res.status(200).send("Playlist updated successfully")
   })
+}
+
+exports.deletePlaylist = async function (req, res) {
+  const playlist = await playlistModel.findById(req.params.id)
+  const playlistUserID = playlist.userID.slice(8,32)
+  if (!playlist) {
+    return res.status(404).send("Playlist not found")
+  }
+  const user = await userModel.findById(req.body.userID)
+  if (!user) {
+    return res.status(404).send("User not found")
+  }
+  if (user._id != playlistUserID || user.isAdmin != true) {
+    return res.status(502).send("Bad request. You are not authorised to delete this playlist")
+  }
+  const playlistID = "PLAYLIST" + playlist._id
+  const post = await postModel.findOne({playlistID: playlistID})
+  if (!post) {
+    return res.status(404).send("Post not found")
+  }
+  playlist.deleteOne()
+  post.deleteOne()
+  return res.status(200).send("Playlist removed successfully")
 }
 
 exports.deleteTrack = async function (req, res, next) {
   const playlist = await playlistModel.findById(req.params.id)
   if (!playlist) {
     console.log("No matching playlist found")
-    res.status(404).send("No matching playlist found")
+    return res.status(404).send("No matching playlist found")
   }
   console.log(playlist)
   if (!req.body.userID === playlist.userID) {
-    res.status(500).send("Bad request, unauthorised call")
+    return res.status(500).send("Bad request, unauthorised call")
   }
   playlist.uri.remove(req.body.trackURI)
   playlist.save().then(() => {
@@ -234,5 +271,5 @@ exports.changeUserPassword = async function (req, res, next) {
   }
   user.password = await security.hashPass(req.body.update);
   await user.save();
-  res.send("Password changed successfully")
+  return res.send("Password changed successfully")
 }
