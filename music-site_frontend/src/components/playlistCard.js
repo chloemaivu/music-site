@@ -47,7 +47,7 @@ function PlaylistCard(props) {
             console.log("not the card parent")
             getTracks(trackIDs)
         }
-        if (playlist.privacy === undefined) {
+        if (playlist?.privacy === undefined) {
             setVisibility("Unknown")
         } else if (playlist.privacy) {
             setVisibility("Private")
@@ -100,7 +100,7 @@ function PlaylistCard(props) {
                 <Card className="playlistDark" key={uuidv4()}>
                     <h5 className="playlistTitle flex flex-row mb-3 text-base text-center font-semibold text-gray-900 dark:text-white">
                         <div className="text-center">
-                            <span className="text-white">{playlist.name}</span>
+                            <span className="text-white">{playlist?.name}</span>
                             <span className="ml-3 inline-flex items-center justify-center rounded bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-500 dark:bg-gray-700 dark:text-gray-400">
                                 {visibility}
                             </span>
@@ -111,7 +111,7 @@ function PlaylistCard(props) {
                         {playlist?.highlighted === true ? (<><p className="grey-text text-4xl"> Featured Playlist! </p></>): (<></>)}
                     </h5>
                     <p key={uuidv4()} className="text-sm white-text text-center font-normal dark:text-gray-400">
-                        {playlist.description}
+                        {playlist?.description}
                     </p>
                     <ul key={uuidv4()} className="my-4 space-y-3">
                         {tracks?.map(track => {
