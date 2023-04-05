@@ -133,7 +133,13 @@ export class ApiClient {
 
     async likePost(postID) {
         const userID = window.localStorage.currentUserID
-        const reponse = await axios.post(`${URL}/post/${postID}/like`, {userID})
+        const response = await axios.post(`${URL}/post/${postID}/like`, {userID})
+        console.log(response.data)
+        if (response.data === "Cannot like a post more than once") {
+            alert(response.data)
+        } else {
+            return response.data
+        }
     }
 
     /////////////// SPOTIFY \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
