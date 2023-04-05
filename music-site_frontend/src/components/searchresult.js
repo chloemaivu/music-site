@@ -21,20 +21,20 @@ function SearchResult(props) {
     uri: ""
   })
   const [modalVisibility, setModalVisibility] = useState(false)
-  
-   ///// PARENT PROPS PASS HANDLING ////////////////////////////////////////////////
-   const [songURI, setSongURI] = useState("")
-   const [type, setType] = useState("")
 
-   useEffect(() => {
-       props.songURI(songURI)
-   }, [songURI])
+  ///// PARENT PROPS PASS HANDLING ////////////////////////////////////////////////
+  const [songURI, setSongURI] = useState("")
+  const [type, setType] = useState("")
 
-   useEffect(() => {
-       props.type(type)
-   }, [type])
+  useEffect(() => {
+    props.songURI(songURI)
+  }, [songURI])
 
-   ///// DATA HANDLING ////////////////////////////////////////////////////////
+  useEffect(() => {
+    props.type(type)
+  }, [type])
+
+  ///// DATA HANDLING ////////////////////////////////////////////////////////
 
   const isEmpty = (obj) => {
     return Object.keys(obj).length === 0
@@ -106,16 +106,16 @@ function SearchResult(props) {
   function toggleModal(id) {
     let x = document.getElementById(id)
     if (x.style.display === "none") {
-        return x.style.display = "block"
+      return x.style.display = "block"
     } else {
-        return x.style.display = "none"
+      return x.style.display = "none"
     }
-}
+  }
 
   function hamburgerHandler(name, uri) {
     setModalVisibility(true);
     createModalProps(name, uri);
-    toggleModal("trackModal")    
+    toggleModal("trackModal")
   }
 
   ///////////////////// JSX /////////////////////////////////////////////////////
@@ -123,8 +123,6 @@ function SearchResult(props) {
   if (dataFilled === false) {
     return (
       <>
-        <br />
-        <h2 className="text-5xl text-center"> Use the search bar to find music from spotify...</h2>
         <br />
       </>
     )
@@ -146,7 +144,6 @@ function SearchResult(props) {
                     <Button onClick={() => songHandler(artist?.data?.uri)}> Play {artist?.data?.profile?.name}'s top tracks</Button>
                   </div>
                 </div>
-
               )
             })
           }
@@ -186,7 +183,7 @@ function SearchResult(props) {
             filter === "tracks" && filteredResult.map((track, i) => {
               return (
                 <div key={i}>
-                  <div className="border">                  
+                  <div className="border">
                     <img className="resultsCard" src={track?.data?.albumOfTrack?.coverArt?.sources[0]?.url} style={{ width: "100%" }} alt={track?.data?.name} />
                   </div>
                   <div className="innerText" >
@@ -203,14 +200,15 @@ function SearchResult(props) {
               )
             })
           }
+          <br />
         </div>
         <TrackOptions
-        client={props.client}
-        name={modalProps.name}
-        songURI={(songURI) => setSongURI(songURI)}
-        type={(type) => setType(type)}
-        uri={modalProps.uri}
-        visibility={modalVisibility} />
+          client={props.client}
+          name={modalProps.name}
+          songURI={(songURI) => setSongURI(songURI)}
+          type={(type) => setType(type)}
+          uri={modalProps.uri}
+          visibility={modalVisibility} />
 
         <CreatePlaylistModal client={props.client} />
       </>

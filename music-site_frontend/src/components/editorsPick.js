@@ -44,7 +44,6 @@ function EditorsPick(props) {
         } else {
             setIndex(i)
         }
-
     }
 
     return (
@@ -52,6 +51,7 @@ function EditorsPick(props) {
             {playlists?.length > 0 && tracks?.length > 0 ? (
                 <>
                     <h2 className="text-5xl text-center">Editor's Picks</h2>
+                    <br/>
                     <div className="grid grid-cols-5 gap-4" style={{ margin: "1%" }}>
                         {
                             playlists?.map((playlist, i) => {
