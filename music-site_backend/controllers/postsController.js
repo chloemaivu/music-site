@@ -36,6 +36,7 @@ exports.createPost = async function (req, res, next) {
     const newPost = new postModel({
         userID: UserID,
         username: user.username,
+        playlistName: playlist.name,
         likes: [],
         comments: [],
         playlistID: playlistID,

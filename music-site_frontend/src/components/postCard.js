@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import PlaylistCard from "./playlistCard";
 import { Accordion, Avatar, Card, Button, Textarea } from "flowbite-react";
 
@@ -6,6 +7,9 @@ function PostCard(props) {
     const post = props.post;
     const loggedInUser = props.username;
     const [playlists, setPlaylists] = useState([])
+
+    const [trackLoadState, setTrackLoadState] = useState(false)
+    const cardParent = "postCard"
     const [comment, setComment] = useState([])
 
     const getPlaylists = async () => {
@@ -46,18 +50,26 @@ function PostCard(props) {
         getPlaylists()
     }, [post])
 
+    const userLink = "/profile/" + post.userID.slice(8.32)
+
     return (
-        <Accordion collapseAll={true} alwaysOpen={true} className="accordionElement">
-            <Accordion.Panel>
-                <Accordion.Title
+        <Accordion alwaysOpen={true} collapseAll={true} onClick={() => setTrackLoadState(true)} alwaysOpen={true} className="accordionElement">
+            <Accordion.Panel >
+                <Accordion.Title >
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 className="accordionTop justify-content-start"
-                >
-                    <a className="inline-block mx-2" href="profile/user_id">
-                        <Avatar width={100} img={post?.userPicture} rounded={true}/>
-                    </a>
-                    <a href="" className="inline-block mx-2 text-2xl">
-                        <h2>{post?.username}</h2>
-                    </a>
+                        <div>
+                            <a className="inline-block mx-2" href="profile/user_id">
+                                <Link to={userLink} >
+                                    <Avatar width={100} img={post?.userPicture} rounded={true}/>
+                                </Link>
+                            </a>
+                            <a href="" className="inline-block mx-2 text-2xl">
+                                <h2>{post?.username}</h2>
+                            </a>
+                        </div>
+                        <h2 className="white-text text-3xl">{post.playlistName}</h2>
+                    </div>
                 </Accordion.Title>
                 <Accordion.Content>
                     <p className="m-5 text-2xl text-gray-500 dark:text-gray-400 text-center">
@@ -70,6 +82,8 @@ function PostCard(props) {
                                 id={playlists?._id}
                                 playlist={playlists}
                                 client={props.client}
+                                load={trackLoadState}
+                                parent={cardParent}
                             />
                             {/* </div> */}
                         </div>

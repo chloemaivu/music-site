@@ -15,6 +15,12 @@ const postSchema = new mongoose.Schema({
         type: String,
         title: "Username corresponding to userID"
     },
+    playlistName: {
+        type: String,
+        title: "Name of the connected playlist",
+        minLength: [3, "The playlists name must be three characters or longer"],
+        maxLength: [50, "The playlists name cannot be more than 50 characters"],
+    },
     likes: {
         type: Array,
         title: "Likes",
