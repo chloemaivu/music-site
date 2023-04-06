@@ -1,13 +1,13 @@
 import axios from "axios";
 
 // login and registration backend url
-const authURL = "https://vanta-music.onrender.com/auth"
+const authURL = "https://vanta-music-backend.onrender.com/auth"
 
 // Mongo general url
-const URL = "https://vanta-music.onrender.com/"
+const URL = "https://vanta-music-backend.onrender.com/"
 
 // spotify backend api calls url
-const spotifyURL = "https://vanta-music.onrender.com/spotify"
+const spotifyURL = "https://vanta-music-backend.onrender.com/spotify"
 
 let limit = 5;
 
