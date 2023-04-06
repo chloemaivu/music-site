@@ -163,7 +163,6 @@ function PlaylistCard(props) {
                                                         <img id={hamburgerIcon} src={Hamburger} className="hamburger" style={{ display: "none" }} width={45} onClick={() => hamburgerHandler(track?.name, track?.uri)} />
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </li>
                                     </>

@@ -33,22 +33,25 @@ export class ApiClient {
         });
     }
     //////////////// MONGO \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+    ////// ACCOUNT ////////////////////////////////////////////////////////////
     async login(username, password) {
         const response = await axios.post(`${authURL}/login`, {username, password});  
-        return response        
+        return response.data     
     }
 
     async register(username, email, password, repeatpassword, picture) {
         const response = await axios.post(`${authURL}/register`, {username, email, password, repeatpassword, picture});
-        return response
+        return response.data
     }
 
     async deleteUser(id, createdAt, password) {
         const userID = window.localStorage.currentUserID
         const response = await axios.post(`${authURL}/delete`, {id, userID, createdAt, password})
-        console.log(response.data)
-        // return response.data
+        return response.data
     }
+
+    /////// USER DATA //////////////////////////////////////////////////////////////////
 
     async getUserData(id) {
         const response = await axios.get(`${URL}/user/${id}`, {id});
@@ -67,12 +70,10 @@ export class ApiClient {
     async createPlaylist(name, description, privacy) {
         const id = window.localStorage.currentUserID
         const response = await axios.post(`${URL}/createplaylist`, {id, name, description, privacy})
-        console.log(response.data)
         return response.data
     }
 
     async appendPlaylist(id, uri) {
-        console.log(id, uri)
         const response = await axios.post(`${URL}/appendPlaylist`, {id, uri})
         return response.data    
     }
@@ -80,39 +81,34 @@ export class ApiClient {
     async highlightPlaylist(id) {
         const userID = window.localStorage.currentUserID
         const response = await axios.post(`${URL}/highlightplaylist/${id}`, {userID})
-        console.log(response.data)
         return response.data 
     }
 
     async removeTrack(playlistID, trackURI) {
-        console.log(playlistID, trackURI)
         const userID = "USERID::" + window.localStorage.currentUserID
         const response = await axios.post(`${URL}/deletetrack/${playlistID}`, {userID, trackURI})
-        console.log(response.data)
         return response.data
     }
 
     async deletePlaylist(playlistID) {
         const userID = window.localStorage.currentUserID
         const response = await axios.post(`${URL}/deleteplaylist/${playlistID}`, {userID})
-        console.log(response.data)
+        return response.data
     }
 
     async updateUserData(id, username, email, picture) {
         const response = await axios.post(`${URL}/user/${id}/update`, {id, username, email, picture})
-        console.log(response)
-        return response
+        return response.data
     } 
 
     async setBio(id, bio) {
         const response = await axios.post(`${URL}/user/${id}/bio`, {bio})
-        return response
+        return response.data
     }
 
     async updatePassword(id, current, update) {
         const response = await axios.post(`${URL}/user/${id}/password`, {id, current, update})
-        console.log(response)
-        return response
+        return response.data
     }    
 
     //////////////// Community Page \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -124,7 +120,6 @@ export class ApiClient {
 
     async createPost(playlistID) {
         const userID = window.localStorage.currentUserID
-        console.log(playlistID)
         const response = await axios.post(`${URL}/createpost/${playlistID}`, {userID})
         return response.data
     }
@@ -139,10 +134,16 @@ export class ApiClient {
         return response.data
     }
 
+    async deleteComment(postID, comment) {
+        const userID = window.localStorage.currentUserID;
+        const response = await axios.post(`${URL}/post/${postID}/deletecomment/`, {userID, comment})
+        alert(response.data)
+        return response.data
+    }
+
     async likePost(postID) {
         const userID = window.localStorage.currentUserID
         const response = await axios.post(`${URL}/post/${postID}/like`, {userID})
-        console.log(response.data)
         if (response.data === "Cannot like a post more than once") {
             alert(response.data)
         } else {
@@ -161,21 +162,12 @@ export class ApiClient {
         return response.data.data
     }
 
-    // redundant
-    async getAlbum(uri) {
-        const response = await axios.get(`${spotifyURL}/album/${uri}`);
-        console.log(response.data.data)
-        return response.data.data
-    }
-
     async getAlbums(arr) {
         const response = await axios.get(`${spotifyURL}/albums/${arr}`)
-        // console.log(response.data)
         return response.data
     }
 
     async getTracks(arr) {
-        // console.log(arr)
         const response = await axios.get(`${spotifyURL}/tracks/${arr}`)
         return response.data
     }

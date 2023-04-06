@@ -5,6 +5,7 @@ import { Accordion, Avatar, Card, Button, Textarea } from "flowbite-react";
 
 import HeartOutline from "../resources/heart_outline.svg"
 import Comment from "../resources/comment_icon.svg"
+import Delete from "../resources/delete_icon.svg"
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -12,6 +13,7 @@ function PostCard(props) {
     const post = props.post;
     const loggedInUser = props.username;
     const [playlists, setPlaylists] = useState([])
+    const [updater, setUpdater] = useState()
 
     const [trackLoadState, setTrackLoadState] = useState(false)
     const cardParent = "postCard"
@@ -48,8 +50,10 @@ function PostCard(props) {
             e.target.comment.value)
             .then((response) => {
                 setComment(response)
-                alert("Comment submited successfully!")
-                console.log(response)
+                alert("Comment submited successfully!");
+                setUpdater(uuidv4())
+                props.update(uuidv4())
+
             })
             .catch((err) => {
                 console.log(err);
@@ -58,18 +62,30 @@ function PostCard(props) {
 
     useEffect(() => {
         getPlaylists()
-    }, [post])
+    }, [post, updater])
 
     const userLink = "/profile/" + post.userID.slice(8.32)
 
     const likePost = async () => {
         const postUser = post.userID.slice(8, 32)
         if (window.localStorage.currentUserID != postUser) {
-            await props.client.likePost(post._id)
+            await props.client.likePost(post._id);
+            setUpdater(uuidv4())
+            props.update(uuidv4())
+
         } else {
             alert("You can't like your own post!")
         }
     }
+
+    const deleteComment = async (comment) => {
+        console.log(post._id, comment)
+        await props.client.deleteComment(post._id, comment);
+        setUpdater(uuidv4());
+        props.update(uuidv4());
+    }
+
+
 
     return (
         <Accordion alwaysOpen={true} collapseAll={true} onClick={() => setTrackLoadState(true)} className="accordionElement">
@@ -97,8 +113,10 @@ function PostCard(props) {
                                 load={trackLoadState}
                                 parent={cardParent}
                                 user={props.user}
+                                update={(updater) => setUpdater(updater)}
                             />
                         </div>
+                        {/* ///////////// COMMENTS /////////////////////////////////////////////////////////////////////////////////////////// */}
                         <div>
                             {post.comments ? post?.comments?.map((posts, index) => {
                                 return (
@@ -107,12 +125,21 @@ function PostCard(props) {
                                             className="commentArea"
                                             key={index}
                                         >
-                                            <h5 className="text-lg font-bold tracking-tight text-gray-400 dark:text-white">
-                                                {posts?.split(":")[0]}
-                                            </h5>
-                                            <p className="font-normal text-gray-700 dark:text-gray-400">
-                                                {posts?.split(":")[1]}
-                                            </p>
+                                            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                                                <div>
+                                                    <h5 className="text-lg white-text font-bold tracking-tight dark:text-white">
+                                                        {posts?.split(":")[0]}
+                                                    </h5>
+                                                    <p className="font-normal grey-text dark:text-gray-400">
+                                                        {posts?.split(":")[1]}
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    {props.user.isAdmin === true ? (<>
+                                                        <img id={uuidv4()} src={Delete} width={50} title={"remove track from playlist"} onClick={() => deleteComment(posts)} />
+                                                    </>) : (<></>)}
+                                                </div>
+                                            </div>
                                         </Card>
                                     </>
                                 )

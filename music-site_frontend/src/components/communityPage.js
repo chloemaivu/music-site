@@ -8,6 +8,8 @@ import { v4 as uuidv4 } from "uuid";
 function CommunityPage(props) {
     const user = props.user
     const [posts, setPosts] = useState([])
+    const [updater, setUpdater] = useState()
+    console.log(updater)
 
 
     const getAllPosts = async () => {
@@ -18,7 +20,7 @@ function CommunityPage(props) {
 
     useEffect(() => {
         getAllPosts()
-    }, [])
+    }, [updater])
 
 
     function Calendar() {
@@ -66,6 +68,7 @@ function CommunityPage(props) {
                                                 username={user.username}
                                                 post={post}
                                                 client={props.client}
+                                                update={(updater) => setUpdater(updater)}
                                                 user={props.user} />
                                         </Timeline.Body>
                                     </Timeline.Content>
