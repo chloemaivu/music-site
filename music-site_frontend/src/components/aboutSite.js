@@ -1,23 +1,60 @@
+import { useEffect, useState } from "react"
+
 function SiteInfo() {
 
-    function swapView(id) {
+    const [section, setSection] = useState()
 
+    const sectionIds = ["about", "privacy", "licensing", "contact"]
+    const headerIds = ["aboutHeader", "privacyHeader", "licensingHeader", "contactHeader"]
+
+    function toggleSection(arr, section, arr2, selection) {
+        let v = document.getElementById(section)
+        let b = document.getElementById(selection)
+        arr.forEach(subSection => {
+            document.getElementById(subSection).style.display = "none"
+        })
+        arr2.forEach(subSection => {
+            document.getElementById(subSection).style.background = "none"
+        })
+        v.style.display = "block";
+        b.style.backgroundColor = "#a2c4bd"
+        b.style.padding = "1em"
+        b.style.borderRadius = "0.25em"
     }
 
     return (
         <>
             <p className="brand-title object-position: center">VANTA</p>
             <br />
-            <div style={{display: "flex", alignItems: "center", justifyContent: "space-around"}}>
-                <span className="white-text text-3xl">
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }} >
+                <span
+                    id="aboutHeader"
+                    style={{ cursor: "pointer" }}
+                    className="white-text text-3xl font-extrabold"
+                    onClick={() => toggleSection(sectionIds, sectionIds[0], headerIds, headerIds[0])}>ABOUT VANTA</span>
 
-                </span>
+                <span
+                    id="privacyHeader"
+                    style={{ cursor: "pointer" }}
+                    className="white-text text-3xl font-extrabold"
+                    onClick={() => toggleSection(sectionIds, sectionIds[1], headerIds, headerIds[1])}>PRIVACY</span>
+
+                <span
+                    id="licensingHeader"
+                    style={{ cursor: "pointer" }}
+                    className="white-text text-3xl font-extrabold"
+                    onClick={() => toggleSection(sectionIds, sectionIds[2], headerIds, headerIds[2])}>LICENSING</span>
+
+                <span
+                    id="contactHeader"
+                    style={{ cursor: "pointer" }}
+                    className="white-text text-3xl font-extrabold"
+                    onClick={() => toggleSection(sectionIds, sectionIds[3], headerIds, headerIds[3])}>CONTACT</span>
             </div>
-            <div >
-                <div id="aboutHeader" onClick={() => swapView("about")}>
-                    <p className="white-text text-2xl">About VANTA</p>
-
-                    <hr />
+            <hr />
+            <div style={{ marginLeft: "15%", marginRight: "15%" }} >
+                <div id="about" style={{ display: "none", textAlign: "justify" }} >
+                    <p className="white-text text-3xl">About VANTA</p>
                     <br />
                     <p className="white-text text-xl" >
                         Vanta Site is a music discovery platform built using the MERN stack.
@@ -28,9 +65,8 @@ function SiteInfo() {
                     <br />
                 </div>
 
-                <div id="privacy" onClick={() => swapView("privacy")}>
-                    <p className="white-text text-4xl">Privacy Policy</p>
-                    <hr />
+                <div id="privacy" style={{ display: "none", textAlign: "justify" }}>
+                    <p className="white-text text-3xl">Privacy Policy</p>
                     <br />
                     <p className="white-text text-xl" >
                         At Vanta, we take your privacy seriously. We are committed to protecting your personal information and being transparent about how we use it. This Privacy Policy explains the types of information we collect from you and how we use and protect that information.
@@ -72,9 +108,8 @@ function SiteInfo() {
                     <br />
                 </div>
 
-                <div id="licensing" onClick={() => swapView("licensing")}>
-                    <p className="white-text text-4xl">Licensing</p>
-                    <hr />
+                <div id="licensing" style={{ display: "none", textAlign: "justify" }} >
+                    <p className="white-text text-3xl">Licensing</p>
                     <br />
                     <p className="white-text text-xl">
                         At Vanta, we take licensing and copyright seriously.
@@ -83,18 +118,38 @@ function SiteInfo() {
                     </p>
                     <br />
                 </div>
-                <div id="contact" onClick={() => swapView("contact")}>
-                    <p className="white-text text-4xl">Contact</p>
-                    <hr />
+                <div id="contact" style={{ display: "none", textAlign: "justify" }} >
+                    <p className="white-text text-3xl">Contact</p>
                     <br />
                     <p className="white-text text-xl">
                         Hi! This website was created by Alex, Chloe, and Kristina.
                         We are junior software developers and created this website to showcase the skills we learnt on our web development bootcamp with the Developer Academy.
                         If you have any questions, suggestions or feedback about our website, we would love to hear from you!
                         You can find us on Github and LinkedIn, where we regularly share our latest projects and insights.
-                        Feel free to reach out to us individually using the following links: [Alex's Github/LI], [Chloe's Github/LI], [Kristina's Github/LI].
+                        Feel free to reach out to us individually using the following links:
                     </p>
-                    <br/>
+                    <br />
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
+                        <div >
+                            <p style={{fontWeight: "bold"}}>Alex</p>
+                            <p style={{textDecoration: "underline"}}><a href="https://github.com/TaureHorn">Github</a></p>
+                            <p style={{textDecoration: "underline"}}><a href="https://www.linkedin.com/in/alex-b-39193683/">LinkedIn</a></p>
+                        </div>
+
+                        <div>
+                            <p style={{fontWeight: "bold"}}>Chloe</p>
+                            <p style={{textDecoration: "underline"}}><a href="https://github.com/chloemaivu">Github</a></p>
+                            <p style={{textDecoration: "underline"}}><a href="https://www.linkedin.com/in/chloemaivu/">LinkedIn</a></p>
+                        </div>
+
+                        <div>
+                            <p style={{fontWeight: "bold"}}>Kristina</p>
+                            <p style={{textDecoration: "underline"}}><a href="https://github.com/kbugaite">Github</a></p>
+                            <p style={{textDecoration: "underline"}}><a href="https://www.linkedin.com/in/kristinabugaite/">LinkedIn</a></p>
+                        </div>
+                    </div>
+
+                    <br />
                     <p className="white-text text-xl">
                         We look forward to hearing from you!
                     </p>
