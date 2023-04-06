@@ -206,8 +206,7 @@ function CurrentUserProfile(props) {
             outline={true}
             gradientDuoTone="cyanToBlue"
             type="button"
-            size="xl"
-            href="/user-settings">
+            size="xl">
             Create Playlist
           </Button>
         </div>
