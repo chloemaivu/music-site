@@ -4,7 +4,7 @@ import axios from "axios";
 const authURL = "https://vanta-music-backend.onrender.com/auth"
 
 // Mongo general url
-const URL = "https://vanta-music-backend.onrender.com/"
+const URL = "https://vanta-music-backend.onrender.com"
 
 // spotify backend api calls url
 const spotifyURL = "https://vanta-music-backend.onrender.com/spotify"
