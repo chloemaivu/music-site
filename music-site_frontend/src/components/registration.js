@@ -27,7 +27,7 @@ function RegisterView(props) {
         setDisabled(true)
         // reset form
         alert("Registration successful! You may now log in")
-        navigate("/login")        
+        navigate("/login")
       })
       .catch(() => {
         alert("Error. Please try again.");
@@ -35,7 +35,7 @@ function RegisterView(props) {
       });
   };
   return (
-    <>
+    <><div style={{ marginLeft: "15%", marginRight: "15%", marginTop: "5%" }}>
       <h1 className="text-5xl">Register here:</h1>
       <form onSubmit={(e) => submitHandler(e)}>
         <div controlId="username">
@@ -85,10 +85,10 @@ function RegisterView(props) {
         <div controlId="picture">
           <Label className="white-text mb-3" value="Profile picture:" />
           <TextInput type="text"
-          className="white-text"
-          name="picture"
-          placeholder="Enter your picture URL here"
-          disabled={disabled} />
+            className="white-text"
+            name="picture"
+            placeholder="Enter your picture URL here"
+            disabled={disabled} />
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Button
@@ -102,6 +102,7 @@ function RegisterView(props) {
           </Button>
         </div>
       </form>
+    </div>
     </>
   );
 }

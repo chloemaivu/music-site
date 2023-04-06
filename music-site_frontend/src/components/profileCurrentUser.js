@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Card, Button, Badge } from "flowbite-react";
-import { v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import CreatePlaylistModal from "./modalCreatePlaylist";
 import TrackOptions from './modalTrackOptions';
@@ -115,14 +115,16 @@ function CurrentUserProfile(props) {
                 Member since: {user?.createdAt?.slice(0, 10)}
               </h5>
               {/* /////////////////////////// USER BIO /////////////////////// */}
+              <br />
+              <br />
               <div className="mt-4 flex space-x-3 lg:mt-6">
                 {bioState === true ? (
                   <>
                     <div>
-                      <p id="userBio" className="grey-text borderGrey text-justify p-4">{user?.bio}</p>
+                      <p id="userBio" className="grey-text borderGrey text-justify p-4 m-5">{user?.bio}</p>
                       <div style={{ display: "flex", justifyContent: "center" }}>
                         <Button
-                          className="mt-5"
+                          className="m-5"
                           outline={true}
                           gradientDuoTone="cyanToBlue"
                           type="button"
@@ -137,10 +139,11 @@ function CurrentUserProfile(props) {
                     </div>
 
                   </>) : (
+
                   <>
                     <Button
                       id="createBioButton"
-                      className="mt-5"
+                      className="m-5"
                       outline={true}
                       gradientDuoTone="cyanToBlue"
                       type="button"
@@ -183,7 +186,7 @@ function CurrentUserProfile(props) {
               </div>
               <div style={{ display: "flex", justifyContent: "space-around" }}>
                 <Button
-                  className="mt-5"
+                  className=""
                   outline={true}
                   gradientDuoTone="cyanToBlue"
                   type="button"
@@ -197,11 +200,18 @@ function CurrentUserProfile(props) {
           </Card>
         </div>
         <div>
-          <Button onClick={() => onClick("createPlaylistModal")}>
+          <Button
+            onClick={() => onClick("createPlaylistModal")}
+            className="m-5"
+            outline={true}
+            gradientDuoTone="cyanToBlue"
+            type="button"
+            size="xl"
+            href="/user-settings">
             Create Playlist
           </Button>
-          <CreatePlaylistModal client={props.client} update={(updater) => setUpdater(updater)}/>
         </div>
+        <CreatePlaylistModal client={props.client} update={(updater) => setUpdater(updater)} />
 
 
         {/* //////////// PLAYLISTS ////////////////////////////////////////////// */}

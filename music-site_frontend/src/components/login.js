@@ -25,7 +25,7 @@ function Login(props) {
 
   return (
     <>
-      <div className="justify-items-center">
+      <div className="justify-items-center" style={{marginLeft: "15%", marginRight: "15%", marginTop: "5%"}}>
         <h1 className="text-5xl"> Login </h1>
         <form className="flex flex-col gap-4" onSubmit={(e) => submit(e)}>
           <div>
