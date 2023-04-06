@@ -36,8 +36,6 @@ function EditorsPick(props) {
         getAllPlaylist()
     }, [updater])
 
-    console.log(playlists)
-
     function revealPlaylist(i) {
         // change index of playlists to be shown
         // automatically reveal full playlist when clicked

@@ -54,7 +54,6 @@ exports.login = async function (req, res) {
     token: stringToken,
     id: user._id
   });
-  console.log(stringToken, user._id);
 };
 
 exports.deleteUser = async function (req, res, next) {
