@@ -37,7 +37,7 @@ export class ApiClient {
     ////// ACCOUNT ////////////////////////////////////////////////////////////
     async login(username, password) {
         const response = await axios.post(`${authURL}/login`, {username, password});  
-        return response.data     
+        return response     
     }
 
     async register(username, email, password, repeatpassword, picture) {
