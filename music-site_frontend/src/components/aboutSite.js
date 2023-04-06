@@ -37,7 +37,7 @@ function SiteInfo() {
                     id="privacyHeader"
                     style={{ cursor: "pointer" }}
                     className="white-text text-3xl font-extrabold"
-                    onClick={() => toggleSection(sectionIds, sectionIds[1], headerIds, headerIds[1])}>PRIVACY</span>
+                    onClick={() => toggleSection(sectionIds, sectionIds[1], headerIds, headerIds[1])}>PRIVACY POLICY</span>
 
                 <span
                     id="licensingHeader"
@@ -54,7 +54,6 @@ function SiteInfo() {
             <hr />
             <div style={{ marginLeft: "15%", marginRight: "15%" }} >
                 <div id="about" style={{ display: "none", textAlign: "justify" }} >
-                    <p className="white-text text-3xl">About VANTA</p>
                     <br />
                     <p className="white-text text-xl" >
                         Vanta Site is a music discovery platform built using the MERN stack.
@@ -66,7 +65,6 @@ function SiteInfo() {
                 </div>
 
                 <div id="privacy" style={{ display: "none", textAlign: "justify" }}>
-                    <p className="white-text text-3xl">Privacy Policy</p>
                     <br />
                     <p className="white-text text-xl" >
                         At Vanta, we take your privacy seriously. We are committed to protecting your personal information and being transparent about how we use it. This Privacy Policy explains the types of information we collect from you and how we use and protect that information.
@@ -109,7 +107,6 @@ function SiteInfo() {
                 </div>
 
                 <div id="licensing" style={{ display: "none", textAlign: "justify" }} >
-                    <p className="white-text text-3xl">Licensing</p>
                     <br />
                     <p className="white-text text-xl">
                         At Vanta, we take licensing and copyright seriously.
@@ -119,7 +116,6 @@ function SiteInfo() {
                     <br />
                 </div>
                 <div id="contact" style={{ display: "none", textAlign: "justify" }} >
-                    <p className="white-text text-3xl">Contact</p>
                     <br />
                     <p className="white-text text-xl">
                         Hi! This website was created by Alex, Chloe, and Kristina.
@@ -131,21 +127,21 @@ function SiteInfo() {
                     <br />
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
                         <div >
-                            <p style={{fontWeight: "bold"}}>Alex</p>
-                            <p style={{textDecoration: "underline"}}><a href="https://github.com/TaureHorn">Github</a></p>
-                            <p style={{textDecoration: "underline"}}><a href="https://www.linkedin.com/in/alex-b-39193683/">LinkedIn</a></p>
+                            <p style={{ fontWeight: "bold" }}>Alex</p>
+                            <p style={{ textDecoration: "underline" }}><a href="https://github.com/TaureHorn" target="_blank">Github</a></p>
+                            <p style={{ textDecoration: "underline" }}><a href="https://www.linkedin.com/in/alex-b-39193683/" target="_blank">LinkedIn</a></p>
                         </div>
 
                         <div>
-                            <p style={{fontWeight: "bold"}}>Chloe</p>
-                            <p style={{textDecoration: "underline"}}><a href="https://github.com/chloemaivu">Github</a></p>
-                            <p style={{textDecoration: "underline"}}><a href="https://www.linkedin.com/in/chloemaivu/">LinkedIn</a></p>
+                            <p style={{ fontWeight: "bold" }}>Chloe</p>
+                            <p style={{ textDecoration: "underline" }}><a href="https://github.com/chloemaivu" target="_blank">Github</a></p>
+                            <p style={{ textDecoration: "underline" }}><a href="https://www.linkedin.com/in/chloemaivu/" target="_blank">LinkedIn</a></p>
                         </div>
 
                         <div>
-                            <p style={{fontWeight: "bold"}}>Kristina</p>
-                            <p style={{textDecoration: "underline"}}><a href="https://github.com/kbugaite">Github</a></p>
-                            <p style={{textDecoration: "underline"}}><a href="https://www.linkedin.com/in/kristinabugaite/">LinkedIn</a></p>
+                            <p style={{ fontWeight: "bold" }}>Kristina</p>
+                            <p style={{ textDecoration: "underline" }}><a href="https://github.com/kbugaite" target="_blank">Github</a></p>
+                            <p style={{ textDecoration: "underline" }}><a href="https://www.linkedin.com/in/kristinabugaite/" target="_blank">LinkedIn</a></p>
                         </div>
                     </div>
 
