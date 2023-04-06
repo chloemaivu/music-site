@@ -8,18 +8,6 @@ function NavbarPreLogin() {
           VANTA
         </span>
       </Navbar.Brand>
-      <div className="flex md:order-2">
-        <Button
-          outline={true}
-          gradientDuoTone="cyanToBlue"
-          type="submit"
-          size="xl"
-          href="/login"
-        >
-          Log In
-        </Button>
-        <Navbar.Toggle />
-      </div>
     </Navbar>
   );
 }

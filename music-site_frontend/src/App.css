@@ -256,7 +256,7 @@ div {
 }
 
 .hover1 {
-  bottom: 55%;
+  bottom: 65%;
 }
 
 .hover2 {
@@ -264,7 +264,7 @@ div {
 }
 
 .hover3 {
-  bottom: 45%;
+  bottom: 35%;
 }
 
 #sidebar {
@@ -316,7 +316,7 @@ div {
   padding: 10px;
   position: fixed;
   top: 25%;
-  right: 30%;
+  right: 18%;
   max-width: 14%;
   z-index: 100;
 }
@@ -417,8 +417,8 @@ div {
   color: var(--text);
   padding: 10px;
   position: fixed;
-  left: 30%;
-  top: 23%;
+  left: 18%;
+  top: 20%;
   min-width: 20%;
   z-index: 100;
 }

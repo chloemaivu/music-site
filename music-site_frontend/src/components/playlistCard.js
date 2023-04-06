@@ -104,7 +104,7 @@ function PlaylistCard(props) {
         <>
             <div key={uuidv4()} className="min-w-min w-full">
                 <Card className="playlistDark" key={uuidv4()}>
-                    <span className="playlistTitle font-bold text-white">{playlist?.name}</span>
+                    <span className="playlistTitle font-bold text-white leading-tight">{playlist?.name}</span>
                     <div style={{ display: "flex", justifyContent: 'space-around', alignItems: "center" }}>
                         <div>
                             <span className="ml-3 inline-flex items-center justify-center rounded bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-500 dark:bg-gray-700 dark:text-gray-400">

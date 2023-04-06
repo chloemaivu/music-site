@@ -79,13 +79,10 @@ function PostCard(props) {
     }
 
     const deleteComment = async (comment) => {
-        console.log(post._id, comment)
         await props.client.deleteComment(post._id, comment);
         setUpdater(uuidv4());
         props.update(uuidv4());
     }
-
-
 
     return (
         <Accordion alwaysOpen={true} collapseAll={true} onClick={() => setTrackLoadState(true)} className="accordionElement">
