@@ -152,7 +152,7 @@ a.block:hover,
   transform: scale(1.025) !important;
   transition-duration: 0.1s;
   transition-timing-function: ease-in;
-  
+
 }
 
 /* Navigation bar Dropdown item styling */
@@ -245,25 +245,25 @@ div {
 }
 
 .hoverbuttons {
-  position: fixed;  
+  position: fixed;
   right: 1%;
   z-index: 99;
 }
 
-.hoverhover:hover{
+.hoverhover:hover {
   filter: invert();
   transform: scale(1.5)
 }
 
-.hover1{
+.hover1 {
   bottom: 55%;
 }
 
-.hover2{
+.hover2 {
   bottom: 50%;
 }
 
-.hover3{
+.hover3 {
   bottom: 45%;
 }
 
@@ -328,39 +328,61 @@ div {
 
 /* ///////// TIMELINE /////////////////*/
 .timelineContainer {
-  margin-right: 5em!important;
+  margin-right: 5em !important;
+  margin-left: 2.5% !important;
 }
 
-*, ::after, ::before {
+*,
+::after,
+::before {
   --tw-ring-offset-width: 0;
 }
-.accordionElement {
-  width: 800px!important;
-}
+
 .commentArea {
   display: flex;
   background-color: var(--bg-highlight);
-  color: var(--text)!important;
+  color: var(--text) !important;
   margin: 1em;
 }
+
 .replyArea {
   display: none;
   background-color: var(--bg-highlight);
-  color: var(--text)!important;
+  color: var(--text) !important;
 }
+
 .postCardImage {
-  height: 150px!important;
+  height: 150px !important;
 }
+
 .timestamp {
-  color: var(--text)!important;
+  color: var(--text) !important;
 }
+
+.timestamp:hover{
+  background:none !important;
+  background-color: none !important;
+}
+
+.accordionElement {
+  width: 90vw !important;
+}
+
+.accordionTitle {
+  padding: none !important;
+}
+
 .accordionTop {
-background-color: var(--bg)!important;
+  background-color: var(--bg) !important;
 }
 
 .accordionTop:hover {
-  background-color: var(--bg-highlight)!important;
-  }
+  background-color: var(--bg-highlight) !important;
+}
+
+.accordionContent {
+  background-color: var(--bg);
+}
 
 .postBtn {
   margin-top: 1em;
@@ -371,22 +393,22 @@ background-color: var(--bg)!important;
   background-color: var(--bg) !important;
 }
 
-.radio:checked{
+.radio:checked {
   background-color: var(--high) !important;
 }
 
-.radio:active, .radio:focus {
+.radio:active,
+.radio:focus {
   border: var(--border) !important;
 }
 
 /* ///////// ADD TRACK MODAL ///////// */
 .hamburger {
-  opacity: 33%;
   cursor: pointer;
 }
 
-.hamburger:hover, .hamburger:active {
-  opacity: 70%;
+.hamburger:hover,
+.hamburger:active {
   transform: scale(1.25);
 }
 
@@ -402,12 +424,14 @@ background-color: var(--bg)!important;
 }
 
 .playlistTitle {
-  font-size: 1.75em;
-  padding: 0.5em;
+  font-size: 3em;
+  text-align: center;
 }
+
 .heartIcon {
-padding-left: 1.5em;
+  padding-left: 1.5em;
 }
+
 /* .bg-white {
   --tw-bg-opacity: 1;
   background-color: var(--edges);
@@ -416,12 +440,13 @@ padding-left: 1.5em;
 .playlistDark {
   background-color: var(--bg-highlight);
 }
+
 .playlistBlack {
   background-color: var(--bg);
   color: var(--edges) !important;
 }
 
-.playlistBlack:hover{
+.playlistBlack:hover {
   background-color: var(--high-nofocus);
-  color: var(--bg)!important;
+  color: var(--bg) !important;
 }

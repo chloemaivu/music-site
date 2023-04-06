@@ -22,7 +22,7 @@ function Homepage(props) {
     <p className="brand-title object-position: center">VANTA</p>
     <Searchbar client={props.client} searchFetch={(searchData) => setSearchData(searchData)}/>    
     <SearchResult client={props.client} search={searchData} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)}/> 
-    <EditorsPick client={props.client} />
+    <EditorsPick client={props.client} user={props.user} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)}/>
     </>
   );
 }

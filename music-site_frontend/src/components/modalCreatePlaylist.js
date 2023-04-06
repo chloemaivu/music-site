@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react"
 import { onClick, onClose } from "react"
+import { v4 as uuidv4 } from 'uuid';
 
 function CreatePlaylistModal(props) {
     const [newPlaylist, setNewPlaylist] = useState({})
@@ -18,6 +19,7 @@ function CreatePlaylistModal(props) {
                 console.log(err);
                 alert("an error occured, please try again");
             });
+        props.update(uuidv4())
     }
 
     async function newPost(id) {

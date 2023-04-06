@@ -28,15 +28,19 @@ function PlaylistCard(props) {
     }
 
     const removeTrack = async (id, uri) => {
-        await props.client.removeTrack(id, uri)
+        await props.client.removeTrack(id, uri);
+        props.update(uuidv4())
+
     }
 
     const highlightPlaylist = async () => {
-        await props.client.highlightPlaylist(playlist._id).then((response) => console.log(response))
+        await props.client.highlightPlaylist(playlist._id).then((response) => console.log(response));
+        props.update(uuidv4())
     }
 
     const deletePlaylist = async () => {
-        await props.client.deletePlaylist(playlist._id)
+        await props.client.deletePlaylist(playlist._id);
+        props.update(uuidv4())
     }
 
     function msConvert(duration) {
@@ -49,7 +53,6 @@ function PlaylistCard(props) {
         if (props.parent === "postCard" && props.load === true) {
             getTracks(trackIDs);
         } else if (props.parent === "profile") {
-            console.log("not the card parent")
             getTracks(trackIDs)
         }
         if (playlist?.privacy === undefined) {
@@ -60,8 +63,6 @@ function PlaylistCard(props) {
             setVisibility("Public")
         }
     }, [props.load, playlist])
-
-    console.log(props.load)
 
     const userChecker = (playlistsID) => {
         const currentUser = "USERID::" + window.localStorage.currentUserID
@@ -103,24 +104,26 @@ function PlaylistCard(props) {
         <>
             <div key={uuidv4()} className="min-w-min w-full">
                 <Card className="playlistDark" key={uuidv4()}>
-                    <h5 className="playlistTitle flex flex-row mb-3 text-base text-center font-semibold text-gray-900 dark:text-white">
-                        <div className="flex text-center">
-                            <span className="text-white">{playlist.name}</span>
+                    <span className="playlistTitle font-bold text-white">{playlist?.name}</span>
+                    <div style={{ display: "flex", justifyContent: 'space-around', alignItems: "center" }}>
+                        <div>
                             <span className="ml-3 inline-flex items-center justify-center rounded bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-500 dark:bg-gray-700 dark:text-gray-400">
                                 {visibility}
                             </span>
                         </div>
-                        <span className="heartIcon justify-content-end">
-                            <img className="inline-block" src={StarOutline} width={35} style={{ cursor: "pointer" }} onClick={() => highlightPlaylist()} />
-                        </span>
-                        {playlist?.highlighted === true ? (<><p className="grey-text text-4xl"> Featured Playlist! </p></>) : (<></>)}
-                    </h5>
+                        <div style={{display: "flex", alignItems: "center", gap: "30px"}}>
+                            {props.user?.isAdmin === true && playlist?.privacy === false ? (<>
+                                <span className="heartIcon justify-content-end">
+                                    <img className="inline-block" src={StarOutline} width={50} title="highlight a playlist" style={{ cursor: "pointer" }} onClick={() => highlightPlaylist()} />
+                                </span>
+                            </>) : (<></>)}
+                            {playlist?.highlighted === true ? (<><p className="grey-text text-4xl"> Featured Playlist! </p></>) : (<></>)}
+                        </div>
+                    </div>
                     <p key={uuidv4()} className="text-md white-text text-center font-normal dark:text-gray-400">
-                        {playlist.description}
-                    </p>
-                    <p key={uuidv4()} className="text-sm white-text text-center font-normal dark:text-gray-400">
                         {playlist?.description}
                     </p>
+                    {/* ///////////////////////////////////////////////////////////////////////////////////////// */}
                     {tracks?.length > 0 ? (
                         <ul key={uuidv4()} className="my-4 space-y-3">
                             {tracks?.map(track => {
@@ -130,19 +133,37 @@ function PlaylistCard(props) {
                                         <li key={uuidv4()}>
                                             <div className="playlistBlack border group flex items-center rounded-lg bg-gray-50 p-3 text-base font-bold text-gray-900hover:bg-gray-100 hover:shadow dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500"
                                                 onMouseEnter={() => toggleElement(hamburgerIcon)} onMouseLeave={() => toggleElement(hamburgerIcon)}>
-                                                <img className="resultsCard" src={track?.album?.images[0]?.url} style={{ width: "10%" }} alt={track?.name} />
-                                                <span className="flex-grow-1 ml-3 flex-1 whitespace-nowrap">
-                                                    {track?.name}
-                                                </span>
-                                                <span className="flex-grow-0 ml-3 flex-1 text-center whitespace-nowrap">
-                                                    {msConvert(track?.duration_ms)}
-                                                </span>
-                                                {ownPlaylist === true ? (
-                                                    <img src={Delete} width={35} title={"remove track from playlist"} onClick={() => removeTrack(playlist?._id, track?.uri)} />
-                                                )
-                                                    : (<> </>)
-                                                }
-                                                <img id={hamburgerIcon} src={Hamburger} className="hamburger" style={{ display: "none" }} width={"30px"} onClick={() => hamburgerHandler(track?.name, track?.uri)} />
+                                                <div style={{ display: "flex", alignItems: "center", width: "100%", justifyContent: "space-between" }}>
+
+                                                    <div style={{ display: "flex" }}>
+                                                        <div>
+                                                            <img className="resultsCard" src={track?.album?.images[0]?.url} width={75} alt={track?.name} />
+                                                        </div>
+                                                        <div>
+                                                            <p className="flex-grow-1 ml-3 flex-1 whitespace-nowrap white-text text-xl">
+                                                                {track?.name}
+                                                            </p>
+                                                            <p className="flex-grow-0 ml-3 flex-1 whitespace-nowrap text-xs">
+                                                                by <strong>{track?.artists[0]?.name}</strong>
+                                                            </p>
+                                                            <p className="flex-grow-0 ml-3 flex-1 whitespace-nowrap text-xs">
+                                                                from the album <strong>{track?.album.name}</strong>
+                                                            </p>
+                                                            <p className="flex-grow-0 ml-3 flex-1 whitespace-nowrap text-xs">
+                                                                Duration: <strong>{msConvert(track?.duration_ms)}</strong>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        {ownPlaylist === true ? (
+                                                            <img src={Delete} width={50} title={"remove track from playlist"} onClick={() => removeTrack(playlist?._id, track?.uri)} />
+                                                        )
+                                                            : (<> </>)
+                                                        }
+                                                        <img id={hamburgerIcon} src={Hamburger} className="hamburger" style={{ display: "none" }} width={45} onClick={() => hamburgerHandler(track?.name, track?.uri)} />
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </li>
                                     </>
@@ -151,15 +172,15 @@ function PlaylistCard(props) {
                         </ul>
                     ) : <p className='text-center flex-grow-0 ml-3 flex-1 whitespace-nowrap'><i>This playlist is empty - add some songs!</i></p>}
                     {ownPlaylist === true || props.user?.isAdmin === true ? (<>
-                        <Button 
+                        <Button
                             onClick={() => deletePlaylist()}
                             className="mt-5"
                             outline={true}
                             gradientDuoTone="cyanToBlue"
                             type="button"
                             size="xl"
-                            style={{backgroundColor: "rgb(255,0,0)"}}
-                            >
+                            style={{ backgroundColor: "rgb(255,0,0)" }}
+                        >
                             DELETE PLAYLIST
                         </Button></>) : (<></>)}
                 </Card>
