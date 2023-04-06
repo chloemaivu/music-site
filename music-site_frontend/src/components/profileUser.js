@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom";
-import { Card, Button, Badge } from "flowbite-react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Card, Button, Badge, Label, TextInput } from "flowbite-react";
 
 import CreatePlaylistModal from "./modalCreatePlaylist";
 import TrackOptions from './modalTrackOptions';
@@ -14,8 +14,7 @@ function UserProfile(props) {
     const [bioState, setBioState] = useState(true)
     const [bio, setBio] = useState("")
     const playlistParent = "profile"
-
-    console.log(user)
+    const [updater, setUpdater] = useState()
 
     useEffect(() => {
         props.client.getUserData(userid).then((response) => setUser(response.data))
@@ -24,7 +23,7 @@ function UserProfile(props) {
     useEffect(() => {
         const prependUserID = "USERID::" + userid
         props.client.getPlaylists(prependUserID).then((response) => { setPlaylists(response) })
-    }, [user])
+    }, [user, updater])
 
     useEffect(() => {
         if (user?.bio?.length === 0) {
@@ -32,23 +31,6 @@ function UserProfile(props) {
         }
     }, [user])
 
-    const onClick = (id) => {
-        let x = document.getElementById(id)
-        if (x.style.display === "none") {
-            x.style.display = "block"
-        } else {
-            x.style.display = "none"
-        }
-    }
-
-    async function bioHandler(e) {
-        e.preventDefault()
-        props.client.setBio(
-            window.localStorage.currentUserID,
-            e.target.bio.value
-        ).then((response) => setBio(response));
-        setBioState(true);
-    }
 
     ////// PARENT PROPS PASS HANDLING ////////////////////////////////////////////
     const [songURI, setSongURI] = useState("")
@@ -85,6 +67,25 @@ function UserProfile(props) {
         }
     }, [modalVisibility])
 
+    /////// ADMIN /////////////////////////////////////////////////////////
+
+    const navigate = useNavigate()
+
+    const submitDeletion = async (e) => {
+        e.preventDefault()
+        props.client.deleteUser(user.username, user.createdAt, e.target.password.value)
+            .then((response) => {
+                alert(response)
+                navigate("/home")
+            })
+            .catch((err) => {
+                console.log(err)
+                alert("an error occured, please try again")
+            });
+    }
+
+    console.log(user)
+
     return (
         <>
             {/* ///////////// USER CARD ///////////////////////////////////////////// */}
@@ -118,7 +119,7 @@ function UserProfile(props) {
                                 Member since: {user?.createdAt?.slice(0, 10)}
                             </h5>
                             <br />
-                            {props.currentUser.isAdmin === true ? (<><p><strong>User ID:</strong> {userid}</p></>):(<></>) } 
+                            {props.currentUser.isAdmin === true ? (<><p><strong>User ID:</strong> {userid}</p></>) : (<></>)}
                             <br />
                             {/* /////////////////////////// USER BIO /////////////////////// */}
                             <div className="mt-4 flex space-x-3 lg:mt-6">
@@ -147,6 +148,7 @@ function UserProfile(props) {
                     name={modalProps.name}
                     songURI={(songURI) => setSongURI(songURI)}
                     type={(type) => setType(type)}
+                    update={(updater) => setUpdater(updater)}
                     uri={modalProps.uri}
                     visiblity={modalVisibility} />
                 <div className="playlistsArea">
@@ -160,11 +162,50 @@ function UserProfile(props) {
                                     parent={playlistParent}
                                     playlist={playlist}
                                     modalProps={(modalProps) => setModalProps(modalProps)}
-                                    visibility={(modalVisibility) => setModalVisibility(modalVisibility)} />
+                                    visibility={(modalVisibility) => setModalVisibility(modalVisibility)}
+                                    update={(updater) => setUpdater(updater)}
+                                    user={props.currentUser} />
                             )
                         })
                         : <></>}
                 </div>
+                {props.currentUser?.isAdmin === true ? (
+                    <>
+                        <div id="admin" className="border background-grey p-4 m-4">
+                            <p className="white-text text-3xl">Admin</p>
+                            <hr />
+                            <p className="grey-text text-xl">Delete User</p>
+                            <form className="flex flex-col gap-4" onSubmit={(e) => submitDeletion(e)}>
+                                <div className="mb-2 block white-text">
+                                    <Label
+                                        htmlFor=""
+                                        className="white-text"
+                                        value="Admin user password"
+                                    />
+
+                                    <TextInput
+                                        placeholder="********"
+                                        type="password"
+                                        name="password"
+                                        className="white-text"
+                                        required={true}
+                                    />
+                                </div>
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <Button
+                                        className="mt-5"
+                                        outline={true}
+                                        gradientDuoTone="cyanToBlue"
+                                        type="submit"
+                                        size="xl"
+                                    >
+                                        DELETE USER
+                                    </Button>
+                                </div>
+                            </form>
+                        </div>
+                    </>
+                ) : (<></>)}
             </div>
 
         </>

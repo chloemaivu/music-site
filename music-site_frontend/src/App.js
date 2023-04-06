@@ -122,12 +122,12 @@ function App() {
       </Button>
       <Routes>
         <Route path="/" element={<HomeRouter />} />
-        <Route path="/home" element={<div className="page"><Homepage client={client} getUserData={() => getUserData()} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)} /> </div>} />
+        <Route path="/home" element={<div className="page"><Homepage client={client} getUserData={() => getUserData()} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)} user={userData}/> </div>} />
         <Route path="/profile" element={<div className="page center"><CurrentUserProfile client={client} user={userData} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)}/> </div>} />
         <Route path="/profile/:userid" element={<div className="page center"><UserProfile client={client} currentUser={userData} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)}/> </div>} />
         <Route path="/user-settings" element={<div className="page center"><UserSettings user={userData} client={client} /> </div>} />
         <Route path="/artist/:artistId" element={<div className="page"> <ArtistPage client={client} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)} /> </div>} />
-        <Route path="/community" element={<div className="page center"> <CommunityPage client={client} user={userData} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)}/> </div>} />
+        <Route path="/community" element={<div className="page"> <CommunityPage client={client} user={userData} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)}/> </div>} />
         <Route path="/about" element={<div className="page center"> <SiteInfo /> </div>} />
       </Routes>
       <SidebarPlayer type={type} songURI={songURI} client={client} />

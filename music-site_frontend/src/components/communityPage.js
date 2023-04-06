@@ -57,15 +57,16 @@ function CommunityPage(props) {
                                 <Timeline.Item key={uuidv4()}>
                                     <Timeline.Point icon={Calendar} />
                                     <Timeline.Content>
-                                        <Timeline.Time className="text-3xl">
-                                            <p className="timestamp py-5">{post.updatedAt.slice(0, 10)} {post.updatedAt.slice(11, 16)}</p>
+                                        <Timeline.Time className="text-2xl">
+                                            <p className="timestamp py-2">{post.updatedAt.slice(0, 10)} {post.updatedAt.slice(11, 16)}</p>
                                         </Timeline.Time>
                                         <Timeline.Body>
                                             <PostCard
                                                 playlistID={post.playlistID}
                                                 username={user.username}
                                                 post={post}
-                                                client={props.client} />
+                                                client={props.client}
+                                                user={props.user} />
                                         </Timeline.Body>
                                     </Timeline.Content>
                                 </Timeline.Item>

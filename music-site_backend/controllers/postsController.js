@@ -8,7 +8,7 @@ const userModel = require("../models/userModel");
 const postModel = require("../models/postModel");
 
 exports.getAllPosts = async function (req, res, next) {
-    posts = await postModel.find().sort({ "updatedAt": -1 }).limit(2)
+    posts = await postModel.find().sort({ "updatedAt": -1 }).limit(10)
     if (!posts) {
         return (next(createError(404, "Posts not found.")))
     }

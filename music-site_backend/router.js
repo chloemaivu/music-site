@@ -11,6 +11,8 @@ router.post("/auth/register", mongo.register)
 
 router.post("/auth/login", mongo.login)
 
+router.post("/auth/delete", mongo.deleteUser)
+
 router.get("/user/:id", mongo.getUserData)
 
 router.post("/deleteuser/:id", mongo.deleteUser)

@@ -29,34 +29,32 @@ function PostCard(props) {
         let replyCard = document.getElementById(replyID)
         let commentsCard = document.getElementById(commentID)
         let replyButton = document.getElementById(replyBtnID)
-            if (replyCard.style.display === "none") {
-                replyCard.style.display = "flex"
-                replyButton.style.display = "none"
-                commentsCard.style.display = "none"
-            } else {
-                replyCard.style.display = "none"
-                commentsCard.style.display = "flex"
-                replyButton.style.display = "flex"
-            }}
+        if (replyCard.style.display === "none") {
+            replyCard.style.display = "flex"
+            replyButton.style.display = "none"
+            commentsCard.style.display = "none"
+        } else {
+            replyCard.style.display = "none"
+            commentsCard.style.display = "flex"
+            replyButton.style.display = "flex"
+        }
+    }
 
-            async function submitHandler(e) {
-                e.preventDefault()
-                props.client.postComment(
-                    post._id,
-                    loggedInUser,
-                    e.target.comment.value)
-                    .then((response) => {
-                        setComment(response)
-                        alert("Comment submited successfully!")
-                        console.log(response)
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
-            }
-
-console.log(post._id)
-console.log(loggedInUser)
+    async function submitHandler(e) {
+        e.preventDefault()
+        props.client.postComment(
+            post._id,
+            loggedInUser,
+            e.target.comment.value)
+            .then((response) => {
+                setComment(response)
+                alert("Comment submited successfully!")
+                console.log(response)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 
     useEffect(() => {
         getPlaylists()
@@ -71,84 +69,80 @@ console.log(loggedInUser)
         } else {
             alert("You can't like your own post!")
         }
-
-
     }
 
     return (
-        <Accordion alwaysOpen={true} collapseAll={true} onClick={() => setTrackLoadState(true)} alwaysOpen={true} className="accordionElement">
+        <Accordion alwaysOpen={true} collapseAll={true} onClick={() => setTrackLoadState(true)} className="accordionElement">
             <Accordion.Panel >
-                <Accordion.Title >
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                        <div>
+                <Accordion.Title className="accordionTitle">
+                    <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+                        <div style={{ display: "flex", alignItems: "center" }}>
                             <Link to={userLink} >
-                                <Avatar img={post?.userPicture} rounded={true} style={{ justifyContent: "start" }} />
-                                <h2>{post?.username}</h2>
+                                <div >
+                                    <img src={post?.userPicture} className="border" style={{ borderRadius: "0.5em", height: 75, justifyContent: "start", width: 75 }} />
+                                    <h2 className="white-text text-xl text-center">{post?.username}</h2>
+                                </div>
                             </Link>
                         </div>
-                        <h2 className="white-text text-xl">{post.playlistName}</h2>
+                        <h2 className="white-text text-4xl text-center">{post.playlistName}</h2>
                     </div>
                 </Accordion.Title>
-                <Accordion.Content>
-                    <p className="m-5 text-2xl text-gray-500 dark:text-gray-400 text-center">
-                        {playlists?.description}
-                    </p>
+                <Accordion.Content className="accordionContent">
                     <div className="grid grid-cols-2 gap-2">
                         <div className="flex flex-col items-center justify-center">
-                            {/* <div className="flex-wrap"> */}
                             <PlaylistCard
                                 id={playlists?._id}
                                 playlist={playlists}
                                 client={props.client}
                                 load={trackLoadState}
                                 parent={cardParent}
+                                user={props.user}
                             />
-                            {/* </div> */}
                         </div>
                         <div>
-                        {post.comments ? post?.comments?.map((posts, index) => {
-                            return (
-                                <>
-                            <Card id={commentID}
-                            className="commentArea"
-                            key={index}
-                            >
-                                <h5 className="text-lg font-bold tracking-tight text-gray-400 dark:text-white">
-                                {posts?.split(":")[0]}
-                                </h5>
-                                <p className="font-normal text-gray-700 dark:text-gray-400">
-                                    {posts?.split(":")[1]}
-                                </p>
-                            </Card>
-                            </>
-                            )
-                        }) : <h1>No comments here yet.</h1>}
-                        <div className="flex justify-center mb-4">
-                        <Button
-                                id={replyBtnID}
-                                className="postBtn mt-5 object-center"
-                                outline={true}
-                                gradientDuoTone="cyanToBlue"
-                                type="button"
-                                size="lg"
-                                onClick={() => toggleComment()}
-                            >
-                                Write a reply
-                        </Button>
-                        </div>
-                        <Card id={replyID} key={replyID} className="replyArea hidden">
-                            <form
-                                className="mb-2 block"
-                                onSubmit={(e) => submitHandler(e)}
+                            {post.comments ? post?.comments?.map((posts, index) => {
+                                return (
+                                    <>
+                                        <Card id={commentID}
+                                            className="commentArea"
+                                            key={index}
+                                        >
+                                            <h5 className="text-lg font-bold tracking-tight text-gray-400 dark:text-white">
+                                                {posts?.split(":")[0]}
+                                            </h5>
+                                            <p className="font-normal text-gray-700 dark:text-gray-400">
+                                                {posts?.split(":")[1]}
+                                            </p>
+                                        </Card>
+                                    </>
+                                )
+                            }) : <h1>No comments here yet.</h1>}
+                            <div className="flex justify-center mb-4">
+                                <Button
+                                    id={replyBtnID}
+                                    className="postBtn mt-5 object-center"
+                                    outline={true}
+                                    gradientDuoTone="cyanToBlue"
+                                    type="button"
+                                    size="lg"
+                                    onClick={() => toggleComment()}
                                 >
-                                        <Textarea
-                                            className="text-black"
-                                            id="comment"
-                                            name="comment"
-                                            placeholder="Leave a comment..."
-                                            required={true}
-                                            rows={4}
-                                        />
+                                    Write a reply
+                                </Button>
+                            </div>
+                            <Card id={replyID} key={replyID} className="replyArea hidden">
+                                <form
+                                    className="mb-2 block"
+                                    onSubmit={(e) => submitHandler(e)}
+                                >
+                                    <Textarea
+                                        className="text-black"
+                                        id="comment"
+                                        name="comment"
+                                        placeholder="Leave a comment..."
+                                        required={true}
+                                        rows={4}
+                                    />
                                     <div className="flex justify-center">
                                         <Button
                                             className="postBtn"
@@ -160,16 +154,16 @@ console.log(loggedInUser)
                                             Submit comment
                                         </Button>
                                         <Button
-                                        id={replyBtnID}
-                                        className="postBtn mt-5 ml-3 object-center"
-                                        outline={true}
-                                        gradientDuoTone="cyanToBlue"
-                                        type="button"
-                                        size="lg"
-                                        onClick={() => toggleComment()}
+                                            id={replyBtnID}
+                                            className="postBtn mt-5 ml-3 object-center"
+                                            outline={true}
+                                            gradientDuoTone="cyanToBlue"
+                                            type="button"
+                                            size="lg"
+                                            onClick={() => toggleComment()}
                                         >
-                                       Cancel
-                                    </Button>
+                                            Cancel
+                                        </Button>
                                     </div>
                                 </form>
                             </Card>
@@ -183,7 +177,7 @@ console.log(loggedInUser)
                                 <img src={Comment} width={35} />
                                 <p className="grey-text text-4xl" >{post.comments.length}</p>
                             </div>
-                            {playlists?.highlighted === true ? (<><p className="grey-text text-4xl"> Featured Playlist! </p></>): (<></>)}
+                            {playlists?.highlighted === true ? (<><p className="grey-text text-4xl"> Featured Playlist! </p></>) : (<></>)}
                         </div>
                     </div>
                 </Accordion.Content>

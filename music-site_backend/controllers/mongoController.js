@@ -23,7 +23,6 @@ exports.register = async function (req, res) {
     email: user.email,
     password: hashedPass,
     picture: user.picture
-    // registerDate: Date()
   });
   console.log(newUser)
   newUser.save().then((user) => {
@@ -58,6 +57,30 @@ exports.login = async function (req, res) {
   console.log(stringToken, user._id);
 };
 
+exports.deleteUser = async function (req, res, next) {
+  console.log(req.body)
+  const admin = await userModel.findById(req.body.userID)
+  if (!admin) {
+    return (next(createError(404, "User not found")))
+  }
+  const hashedPass = await security.comparePass(req.body.password, admin.password)
+  if (!hashedPass) {
+    return res.status(502).send("Invalid user credentials")
+  }
+  const user = await userModel.findOneAndRemove({
+    username: req.body.id,
+    createdAt: req.body.createdAt
+  })
+  const userID = "USERID::" + user.id
+  console.log(userID)
+  postModel.deleteMany(filter={userID: userID})
+  
+}
+// await userModel.findOneAndRemove({
+  //   username: req.body.id,
+  //   createdAt: req.body.createdAt
+  // })
+  // return res.status(200).send("You've successfully deleted the user.")
 /////////////////////// USER DATA GETS \\\\\\\\\\\\\\\\\\\\\\\\\
 
 exports.getUserData = async function (req, res, next) {
@@ -75,18 +98,8 @@ exports.getUserData = async function (req, res, next) {
     isAdmin: user.isAdmin,
     picture: user.picture,
     username: user.username,
-    // registrationDate: user._id.getTimestamp().toString().slice(4,15)
     updatedAt: user.updatedAt
   }))
-}
-
-exports.deleteUser = async function (req, res, next) {
-  const user = await userModel.findById(req.params.id)
-  if (!user) {
-    return (next(createError(404, "User not found")))
-  }
-  user.deleteOne().save().then(() =>
-    res.status(200).send("You've successfully deleted the user."))
 }
 
 exports.getPlaylists = async function (req, res, next) {
@@ -114,7 +127,7 @@ exports.getPlaylists = async function (req, res, next) {
 }
 
 exports.getAllPlaylists = async function (req, res, next) {
-  playlists = await playlistModel.find().sort({ "updatedAt": -1 }).limit(5)
+  playlists = await playlistModel.find().sort({ "updatedAt": -1 }).limit(15)
   if (!playlists) {
     return (next(createError(404, "Playlist not found.")))
   }
@@ -173,8 +186,7 @@ exports.highlightPlaylist = async function (req, res) {
   }
   if (playlist.highlighted === false) {
     playlist.highlighted = true;
-  }
-  if (playlist.highlighted === true) {
+  } else if (playlist.highlighted === true) {
     playlist.highlighted = false;
   }
   console.log(playlist)
@@ -193,7 +205,8 @@ exports.deletePlaylist = async function (req, res) {
   if (!user) {
     return res.status(404).send("User not found")
   }
-  if (user._id != playlistUserID || user.isAdmin != true) {
+  if (user._id != playlistUserID) {
+    console.log("not authorised")
     return res.status(502).send("Bad request. You are not authorised to delete this playlist")
   }
   const playlistID = "PLAYLIST" + playlist._id

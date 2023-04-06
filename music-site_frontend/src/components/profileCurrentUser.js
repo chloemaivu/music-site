@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Card, Button, Badge } from "flowbite-react";
+import { v4 as uuidv4} from "uuid";
 
 import CreatePlaylistModal from "./modalCreatePlaylist";
 import TrackOptions from './modalTrackOptions';
@@ -12,11 +13,14 @@ function CurrentUserProfile(props) {
   const [bioState, setBioState] = useState(true)
   const [bio, setBio] = useState("")
   const playlistParent = "profile"
+  const [updater, setUpdater] = useState()
+
 
   useEffect(() => {
+    console.log("getting playlists")
     const prependUserID = "USERID::" + window.localStorage.currentUserID
     props.client.getPlaylists(prependUserID).then((response) => { setPlaylists(response) })
-  }, [])
+  }, [updater])
 
   useEffect(() => {
     if (user?.bio?.length === 0) {
@@ -40,6 +44,7 @@ function CurrentUserProfile(props) {
       e.target.bio.value
     ).then((response) => setBio(response));
     setBioState(true);
+    setUpdater(uuidv4())
   }
 
   ////// PARENT PROPS PASS HANDLING ////////////////////////////////////////////
@@ -195,7 +200,7 @@ function CurrentUserProfile(props) {
           <Button onClick={() => onClick("createPlaylistModal")}>
             Create Playlist
           </Button>
-          <CreatePlaylistModal client={props.client} />
+          <CreatePlaylistModal client={props.client} update={(updater) => setUpdater(updater)}/>
         </div>
 
 
@@ -205,6 +210,7 @@ function CurrentUserProfile(props) {
           name={modalProps.name}
           songURI={(songURI) => setSongURI(songURI)}
           type={(type) => setType(type)}
+          update={(updater) => setUpdater(updater)}
           uri={modalProps.uri}
           visiblity={modalVisibility} />
         <div className="playlistsArea">
@@ -220,6 +226,7 @@ function CurrentUserProfile(props) {
                     playlist={playlist}
                     modalProps={(modalProps) => setModalProps(modalProps)}
                     visibility={(modalVisibility) => setModalVisibility(modalVisibility)}
+                    update={(updater) => setUpdater(updater)}
                     user={props.user} />
                   <br />
                 </>
