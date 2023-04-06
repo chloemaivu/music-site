@@ -6,11 +6,17 @@ function SiteInfo() {
 
     return (
         <>
-            <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
-                <p className="brand-title object-position: center">VANTA</p>
+            <p className="brand-title object-position: center">VANTA</p>
+            <br />
+            <div style={{display: "flex", alignItems: "center", justifyContent: "space-around"}}>
+                <span className="white-text text-3xl">
 
-                <div id="about" onClick={() => swapView("about")}>
-                    <p className="white-text text-4xl">About VANTA</p>
+                </span>
+            </div>
+            <div >
+                <div id="aboutHeader" onClick={() => swapView("about")}>
+                    <p className="white-text text-2xl">About VANTA</p>
+
                     <hr />
                     <br />
                     <p className="white-text text-xl" >

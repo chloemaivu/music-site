@@ -128,7 +128,7 @@ function App() {
         <Route path="/user-settings" element={<div className="page center"><UserSettings user={userData} client={client} /> </div>} />
         <Route path="/artist/:artistId" element={<div className="page"> <ArtistPage client={client} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)} /> </div>} />
         <Route path="/community" element={<div className="page"> <CommunityPage client={client} user={userData} songURI={(songURI) => setSongURI(songURI)} type={(type) => setType(type)}/> </div>} />
-        <Route path="/about" element={<div className="page center"> <SiteInfo /> </div>} />
+        <Route path="/about" element={<div className="page"> <SiteInfo /> </div>} />
       </Routes>
       <SidebarPlayer type={type} songURI={songURI} client={client} />
       <VantaFooter />
