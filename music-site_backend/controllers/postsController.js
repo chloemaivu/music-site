@@ -30,7 +30,10 @@ exports.createPost = async function (req, res, next) {
     }
     const playlist = await playlistModel.findById(req.params.id)
     if (!playlist) {
-        res.status(404).send("No matching playlist found")
+        return res.status(404).send("No matching playlist found")
+    }
+    if (playlist.privacy === true) {
+        return res.status(200).send("This playlist is private. No post created")
     }
     const playlistID = "PLAYLIST" + playlist._id
     const newPost = new postModel({
@@ -63,8 +66,6 @@ exports.addComment = async function (req, res) {
     const post = await postModel.findById(req.params.id)
     if(!post){
         return  res.status(404).send("No matching post found")
-    if (!post) {
-        return res.status(404).send("No matching post found")
     }
     const combined = req.body.username + ": " + req.body.comment
     post.comments.push(combined)
@@ -72,7 +73,26 @@ exports.addComment = async function (req, res) {
     post.save().then(() => {
         return res.status(200).send("Comment added successfully")
     })
-}}
+}
+
+exports.deleteComment = async function (req, res) {
+    const admin = await userModel.findById(req.body.userID)
+    if (!admin) {
+        return res.status(404).send("User not found")
+    }
+    if (admin.isAdmin === false) {
+        return res.status(502).send("Bad request. Unauthorised")
+    }
+    const post = await postModel.findById(req.params.id)
+    if (!post) {
+        return res.status(404).send("Post not found")
+    }
+    post.comments.remove(req.body.comment)
+    post.save().then(() => {
+        res.status(200).send("Comment successfully removed")
+      });
+
+}
 
 exports.likePost = async function (req, res) {
     const likeCheck = await postModel.findOne({ _id: req.params.id, likes: req.body.userID })

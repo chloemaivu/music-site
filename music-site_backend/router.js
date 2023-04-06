@@ -47,6 +47,8 @@ router.post("/deletepost/:id", posts.deletePost)
 
 router.post("/post/:id/addcomment", posts.addComment)
 
+router.post("/post/:id/deletecomment", posts.deleteComment)
+
 router.post("/post/:id/like", posts.likePost)
 
 ////////////////// SPOTIFY REQUESTS \\\\\\\\\\\\\\

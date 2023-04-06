@@ -73,14 +73,14 @@ exports.deleteUser = async function (req, res, next) {
   })
   const userID = "USERID::" + user.id
   console.log(userID)
-  postModel.deleteMany(filter={userID: userID})
-  
+  // postModel.deleteMany(filter={userID: userID})
+  await userModel.findOneAndRemove({
+    username: req.body.id,
+    createdAt: req.body.createdAt
+  })
+  return res.status(200).send("You've successfully deleted the user.")
 }
-// await userModel.findOneAndRemove({
-  //   username: req.body.id,
-  //   createdAt: req.body.createdAt
-  // })
-  // return res.status(200).send("You've successfully deleted the user.")
+
 /////////////////////// USER DATA GETS \\\\\\\\\\\\\\\\\\\\\\\\\
 
 exports.getUserData = async function (req, res, next) {
@@ -197,12 +197,13 @@ exports.highlightPlaylist = async function (req, res) {
 
 exports.deletePlaylist = async function (req, res) {
   const playlist = await playlistModel.findById(req.params.id)
-  const playlistUserID = playlist.userID.slice(8,32)
+  const playlistUserID = playlist.userID.slice(8, 32)
   if (!playlist) {
     return res.status(404).send("Playlist not found")
   }
   const user = await userModel.findById(req.body.userID)
   if (!user) {
+    console.log("user not found")
     return res.status(404).send("User not found")
   }
   if (user._id != playlistUserID) {
@@ -210,12 +211,16 @@ exports.deletePlaylist = async function (req, res) {
     return res.status(502).send("Bad request. You are not authorised to delete this playlist")
   }
   const playlistID = "PLAYLIST" + playlist._id
-  const post = await postModel.findOne({playlistID: playlistID})
-  if (!post) {
-    return res.status(404).send("Post not found")
+
+  if (playlist.privacy === false) {
+    const post = await postModel.findOne({ playlistID: playlistID })
+    if (!post) {
+      return res.status(404).send("Post not found")
+    }
+    post.deleteOne()
   }
   playlist.deleteOne()
-  post.deleteOne()
+
   return res.status(200).send("Playlist removed successfully")
 }
 
